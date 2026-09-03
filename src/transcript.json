@@ -1766,7 +1766,8 @@
   "halevi": {
    "name": "הרצי הלוי",
    "role": "רמטכ\"ל",
-   "side": "security"
+   "side": "security",
+   "castRole": "רמטכ\"ל / ראש אמ\"ן"
   },
   "yaalon": {
    "name": "משה (בוגי) יעלון",

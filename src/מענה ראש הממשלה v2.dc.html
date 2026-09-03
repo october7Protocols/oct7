@@ -435,8 +435,8 @@ const PROLOGUE = [
 const AMAN_CHIEFS = [
   // Halevi's cast-strip portrait is his Chief-of-Staff one, so his AMAN
   // years get a separate era photo.
-  { key: 'halevi', portrait: 'halevi-aman', from: '2014-09-01', to: '2018-03-31' },
-  { key: 'haliva', portrait: 'haliva',      from: '2021-10-05', to: '2024-08-21' }
+  { key: 'halevi', portrait: 'halevi-aman', role: 'ראש אמ״ן', from: '2014-09-01', to: '2018-03-31' },
+  { key: 'haliva', portrait: 'haliva',      role: 'ראש אמ״ן', from: '2021-10-05', to: '2024-08-21' }
 ];
 
 const TINTS = [
@@ -939,11 +939,15 @@ class Component extends DCLogic {
             if (di) ctxIso = di.iso;
             let speakerKey = it.speaker;
             let portraitKey = it.speaker;
+            // The post he held when he said it, which is not necessarily the
+            // one he is best known for: Halevi's own entry reads רמטכ״ל.
+            let eraRole = '';
             if (isSpeech && speakerKey === 'aman' && ctxIso) {
               for (const t of AMAN_CHIEFS) {
                 if (ctxIso >= t.from && ctxIso <= t.to) {
                   speakerKey = t.key;
                   portraitKey = t.portrait;
+                  eraRole = t.role;
                   break;
                 }
               }
@@ -958,7 +962,7 @@ class Component extends DCLogic {
               cast.push({
                 key: speakerKey,
                 name: sp ? sp.name : speakerKey,
-                role: sp ? sp.role : '',
+                role: sp ? (sp.castRole || sp.role) : '',
                 jumpTitle: 'לציטוט הראשון של ' + (sp ? sp.name : speakerKey),
                 go: () => {
                   const el = document.querySelector('[data-uid="' + firstUid + '"]');
@@ -982,7 +986,7 @@ class Component extends DCLogic {
               isRedacted: it.kind === 'redacted',
               tagBg: isPm ? '#c8102e' : '#3d4f8f',
               name: sp ? sp.name : '',
-              role: it.role || (sp ? sp.role : ''),
+              role: it.role || eraRole || (sp ? sp.role : ''),
               text: raw,
               quoted: isSpeech ? '\u201D' + raw + '\u201C' : raw,
               title: it.title || '',
