@@ -50,7 +50,7 @@ SIDECAR = os.path.join(SRC, ".image-slots.state.json")
 
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
-TITLE = "תיק 7 באוקטובר — מענה ראש הממשלה לשאלות מבקר המדינה"
+TITLE = "תיק 7 באוקטובר: מענה ראש הממשלה לשאלות מבקר המדינה"
 DESCRIPTION = (
     "מה שאל מבקר המדינה ומה ענה ראש הממשלה על אירועי 7 באוקטובר 2023. "
     "בתוך התשובות מובאים הדיונים הביטחוניים שקדמו להם, עם התאריך של כל ציטוט. "
@@ -376,6 +376,13 @@ def build_template(shell_template, design_body, design_script, design_css, trans
         '<script type="application/json" id="dc-portraits">%s</script>\n'
         % (json_for_script(transcript or {}), json_for_script(portraits))
     )
+    # The published <title> comes from the shell's helmet, so editing the one
+    # in the src design would change nothing. TITLE is the single source.
+    head, n = re.subn(r"<title>.*?</title>",
+                      lambda m: "<title>" + TITLE + "</title>", head, count=1, flags=re.S)
+    if not n:
+        die("no <title> in the shell helmet to set")
+
     out = (head + head_meta() + "\n" + design_css + "\n</helmet>" + design_body + "</x-dc>"
            + payload + design_script + tail)
 
@@ -430,6 +437,16 @@ def main():
     # Rebuild dist/portraits/ from scratch so a renamed or deleted speaker
     # cannot leave an orphan behind for the next deploy to publish.
     shutil.rmtree(os.path.join(DIST, "portraits"), ignore_errors=True)
+    # The loader page carries its own <title>: it is what the tab shows while
+    # the bundle unpacks, and what a crawler that does not run JS reads.
+    for i, line in enumerate(lines[:idx]):
+        if "<title>" in line:
+            lines[i] = re.sub(r"<title>.*?</title>",
+                              lambda m: "<title>" + TITLE + "</title>", line, count=1)
+            break
+    else:
+        die("no <title> in the loader page to set")
+
     os.makedirs(DIST, exist_ok=True)
     out = os.path.join(DIST, "index.html")
     with open(out, "w", encoding="utf-8") as f:
