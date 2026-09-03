@@ -477,7 +477,22 @@ class Component extends DCLogic {
       this.setState({ data: await res.json() });
     } catch (e) { console.error('transcript load failed', e); }
 
+    // rAF throttling drops any scroll event that lands mid-frame. If
+    // scrolling stops on one of those, nothing runs again and the marker and
+    // chip keep the position from a frame earlier — reproducibly showing
+    // 24 במאי 2021 while the reader sat on 21 בדצמבר 2016. A trailing pass
+    // settles them, and re-measures first when content-visibility has grown
+    // the document since the last measure, which moves every mark below.
+    this._onSettle = () => {
+      const h = document.documentElement.scrollHeight;
+      if (Math.abs(h - (this._measuredH || 0)) > 4) this.measureStages();
+      this.railTrack();
+      this.magnify();
+    };
+
     this._onScroll = () => {
+      clearTimeout(this._settleTimer);
+      this._settleTimer = setTimeout(this._onSettle, 120);
       if (this._ticking) return;
       this._ticking = true;
       requestAnimationFrame(() => {
@@ -504,6 +519,7 @@ class Component extends DCLogic {
   }
 
   componentWillUnmount() {
+    clearTimeout(this._settleTimer);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('focus', this._onWake);
@@ -706,6 +722,7 @@ class Component extends DCLogic {
       return { y: r.top + y + r.height / 2, pct: m.pct, uid: m.uid };
     }).filter(Boolean).sort((a, b) => a.y - b.y);
 
+    this._measuredH = document.documentElement.scrollHeight;
     this.sweep();
     this.railTrack();
   }
