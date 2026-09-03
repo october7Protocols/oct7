@@ -509,7 +509,6 @@ class Component extends DCLogic {
     window.removeEventListener('focus', this._onWake);
     document.removeEventListener('visibilitychange', this._onWake);
     if (this._stageObs) this._stageObs.disconnect();
-    if (this._hudObs) this._hudObs.disconnect();
     if (this._chObs) this._chObs.disconnect();
     if (this._restoreWrite) this._restoreWrite();
   }
@@ -623,26 +622,6 @@ class Component extends DCLogic {
       }, { rootMargin: '-22% 0px -26% 0px', threshold: 0 });
     }
 
-    // Dated items drive the countdown chip — quotes, claims and memos too,
-    // not only the speech stages.
-    if (!this._hudObs) {
-      this._hudLive = new Set();
-      this._hudObs = new IntersectionObserver((entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) this._hudLive.add(e.target);
-          else this._hudLive.delete(e.target);
-        }
-        const mid = window.innerHeight / 2;
-        let best = null, bestD = Infinity;
-        this._hudLive.forEach((n) => {
-          const r = n.getBoundingClientRect();
-          const d = Math.abs((r.top + r.bottom) / 2 - mid);
-          if (d < bestD) { bestD = d; best = n; }
-        });
-        if (best) this.showHud(best);
-      }, { rootMargin: '-18% 0px -34% 0px', threshold: 0 });
-    }
-
     if (!this._chObs) {
       this._chObs = new IntersectionObserver((entries) => {
         for (const e of entries) {
@@ -668,7 +647,6 @@ class Component extends DCLogic {
     };
     attach('[data-stage]', this._stageObs);
     attach('[data-beat]', this._stageObs);
-    attach('[data-uid][data-date]:not([data-date=""])', this._hudObs);
     attach('[data-chapter]', this._chObs);
 
     this.paintPortraits();
