@@ -79,11 +79,6 @@ comptroller questions, the timeline rail with 40 stops and 147 dated marks,
 chapter tints, the countdown chip, and the rail and cast jump targets. Built
 and loaded with **no console errors and no external requests**.
 
-One thing worth a second pair of eyes: the portrait for `abtam`
-(ראש אבט״מ) is the מלמ״ב emblem, which was the closest match among the
-supplied files — swap `src/assets/portraits/abtam.png` if that is wrong. The
-other 21 came from unambiguously named files.
-
 ## Before this goes public
 
 - The page attributes quotes to named, real people from a real document. The
