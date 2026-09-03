@@ -688,11 +688,14 @@ class Component extends DCLogic {
 
   // Fire a stage's entrance once. Idempotent — the scroll sweep and the
   // observer both call it; whoever gets there first wins.
+  // Entrance animations only. This used to push the cued stage's date into
+  // the chip as well, and because the IntersectionObserver fires after the
+  // scroll frame it landed last and won — leaving the chip on a stage that
+  // had just animated in rather than on the reader's position. railTrack()
+  // owns the chip.
   cue(el) {
     const veil = el.querySelector('[data-veil]');
     if (veil) veil.style.opacity = '0';
-    const uidNode = el.closest('[data-uid]');
-    if (uidNode) this.showHud(uidNode);
     if (el.__cued) return;
     el.__cued = true;
     const CUES = this._CUES || {};
