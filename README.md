@@ -81,10 +81,12 @@ and loaded with **no console errors and no external requests**.
 
 ## The reading filter
 
-The cast strip doubles as the control: click a speaker to read only their own
-words, click again to clear. A period row underneath narrows further, and it
-offers only the periods that speaker actually spoke in, so no chip can lead to
-an empty page.
+The cast strip doubles as the control: the whole card is the target, portrait
+included. Pick as many speakers as you want and optionally a period, then
+press סנן — selecting only builds a draft, so the document does not rearrange
+itself between your first pick and your last, and nothing scrolls until you
+apply. The period row offers only periods the chosen speakers actually spoke
+in, so no chip can lead to an empty page.
 
 Filtering keeps the speaker's quotes and the chapter headings they sit under,
 and drops the document's narration around them — the claims and memos are not

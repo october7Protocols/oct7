@@ -202,24 +202,21 @@ a:hover { color: #ffffff; }
 </sc-if>
 
 <section id="cast" style="position:relative;z-index:3;max-width:1240px;margin:0 auto;padding:clamp(40px,8vh,90px) clamp(20px,5vw,80px)">
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(16px,2.4vh,26px)">דוברים · בחרו דובר כדי לקרוא רק אותו</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(16px,2.4vh,26px)">דוברים · אפשר לבחור כמה</div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,11vw,150px),1fr));gap:clamp(8px,1.4vw,16px)">
     <sc-for list="{{ cast }}" as="c" hint-placeholder-count="12">
-      <div style="opacity:{{ c.cardOpacity }};transition:opacity .35s ease">
-        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;box-shadow:{{ c.frameShadow }};transition:box-shadow .25s ease;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.04);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
+      <button type="button" onClick="{{ c.pick }}" title="{{ c.pickTitle }}" style="display:block;width:100%;padding:0;border:0;background:none;font:inherit;text-align:right;color:inherit;cursor:pointer;opacity:{{ c.cardOpacity }};transition:opacity .35s ease">
+        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;box-shadow:{{ c.frameShadow }};transition:box-shadow .25s ease,filter .25s ease;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.04);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)" style-hover="filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.3)">
           <image-slot id="cast-{{ c.key }}" shape="rect" fit="cover" placeholder="{{ c.name }}"></image-slot>
           <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.6;background-image:radial-gradient(circle at 0.9px 0.9px, rgba(0,0,0,0.55) 0.72px, transparent 0.95px);background-size:2.6px 2.6px"></div>
           <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.55;background-image:repeating-linear-gradient(52deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px),repeating-linear-gradient(-38deg,rgba(255,255,255,0.18) 0 1px,transparent 1px 4px)"></div>
         </div>
-        <button type="button" onClick="{{ c.pick }}" title="{{ c.pickTitle }}" style="display:block;width:100%;margin-top:7px;padding:0;background:none;border:0;font:inherit;text-align:right;cursor:pointer;color:inherit" style-hover="opacity:0.75">
-          <div style="display:flex;align-items:baseline;gap:5px">
-            <div style="font-weight:700;font-size:clamp(12px,1.3vw,14.5px);color:{{ c.nameColor }};line-height:1.25">{{ c.name }}</div>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7a86b4">{{ c.count }}</span>
-          </div>
+        <div style="margin-top:7px">
+          <div style="font-weight:700;font-size:clamp(12px,1.3vw,14.5px);color:{{ c.nameColor }};line-height:1.25;transition:color .25s ease">{{ c.name }}</div>
           <div style="font-size:clamp(11px,1.15vw,12.5px);color:#8b97c4;line-height:1.3;margin-top:2px">{{ c.role }}</div>
-        </button>
-      </div>
+        </div>
+      </button>
     </sc-for>
   </div>
 
@@ -243,6 +240,15 @@ a:hover { color: #ffffff; }
     </sc-if>
   </div>
 </section>
+
+<sc-if value="{{ filterDirty }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:75;display:flex;justify-content:center;padding-bottom:clamp(14px,2.4vh,26px);padding-left:clamp(14px,4vw,40px);padding-right:calc(var(--gut) + clamp(6px,1vw,14px));pointer-events:none">
+    <div style="pointer-events:auto;display:flex;align-items:center;gap:clamp(10px,2vw,20px);max-width:100%;background:rgba(4,8,26,0.93);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.16);box-shadow:0 18px 46px rgba(0,0,0,0.62);padding:9px 9px 9px clamp(14px,2vw,20px);animation:omStopIn .45s cubic-bezier(.2,.9,.2,1) both">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11.5px,1.3vw,13.5px);color:#c3cbe6;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ draftSummary }}</span>
+      <button type="button" onClick="{{ applyFilter }}" style="flex:0 0 auto;cursor:pointer;border:0;padding:10px 20px;font:inherit;font-size:clamp(13px,1.5vw,15px);font-weight:800;background:#c8102e;color:#fff;transition:background .2s ease" style-hover="background:#fff;color:#c8102e">סנן ←</button>
+    </div>
+  </div>
+</sc-if>
 
 <main style="position:relative;z-index:3">
   <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="3">
@@ -472,10 +478,15 @@ class Component extends DCLogic {
   // Only `data` drives rendering. Scroll progress, chapter tint, stage
   // focus and the quote veils are mutated directly on the DOM so scrolling
   // never triggers a React render — 325 items would otherwise tank fps.
-  // fSpeaker / fPeriod drive the reading filter. They are the only state
-  // besides the transcript that causes a re-render; scroll work still
-  // mutates the DOM directly.
-  state = { data: null, fSpeaker: null, fPeriod: null };
+  // The filter is a draft you build and then apply. Picking speakers is
+  // what selecting several requires — the document must not rearrange
+  // itself under you between the first pick and the last — so the cards
+  // write to draft* and only 'סנן' commits to f* and moves the page.
+  state = {
+    data: null,
+    draftSpeakers: [], draftPeriod: null,
+    fSpeakers: [], fPeriod: null
+  };
 
   constructor(props) {
     super(props);
@@ -557,31 +568,45 @@ class Component extends DCLogic {
   componentDidUpdate() { this.wire(); }
 
   // ── reading filter ─────────────────────────────────────────────────────
-  // Selecting is a toggle, so a second click on the same card clears it.
-  // Changing speaker drops a period the new speaker never spoke in, rather
-  // than leaving the reader on an empty result.
+  // Toggles, so clicking a chosen card again removes it from the draft.
   pickSpeaker(key) {
-    const next = this.state.fSpeaker === key ? null : key;
-    this.setState({ fSpeaker: next, fPeriod: null }, () => this.afterFilter());
+    const cur = this.state.draftSpeakers;
+    const next = cur.indexOf(key) < 0 ? cur.concat([key]) : cur.filter((k) => k !== key);
+    // A period none of the newly chosen speakers spoke in would apply to an
+    // empty result, so it is dropped rather than silently kept.
+    const stillValid = next.length === 0 ||
+      (this._periodsFor && next.some((k) => (this._periodsFor[k] || {})[this.state.draftPeriod]));
+    this.setState({ draftSpeakers: next, draftPeriod: stillValid ? this.state.draftPeriod : null });
   }
 
   pickPeriod(key) {
-    const next = this.state.fPeriod === key ? null : key;
-    this.setState({ fPeriod: next }, () => this.afterFilter());
+    this.setState({ draftPeriod: this.state.draftPeriod === key ? null : key });
+  }
+
+  applyFilter() {
+    this.setState(
+      { fSpeakers: this.state.draftSpeakers, fPeriod: this.state.draftPeriod },
+      () => this.afterFilter(true)
+    );
   }
 
   clearFilter() {
-    this.setState({ fSpeaker: null, fPeriod: null }, () => this.afterFilter());
+    this.setState(
+      { draftSpeakers: [], draftPeriod: null, fSpeakers: [], fPeriod: null },
+      () => this.afterFilter(false)
+    );
   }
 
   // The filtered document is a different height with different content, so
   // every cached measurement is void. Land the reader on the results rather
   // than wherever the old scroll offset now points.
-  afterFilter() {
+  afterFilter(jump) {
     this._stops = null;
     this._measured = false;
     this._cursor = 0;
-    const anchor = document.getElementById('results');
+    // Only applying moves the page. Toggling a card must not, or choosing a
+    // second speaker would scroll the grid out from under the cursor.
+    const anchor = document.getElementById(jump ? 'results' : 'cast');
     if (anchor) {
       const y = anchor.getBoundingClientRect().top + window.scrollY - 12;
       window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
@@ -952,10 +977,13 @@ class Component extends DCLogic {
     const d = this.state.data;
     const showSources = this.props.showSources !== false;
     const tinted = this.props.chapterTints !== false;
-    const fSpeaker = this.state.fSpeaker;
+    const fSpeakers = this.state.fSpeakers || [];
     const fPeriod = this.state.fPeriod;
+    const draftSpeakers = this.state.draftSpeakers || [];
+    const draftPeriod = this.state.draftPeriod;
     const cacheKey = (d ? 'data' : 'empty') + '|' + showSources + '|' + tinted +
-                     '|' + fSpeaker + '|' + fPeriod;
+                     '|' + fSpeakers.join(',') + '|' + fPeriod +
+                     '|' + draftSpeakers.join(',') + '|' + draftPeriod;
     if (this._built && this._builtFor === cacheKey) return this._built;
 
     const speakers = (d && d.speakers) || {};
@@ -1119,14 +1147,16 @@ class Component extends DCLogic {
       (periodsFor['*'] = periodsFor['*'] || {})[it.period] = true;
     }));
 
-    const filterOn = !!(fSpeaker || fPeriod);
+    this._periodsFor = periodsFor;
+
+    const filterOn = !!(fSpeakers.length || fPeriod);
     let view = chapters;
     if (filterOn) {
       view = chapters.map((ch) => Object.assign({}, ch, {
         hasQuestions: false,
         items: ch.items.filter((it) =>
           it.who &&
-          (!fSpeaker || it.who === fSpeaker) &&
+          (!fSpeakers.length || fSpeakers.indexOf(it.who) >= 0) &&
           (!fPeriod || it.period === fPeriod))
       })).filter((ch) => ch.items.length);
     }
@@ -1140,19 +1170,37 @@ class Component extends DCLogic {
 
     // Only the periods the chosen speaker actually spoke in are offered, so
     // no chip can lead to an empty page.
-    const periodKeys = Object.keys(periodsFor[fSpeaker || '*'] || {}).sort();
-    const periods = periodKeys.map((k) => ({
+    const pool = {};
+    if (draftSpeakers.length) {
+      draftSpeakers.forEach((k) => Object.keys(periodsFor[k] || {}).forEach((pk) => { pool[pk] = true; }));
+    } else {
+      Object.keys(periodsFor['*'] || {}).forEach((pk) => { pool[pk] = true; });
+    }
+    const periods = Object.keys(pool).sort().map((k) => ({
       key: k,
       label: periodLabel(k),
-      on: fPeriod === k,
-      bg: fPeriod === k ? '#c8102e' : 'rgba(255,255,255,0.06)',
-      fg: fPeriod === k ? '#fff' : '#c3cbe6',
+      bg: draftPeriod === k ? '#c8102e' : 'rgba(255,255,255,0.06)',
+      fg: draftPeriod === k ? '#fff' : '#c3cbe6',
       pick: () => this.pickPeriod(k)
     }));
 
-    const chosen = fSpeaker ? (speakers[fSpeaker] || null) : null;
-    const filterName = chosen ? chosen.name : '';
+    const nameOf = (k) => (speakers[k] ? speakers[k].name : k);
+    const namesOf = (list) => (list.length <= 3
+      ? list.map(nameOf).join(' · ')
+      : list.slice(0, 2).map(nameOf).join(' · ') + ' ועוד ' + (list.length - 2));
+    const filterName = namesOf(fSpeakers);
     const filterPeriod = fPeriod ? periodLabel(fPeriod) : '';
+
+    // The apply bar shows only while the draft differs from what is on
+    // screen, so it never sits over a page that already matches it.
+    const same = draftSpeakers.length === fSpeakers.length &&
+      draftSpeakers.every((k) => fSpeakers.indexOf(k) >= 0) &&
+      draftPeriod === fPeriod;
+    const filterDirty = !same;
+    const draftSummary = draftSpeakers.length === 0 && !draftPeriod
+      ? 'בלי סינון'
+      : [draftSpeakers.length ? namesOf(draftSpeakers) : 'כל הדוברים',
+         draftPeriod ? periodLabel(draftPeriod) : ''].filter(Boolean).join(' · ');
 
     // ── the timeline rail ────────────────────────────────────────────────
     // Every dated document in the answer, ordered by its own date and
@@ -1234,19 +1282,17 @@ class Component extends DCLogic {
     // Cast cards double as the speaker control: the selected one is lit, the
     // rest step back so the choice is legible at a glance.
     cast.forEach((c) => {
-      const isOn = fSpeaker === c.key;
-      c.on = isOn;
-      c.count = speakerCount[c.key] || 0;
+      const isOn = draftSpeakers.indexOf(c.key) >= 0;
       c.pick = () => this.pickSpeaker(c.key);
-      c.cardOpacity = !fSpeaker || isOn ? '1' : '0.32';
+      c.cardOpacity = !draftSpeakers.length || isOn ? '1' : '0.32';
       c.frameShadow = isOn ? 'inset 0 0 0 3px #c8102e' : 'inset 0 0 0 0 transparent';
       c.nameColor = isOn ? '#ff5a6e' : '#fff';
-      c.pickTitle = isOn ? 'לבטל את הסינון' : ('להציג רק את ' + c.name);
+      c.pickTitle = isOn ? ('להסיר את ' + c.name + ' מהבחירה') : ('לבחור את ' + c.name);
     });
 
     this._built = { chapters: view, toc, cast, prologue, timeline,
                     periods, filterOn, resultCount, filterName, filterPeriod,
-                    showNarrative: !filterOn };
+                    filterDirty, draftSummary, showNarrative: !filterOn };
     this._builtFor = cacheKey;
     return this._built;
   }
@@ -1265,6 +1311,9 @@ class Component extends DCLogic {
       resultCount: b.resultCount,
       filterName: b.filterName,
       filterPeriod: b.filterPeriod,
+      filterDirty: b.filterDirty,
+      draftSummary: b.draftSummary,
+      applyFilter: () => this.applyFilter(),
       clearFilter: () => this.clearFilter(),
       railRef: this.railRef,
       railDotRef: this.railDotRef,
