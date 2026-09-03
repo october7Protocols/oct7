@@ -79,6 +79,19 @@ comptroller questions, the timeline rail with 40 stops and 147 dated marks,
 chapter tints, the countdown chip, and the rail and cast jump targets. Built
 and loaded with **no console errors and no external requests**.
 
+## The reading filter
+
+The cast strip doubles as the control: click a speaker to read only their own
+words, click again to clear. A period row underneath narrows further, and it
+offers only the periods that speaker actually spoke in, so no chip can lead to
+an empty page.
+
+Filtering keeps the speaker's quotes and the chapter headings they sit under,
+and drops the document's narration around them — the claims and memos are not
+that speaker's words. The prologue hides too; it is the way into the document,
+not into one person. The timeline rail re-measures against the filtered set,
+so it shows only the years and months that speaker spoke in.
+
 ## Before this goes public
 
 - The page attributes quotes to named, real people from a real document. The

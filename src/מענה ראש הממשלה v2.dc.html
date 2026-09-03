@@ -153,6 +153,7 @@ a:hover { color: #ffffff; }
   </div>
 </header>
 
+<sc-if value="{{ showNarrative }}" hint-placeholder-val="{{ true }}">
 <section id="prologue" style="position:relative;z-index:3;background:#000">
   <div class="om-intro" style="min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);max-width:1240px;margin:0 auto;padding:clamp(40px,10vh,110px) clamp(20px,5vw,80px)">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4">לפני המסמך</div>
@@ -198,27 +199,48 @@ a:hover { color: #ffffff; }
     </div>
   </div>
 </section>
+</sc-if>
 
 <section id="cast" style="position:relative;z-index:3;max-width:1240px;margin:0 auto;padding:clamp(40px,8vh,90px) clamp(20px,5vw,80px)">
-  <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(16px,2.4vh,26px)">דוברים</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(16px,2.4vh,26px)">דוברים · בחרו דובר כדי לקרוא רק אותו</div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,11vw,150px),1fr));gap:clamp(8px,1.4vw,16px)">
     <sc-for list="{{ cast }}" as="c" hint-placeholder-count="12">
-      <div>
-        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.04);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
+      <div style="opacity:{{ c.cardOpacity }};transition:opacity .35s ease">
+        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;box-shadow:{{ c.frameShadow }};transition:box-shadow .25s ease;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.04);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
           <image-slot id="cast-{{ c.key }}" shape="rect" fit="cover" placeholder="{{ c.name }}"></image-slot>
           <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.6;background-image:radial-gradient(circle at 0.9px 0.9px, rgba(0,0,0,0.55) 0.72px, transparent 0.95px);background-size:2.6px 2.6px"></div>
           <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.55;background-image:repeating-linear-gradient(52deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px),repeating-linear-gradient(-38deg,rgba(255,255,255,0.18) 0 1px,transparent 1px 4px)"></div>
         </div>
-        <button type="button" onClick="{{ c.go }}" title="{{ c.jumpTitle }}" style="display:block;width:100%;margin-top:7px;padding:0;background:none;border:0;font:inherit;text-align:right;cursor:pointer;color:inherit" style-hover="opacity:0.75">
+        <button type="button" onClick="{{ c.pick }}" title="{{ c.pickTitle }}" style="display:block;width:100%;margin-top:7px;padding:0;background:none;border:0;font:inherit;text-align:right;cursor:pointer;color:inherit" style-hover="opacity:0.75">
           <div style="display:flex;align-items:baseline;gap:5px">
-            <div style="font-weight:700;font-size:clamp(12px,1.3vw,14.5px);color:#fff;line-height:1.25">{{ c.name }}</div>
-            <span style="font-size:11px;color:#ff5a6e">←</span>
+            <div style="font-weight:700;font-size:clamp(12px,1.3vw,14.5px);color:{{ c.nameColor }};line-height:1.25">{{ c.name }}</div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7a86b4">{{ c.count }}</span>
           </div>
           <div style="font-size:clamp(11px,1.15vw,12.5px);color:#8b97c4;line-height:1.3;margin-top:2px">{{ c.role }}</div>
         </button>
       </div>
     </sc-for>
+  </div>
+
+  <div style="margin-top:clamp(22px,3.4vh,38px)">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(12px,1.8vh,18px)">תקופה</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <sc-for list="{{ periods }}" as="pd" hint-placeholder-count="10">
+        <button type="button" onClick="{{ pd.pick }}" style="cursor:pointer;border:0;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:500;background:{{ pd.bg }};color:{{ pd.fg }};transition:background .2s ease,color .2s ease" style-hover="background:#c8102e;color:#fff">{{ pd.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="results" style="scroll-margin-top:12px">
+    <sc-if value="{{ filterOn }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:clamp(24px,3.6vh,40px);border-top:4px solid #c8102e;background:linear-gradient(180deg,rgba(200,16,46,0.16),rgba(255,255,255,0.03));padding:clamp(16px,2.6vw,26px);display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px">
+        <div style="font-weight:900;font-size:clamp(20px,2.8vw,34px);letter-spacing:-0.02em;color:#fff;line-height:1.15">{{ filterName }}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.4vw,15px);color:#ff5a6e">{{ filterPeriod }}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(12px,1.4vw,15px);color:#8b97c4">{{ resultCount }}</div>
+        <button type="button" onClick="{{ clearFilter }}" style="margin-inline-start:auto;cursor:pointer;border:0;padding:8px 16px;font:inherit;font-size:14px;font-weight:700;background:rgba(255,255,255,0.1);color:#fff" style-hover="background:#c8102e">נקה סינון ✕</button>
+      </div>
+    </sc-if>
   </div>
 </section>
 
@@ -450,7 +472,10 @@ class Component extends DCLogic {
   // Only `data` drives rendering. Scroll progress, chapter tint, stage
   // focus and the quote veils are mutated directly on the DOM so scrolling
   // never triggers a React render — 325 items would otherwise tank fps.
-  state = { data: null };
+  // fSpeaker / fPeriod drive the reading filter. They are the only state
+  // besides the transcript that causes a re-render; scroll work still
+  // mutates the DOM directly.
+  state = { data: null, fSpeaker: null, fPeriod: null };
 
   constructor(props) {
     super(props);
@@ -530,6 +555,39 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate() { this.wire(); }
+
+  // ── reading filter ─────────────────────────────────────────────────────
+  // Selecting is a toggle, so a second click on the same card clears it.
+  // Changing speaker drops a period the new speaker never spoke in, rather
+  // than leaving the reader on an empty result.
+  pickSpeaker(key) {
+    const next = this.state.fSpeaker === key ? null : key;
+    this.setState({ fSpeaker: next, fPeriod: null }, () => this.afterFilter());
+  }
+
+  pickPeriod(key) {
+    const next = this.state.fPeriod === key ? null : key;
+    this.setState({ fPeriod: next }, () => this.afterFilter());
+  }
+
+  clearFilter() {
+    this.setState({ fSpeaker: null, fPeriod: null }, () => this.afterFilter());
+  }
+
+  // The filtered document is a different height with different content, so
+  // every cached measurement is void. Land the reader on the results rather
+  // than wherever the old scroll offset now points.
+  afterFilter() {
+    this._stops = null;
+    this._measured = false;
+    this._cursor = 0;
+    const anchor = document.getElementById('results');
+    if (anchor) {
+      const y = anchor.getBoundingClientRect().top + window.scrollY - 12;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+    requestAnimationFrame(() => this.measureStages());
+  }
 
   // ── portraits ──────────────────────────────────────────────────────────
   // One <image-slot> per speaker lives in the cast strip (unique ids); the
@@ -723,6 +781,7 @@ class Component extends DCLogic {
     }).filter(Boolean).sort((a, b) => a.y - b.y);
 
     this._measuredH = document.documentElement.scrollHeight;
+    this._stops = null;   // the rail's stops change with the filter
     this.sweep();
     this.railTrack();
   }
@@ -893,7 +952,10 @@ class Component extends DCLogic {
     const d = this.state.data;
     const showSources = this.props.showSources !== false;
     const tinted = this.props.chapterTints !== false;
-    const cacheKey = (d ? 'data' : 'empty') + '|' + showSources + '|' + tinted;
+    const fSpeaker = this.state.fSpeaker;
+    const fPeriod = this.state.fPeriod;
+    const cacheKey = (d ? 'data' : 'empty') + '|' + showSources + '|' + tinted +
+                     '|' + fSpeaker + '|' + fPeriod;
     if (this._built && this._builtFor === cacheKey) return this._built;
 
     const speakers = (d && d.speakers) || {};
@@ -961,8 +1023,20 @@ class Component extends DCLogic {
                 }
               });
             }
+            // A line with no date of its own belongs to the discussion it
+            // sits in. That carry-forward already decides which AMAN chief a
+            // quote is attributed to; using it for the date as well is what
+            // puts undated quotes on the rail and keeps the countdown
+            // agreeing with the name on the quote. It also computes the date
+            // once instead of six times per item.
+            const eff = di || (ctxIso ? Component.dateInfo(ctxIso) : null);
+            const iso = eff ? eff.iso : '';
             return {
               uid: key,
+              // The resolved key, so filtering by הרצי הלוי also catches the
+              // AMAN-era quotes the document left unnamed.
+              who: isSpeech ? (speakerKey || '') : '',
+              period: iso ? (iso.slice(0, 4) === '2023' ? iso.slice(0, 7) : iso.slice(0, 4)) : '',
               speaker: isSpeech ? (speakerKey || 'none') : 'none',
               portrait: isSpeech ? (portraitKey || 'none') : 'none',
               isSpeech,
@@ -985,30 +1059,17 @@ class Component extends DCLogic {
               note: it.note || '',
               source: showSources ? (it.source || '') : '',
               items: it.items || [],
-              dateLabel: (function () { const di = Component.findDate(it, ch.id); return di ? di.label : ''; })(),
-              sortKey: (function () {
-                const di = Component.findDate(it, ch.id);
-                return di ? di.iso : '';
-              })(),
-              dateShort: (function () {
-                const di = Component.findDate(it, ch.id);
-                if (!di) return '';
-                const p = di.iso.split('-');
+              dateLabel: eff ? eff.label : '',
+              sortKey: eff ? eff.iso : '',
+              dateShort: eff ? (function () {
+                const p = eff.iso.split('-');
                 return p[2] + '.' + p[1] + '.' + p[0].slice(2);
-              })(),
-              daysNum: (function () {
-                const di = Component.findDate(it, ch.id);
-                if (!di) return '';
-                if (di.days === 0) return '0';
-                return (di.days > 0 ? '' : '+') + Math.abs(di.days).toLocaleString('he-IL');
-              })(),
-              daysLabel: (function () {
-                const di = Component.findDate(it, ch.id);
-                if (!di) return '';
-                if (di.days > 0) return di.days.toLocaleString('he-IL') + ' ימים לפני';
-                if (di.days === 0) return 'אותו היום';
-                return Math.abs(di.days).toLocaleString('he-IL') + ' ימים אחרי';
-              })()
+              })() : '',
+              daysNum: eff ? (eff.days === 0 ? '0'
+                : (eff.days > 0 ? '' : '+') + Math.abs(eff.days).toLocaleString('he-IL')) : '',
+              daysLabel: eff ? (eff.days > 0 ? eff.days.toLocaleString('he-IL') + ' ימים לפני'
+                : eff.days === 0 ? 'אותו היום'
+                : Math.abs(eff.days).toLocaleString('he-IL') + ' ימים אחרי') : ''
             };
           })
         });
@@ -1041,11 +1102,63 @@ class Component extends DCLogic {
       };
     });
 
+    // ── the reading filter ───────────────────────────────────────────────
+    // A speaker filter keeps only that speaker's own words: the surrounding
+    // claims and memos belong to the document's narration, not to them.
+    // Chapter headings survive so each quote keeps the chapter it came from.
+    const MONTHS_SHORT = ['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'];
+    const periodLabel = (k) => (k.length === 4 ? k : MONTHS_SHORT[+k.slice(5, 7) - 1] + ' ' + k.slice(0, 4));
+
+    const speakerCount = {};
+    const periodsFor = {};
+    chapters.forEach((ch) => ch.items.forEach((it) => {
+      if (!it.who) return;
+      speakerCount[it.who] = (speakerCount[it.who] || 0) + 1;
+      if (!it.period) return;
+      (periodsFor[it.who] = periodsFor[it.who] || {})[it.period] = true;
+      (periodsFor['*'] = periodsFor['*'] || {})[it.period] = true;
+    }));
+
+    const filterOn = !!(fSpeaker || fPeriod);
+    let view = chapters;
+    if (filterOn) {
+      view = chapters.map((ch) => Object.assign({}, ch, {
+        hasQuestions: false,
+        items: ch.items.filter((it) =>
+          it.who &&
+          (!fSpeaker || it.who === fSpeaker) &&
+          (!fPeriod || it.period === fPeriod))
+      })).filter((ch) => ch.items.length);
+    }
+
+    const n = filterOn ? view.reduce((a, ch) => a + ch.items.length, 0) : 0;
+    // Hebrew does not take a bare numeral for one or two.
+    const resultCount = n === 0 ? 'אין ציטוטים'
+      : n === 1 ? 'ציטוט אחד'
+      : n === 2 ? 'שני ציטוטים'
+      : n.toLocaleString('he-IL') + ' ציטוטים';
+
+    // Only the periods the chosen speaker actually spoke in are offered, so
+    // no chip can lead to an empty page.
+    const periodKeys = Object.keys(periodsFor[fSpeaker || '*'] || {}).sort();
+    const periods = periodKeys.map((k) => ({
+      key: k,
+      label: periodLabel(k),
+      on: fPeriod === k,
+      bg: fPeriod === k ? '#c8102e' : 'rgba(255,255,255,0.06)',
+      fg: fPeriod === k ? '#fff' : '#c3cbe6',
+      pick: () => this.pickPeriod(k)
+    }));
+
+    const chosen = fSpeaker ? (speakers[fSpeaker] || null) : null;
+    const filterName = chosen ? chosen.name : '';
+    const filterPeriod = fPeriod ? periodLabel(fPeriod) : '';
+
     // ── the timeline rail ────────────────────────────────────────────────
     // Every dated document in the answer, ordered by its own date and
     // spaced evenly so the 2023 cluster stays legible next to 2014.
     const dated = [];
-    chapters.forEach((ch) => ch.items.forEach((it) => {
+    view.forEach((ch) => ch.items.forEach((it) => {
       if (it.dateLabel && it.sortKey) dated.push(it);
     }));
     dated.sort((a, b) => (a.sortKey < b.sortKey ? -1 : a.sortKey > b.sortKey ? 1 : 0));
@@ -1118,7 +1231,22 @@ class Component extends DCLogic {
     this._railTop = railTop;
     this._markPcts = markList;
 
-    this._built = { chapters, toc, cast, prologue, timeline };
+    // Cast cards double as the speaker control: the selected one is lit, the
+    // rest step back so the choice is legible at a glance.
+    cast.forEach((c) => {
+      const isOn = fSpeaker === c.key;
+      c.on = isOn;
+      c.count = speakerCount[c.key] || 0;
+      c.pick = () => this.pickSpeaker(c.key);
+      c.cardOpacity = !fSpeaker || isOn ? '1' : '0.32';
+      c.frameShadow = isOn ? 'inset 0 0 0 3px #c8102e' : 'inset 0 0 0 0 transparent';
+      c.nameColor = isOn ? '#ff5a6e' : '#fff';
+      c.pickTitle = isOn ? 'לבטל את הסינון' : ('להציג רק את ' + c.name);
+    });
+
+    this._built = { chapters: view, toc, cast, prologue, timeline,
+                    periods, filterOn, resultCount, filterName, filterPeriod,
+                    showNarrative: !filterOn };
     this._builtFor = cacheKey;
     return this._built;
   }
@@ -1131,6 +1259,13 @@ class Component extends DCLogic {
       cast: b.cast,
       prologue: b.prologue,
       timeline: b.timeline,
+      periods: b.periods,
+      filterOn: b.filterOn,
+      showNarrative: b.showNarrative,
+      resultCount: b.resultCount,
+      filterName: b.filterName,
+      filterPeriod: b.filterPeriod,
+      clearFilter: () => this.clearFilter(),
       railRef: this.railRef,
       railDotRef: this.railDotRef,
       railFillRef: this.railFillRef,
