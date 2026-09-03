@@ -243,9 +243,10 @@ a:hover { color: #ffffff; }
 
 <sc-if value="{{ filterDirty }}" hint-placeholder-val="{{ false }}">
   <div style="position:fixed;left:0;right:0;bottom:0;z-index:75;display:flex;justify-content:center;padding-bottom:clamp(14px,2.4vh,26px);padding-left:clamp(14px,4vw,40px);padding-right:calc(var(--gut) + clamp(6px,1vw,14px));pointer-events:none">
-    <div style="pointer-events:auto;display:flex;align-items:center;gap:clamp(10px,2vw,20px);max-width:100%;background:rgba(4,8,26,0.93);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.16);box-shadow:0 18px 46px rgba(0,0,0,0.62);padding:9px 9px 9px clamp(14px,2vw,20px);animation:omStopIn .45s cubic-bezier(.2,.9,.2,1) both">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11.5px,1.3vw,13.5px);color:#c3cbe6;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ draftSummary }}</span>
-      <button type="button" onClick="{{ applyFilter }}" style="flex:0 0 auto;cursor:pointer;border:0;padding:10px 20px;font:inherit;font-size:clamp(13px,1.5vw,15px);font-weight:800;background:#c8102e;color:#fff;transition:background .2s ease" style-hover="background:#fff;color:#c8102e">סנן ←</button>
+    <div style="pointer-events:auto;display:flex;align-items:center;gap:clamp(10px,2vw,18px);max-width:100%;background:#070c22;border:1px solid rgba(255,255,255,0.3);border-top:3px solid #c8102e;box-shadow:0 22px 60px rgba(0,0,0,0.82),0 0 0 1px rgba(0,0,0,0.5);padding:9px 9px 9px clamp(13px,1.8vw,18px);animation:omStopIn .45s cubic-bezier(.2,.9,.2,1) both">
+      <span style="flex:0 0 auto;width:7px;height:7px;border-radius:50%;background:#ff5a6e;animation:omDotPulse 2s ease-in-out infinite"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11.5px,1.3vw,13.5px);color:#fff;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ draftSummary }}</span>
+      <button type="button" onClick="{{ applyFilter }}" style="flex:0 0 auto;cursor:pointer;border:0;padding:11px 22px;font:inherit;font-size:clamp(13px,1.5vw,15px);font-weight:800;background:#c8102e;color:#fff;transition:background .2s ease,color .2s ease" style-hover="background:#fff;color:#c8102e">{{ applyLabel }}</button>
     </div>
   </div>
 </sc-if>
@@ -1197,7 +1198,12 @@ class Component extends DCLogic {
       draftSpeakers.every((k) => fSpeakers.indexOf(k) >= 0) &&
       draftPeriod === fPeriod;
     const filterDirty = !same;
-    const draftSummary = draftSpeakers.length === 0 && !draftPeriod
+    const draftEmpty = draftSpeakers.length === 0 && !draftPeriod;
+    // Switching a chip off leaves an empty draft over a still-filtered page.
+    // 'סנן' would be the wrong promise there, so the button says what the
+    // press will actually do.
+    const applyLabel = draftEmpty ? 'הצג הכל ←' : 'סנן ←';
+    const draftSummary = draftEmpty
       ? 'בלי סינון'
       : [draftSpeakers.length ? namesOf(draftSpeakers) : 'כל הדוברים',
          draftPeriod ? periodLabel(draftPeriod) : ''].filter(Boolean).join(' · ');
@@ -1292,7 +1298,7 @@ class Component extends DCLogic {
 
     this._built = { chapters: view, toc, cast, prologue, timeline,
                     periods, filterOn, resultCount, filterName, filterPeriod,
-                    filterDirty, draftSummary, showNarrative: !filterOn };
+                    filterDirty, draftSummary, applyLabel, showNarrative: !filterOn };
     this._builtFor = cacheKey;
     return this._built;
   }
@@ -1313,6 +1319,7 @@ class Component extends DCLogic {
       filterPeriod: b.filterPeriod,
       filterDirty: b.filterDirty,
       draftSummary: b.draftSummary,
+      applyLabel: b.applyLabel,
       applyFilter: () => this.applyFilter(),
       clearFilter: () => this.clearFilter(),
       railRef: this.railRef,
