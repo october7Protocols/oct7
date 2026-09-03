@@ -178,9 +178,12 @@ FETCH_SIDECAR_NEW = """    const map = {};
 IMAGE_SLOT_OLD_RE = re.compile(
     r'<image-slot id="cast-\{\{ c\.key \}\}"[^>]*></image-slot>')
 IMAGE_SLOT_NEW = (
-    '<div style="position:absolute;inset:0;display:flex;align-items:center;'
-    'justify-content:center;font-size:11px;color:#7a86b4;text-align:center;'
-    'padding:6px;line-height:1.3">{{ c.name }}</div>'
+    # The name is the fallback for a speaker with no photo. It sits behind
+    # the portrait, and the portraits are transparent cut-outs, so
+    # paintPortraits() hides it once a photo actually lands.
+    '<div class="om-ph" style="position:absolute;inset:0;display:flex;'
+    'align-items:center;justify-content:center;font-size:11px;color:#7a86b4;'
+    'text-align:center;padding:6px;line-height:1.3">{{ c.name }}</div>'
     '<div data-portrait="{{ c.key }}" style="position:absolute;inset:0;'
     'background-size:cover;background-position:center 20%;'
     'background-repeat:no-repeat"></div>'

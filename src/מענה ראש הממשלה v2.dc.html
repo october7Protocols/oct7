@@ -200,6 +200,7 @@ a:hover { color: #ffffff; }
 </section>
 
 <section id="cast" style="position:relative;z-index:3;max-width:1240px;margin:0 auto;padding:clamp(40px,8vh,90px) clamp(20px,5vw,80px)">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4;margin-bottom:clamp(16px,2.4vh,26px)">דוברים</div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,11vw,150px),1fr));gap:clamp(8px,1.4vw,16px)">
     <sc-for list="{{ cast }}" as="c" hint-placeholder-count="12">
@@ -240,7 +241,7 @@ a:hover { color: #ffffff; }
         <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,80px) clamp(40px,8vh,90px)">
           <div style="display:grid;grid-template-columns:clamp(78px,11vw,150px) 1fr;gap:clamp(16px,2.6vw,34px);align-items:start;background:linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.03));padding:clamp(18px,2.8vw,32px)">
             <div style="position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;filter:grayscale(1) contrast(1.08);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
-              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7a86b4;text-align:center;padding:6px">מתניהו אנגלמן</div>
+              <div class="om-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7a86b4;text-align:center;padding:6px">מתניהו אנגלמן</div>
               <div data-portrait="comptroller" style="position:absolute;inset:0;background-size:cover;background-position:center 22%;background-repeat:no-repeat"></div>
             </div>
             <div style="min-width:0">
@@ -555,6 +556,11 @@ class Component extends DCLogic {
       }
       const want = u ? 'url("' + u + '")' : '';
       if (n.style.backgroundImage !== want) n.style.backgroundImage = want;
+      // The cut-outs are transparent, so the fallback name behind them
+      // reads straight through the photo. Show it only when there is no
+      // photo to show.
+      const ph = n.parentElement && n.parentElement.querySelector('.om-ph');
+      if (ph) ph.style.display = u ? 'none' : '';
     });
   }
 
