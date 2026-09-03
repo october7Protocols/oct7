@@ -72,7 +72,7 @@ a:hover { color: #ffffff; }
   <div style="position:absolute;top:0;bottom:0;right:19px;width:1px;background:rgba(139,151,196,0.26)"></div>
   <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:18px;width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45)"></div>
   <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="12">
-    <div style="position:absolute;top:{{ t.top }};margin-top:-24px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:16px;height:24px">
+    <div style="position:absolute;top:{{ t.top }};margin-top:-12px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:16px;height:24px">
       <button type="button" onClick="{{ t.go }}" title="{{ t.title }}" style="cursor:pointer;pointer-events:auto;background:{{ t.tickColor }};border:0;width:24px;height:3px;padding:0;flex:0 0 auto;opacity:0;animation:omStopIn .6s {{ t.delay }} cubic-bezier(.2,.9,.2,1) both;transition:opacity .3s ease, background .2s ease" style-hover="background:#ff7a8e" style-focus="outline:2px solid #ff5a6e;outline-offset:2px"></button>
       <div style="font-family:'IBM Plex Mono',monospace;font-size:{{ t.labelSize }};font-weight:500;letter-spacing:.04em;color:{{ t.labelColor }};white-space:nowrap;line-height:1">{{ t.yearLabel }}</div>
     </div>
@@ -669,7 +669,7 @@ class Component extends DCLogic {
       const n = document.querySelector('[data-uid="' + m.uid + '"]');
       if (!n) return null;
       const r = n.getBoundingClientRect();
-      return { y: r.top + y + r.height / 2, pct: m.pct };
+      return { y: r.top + y + r.height / 2, pct: m.pct, uid: m.uid };
     }).filter(Boolean).sort((a, b) => a.y - b.y);
 
     this.sweep();
@@ -732,15 +732,10 @@ class Component extends DCLogic {
       item = t < 0.5 ? a : b;
     }
     this._currentMark = item;
-    const dated = item.uid ? [...document.querySelectorAll('[data-uid]')].find(n => n.getAttribute('data-uid') === item.uid) : null;
-    let dotPct = pct;
-    if (dated) {
-      this.showHud(dated);
-      const railTop = this._railTop[item.uid];
-      if (railTop) dotPct = parseFloat(railTop);
-    }
-    this._centerPct = dotPct;
-    const s = dotPct.toFixed(3) + '%';
+    const dated = item.uid ? document.querySelector('[data-uid="' + item.uid + '"]') : null;
+    if (dated) this.showHud(dated);
+    this._centerPct = pct;
+    const s = pct.toFixed(3) + '%';
     if (this.railDotRef.current) {
       this.railDotRef.current.style.top = s;
       this.railDotRef.current.style.opacity = '1';
@@ -1005,9 +1000,6 @@ class Component extends DCLogic {
     // Rail position tracks a document's ordinal place in the sequence, not
     // its group, so the marker advances evenly instead of stalling on the
     // collapsed 2014–2020 stop and then racing.
-    const span = Math.max(1, dated.length - 1);
-    dated.forEach((it, idx) => { it._pct = (idx / span) * 92; });
-
     // Aggregated so every stop is a real hit target: one stop per year up
     // to 2022, then one per month through 2023 as the countdown tightens.
     const groups = [];
@@ -1041,7 +1033,14 @@ class Component extends DCLogic {
     groups.forEach((g, i) => {
       // Even spacing between all stops (years + months).
       const top = (i * stopH).toFixed(3) + '%';
-      g.items.forEach((it) => { railTop[it.uid] = top; markList.push({ uid: it.uid, pct: it._pct }); });
+      // The '2023' umbrella stop is a navigation target that repeats every
+      // item its month stops already own. Letting it register marks too
+      // would give each 2023 item two rail positions at one scroll offset,
+      // and the interpolation between them is what pulled the marker off
+      // the month it was actually reading.
+      if (!g.is23Year) {
+        g.items.forEach((it) => { railTop[it.uid] = top; markList.push({ uid: it.uid, pct: i * stopH }); });
+      }
       const is23 = g.is23;
       const first = g.items[0];
       const isYear = !is23;
