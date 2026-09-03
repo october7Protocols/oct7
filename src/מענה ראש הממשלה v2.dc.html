@@ -429,6 +429,16 @@ const PROLOGUE = [
     src: '(סיכום הערכת מצב ר׳ השב״כ, 07.10.2023, כשעה ורבע לפני הטבח — נספח כט׳)' }
 ];
 
+// Heads of AMAN, by term. The document never names the post-holder, so
+// these dates are the only thing that decides whose face goes on a quote —
+// a quote dated outside every term stays unattributed rather than guessing.
+const AMAN_CHIEFS = [
+  // Halevi's cast-strip portrait is his Chief-of-Staff one, so his AMAN
+  // years get a separate era photo.
+  { key: 'halevi', portrait: 'halevi-aman', from: '2014-09-01', to: '2018-03-31' },
+  { key: 'haliva', portrait: 'haliva',      from: '2021-10-05', to: '2024-08-21' }
+];
+
 const TINTS = [
   'oklch(0.26 0.07 268)', 'oklch(0.25 0.08 258)', 'oklch(0.26 0.09 22)',
   'oklch(0.25 0.07 210)', 'oklch(0.26 0.08 300)', 'oklch(0.25 0.075 240)',
@@ -920,20 +930,23 @@ class Component extends DCLogic {
             const key = 'L' + (++uid);
             const isSpeech = it.kind === 'speech';
 
-            // The document quotes "ראש אמ״ן" without naming him. Herzi
-            // Halevi held the post from September 2014 to March 2018, so
-            // quotes from that window are attributed to him by name and
-            // portrait; later ones stay unattributed.
+            // The document quotes "ראש אמ״ן" without naming him, so a quote
+            // is attributed only when its date falls inside a known chief's
+            // term. Anything outside every window — and the separate
+            // "נציג אמ״ן" speaker, who is not the chief — stays unnamed
+            // behind the corps emblem.
             const di = Component.findDate(it, ch.id);
             if (di) ctxIso = di.iso;
             let speakerKey = it.speaker;
             let portraitKey = it.speaker;
-            if (isSpeech && speakerKey === 'aman' && ctxIso &&
-                ctxIso >= '2014-09-01' && ctxIso <= '2018-03-31') {
-              speakerKey = 'halevi';
-              // His own AMAN-era photo, used only on these quotes — the
-              // cast strip keeps his Chief-of-Staff portrait.
-              portraitKey = 'halevi-aman';
+            if (isSpeech && speakerKey === 'aman' && ctxIso) {
+              for (const t of AMAN_CHIEFS) {
+                if (ctxIso >= t.from && ctxIso <= t.to) {
+                  speakerKey = t.key;
+                  portraitKey = t.portrait;
+                  break;
+                }
+              }
             }
 
             const sp = speakerKey ? speakers[speakerKey] : null;
