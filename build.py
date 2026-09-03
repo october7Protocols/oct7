@@ -98,15 +98,25 @@ def normalise_camel_attrs(html):
 
 
 def slice_design(design_html):
-    """The two pieces a contributor edits: the markup between </helmet> and
-    </x-dc>, and the component script after it."""
+    """The three pieces a contributor edits: the markup between </helmet> and
+    </x-dc>, the component script after it, and the responsive stylesheet.
+
+    The published helmet comes from the export shell (that is where Google
+    Fonts got resolved into the bundled woff2 faces), so anything else the
+    src helmet holds is dropped. The one block that has to survive is the
+    responsive stylesheet, which is why it carries a marker.
+    """
     if "</helmet>" not in design_html or "</x-dc>" not in design_html:
         die("src design is not a canvas document (no <helmet>/<x-dc>)")
     body = design_html.split("</helmet>", 1)[1].split("</x-dc>", 1)[0]
     m = re.search(r'<script type="text/x-dc"[^>]*>(.*?)</script>', design_html, re.S)
     if not m:
         die("no <script type=\"text/x-dc\"> component script in the src design")
-    return normalise_camel_attrs(body), m.group(0)
+    css = re.search(r'<style data-om-responsive>.*?</style>', design_html, re.S)
+    if not css:
+        die("no <style data-om-responsive> block in the src design — the "
+            "breakpoints would be silently dropped from the published page")
+    return normalise_camel_attrs(body), m.group(0), css.group(0)
 
 
 # ── shell (fonts + runtime, carried by the export) ─────────────────────────
@@ -331,7 +341,7 @@ def head_meta():
     return "\n".join(tags)
 
 
-def build_template(shell_template, design_body, design_script, transcript, portraits):
+def build_template(shell_template, design_body, design_script, design_css, transcript, portraits):
     """Graft the current design onto the export shell, then inline the data.
 
     The shell contributes its <helmet> — which is where the export resolved
@@ -363,7 +373,7 @@ def build_template(shell_template, design_body, design_script, transcript, portr
         '<script type="application/json" id="dc-portraits">%s</script>\n'
         % (json_for_script(transcript or {}), json_for_script(portraits))
     )
-    out = (head + head_meta() + "\n</helmet>" + design_body + "</x-dc>"
+    out = (head + head_meta() + "\n" + design_css + "\n</helmet>" + design_body + "</x-dc>"
            + payload + design_script + tail)
 
     # The editor's Google Fonts preconnects are dead weight once the woff2
@@ -383,7 +393,7 @@ def main():
         die("vendor/export-shell.html is missing")
 
     design_path = find_design()
-    body, script = slice_design(read(design_path))
+    body, script, css = slice_design(read(design_path))
     lines, idx, shell_template = load_shell()
 
     transcript, t_note = load_transcript()
@@ -408,7 +418,7 @@ def main():
         print("\n--check: nothing written")
         return 0 if transcript and not t_note else 1
 
-    template = build_template(shell_template, body, script, transcript, portraits)
+    template = build_template(shell_template, body, script, css, transcript, portraits)
     # The template rides inside a <script type="__bundler/template"> tag, so
     # every "</" has to be escaped or the HTML parser closes that tag early
     # and truncates the payload. The export does the same.

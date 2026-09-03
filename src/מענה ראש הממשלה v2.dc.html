@@ -43,10 +43,48 @@ a:hover { color: #ffffff; }
 @keyframes omStopIn { from { opacity: 0; } to { opacity: .5; } }
 @keyframes omDotPulse { 0%,100% { box-shadow: 0 0 0 4px rgba(200,16,46,0.26), 0 0 14px 2px rgba(255,90,110,0.5); } 50% { box-shadow: 0 0 0 9px rgba(200,16,46,0.10), 0 0 26px 6px rgba(255,90,110,0.85); } }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; transition-duration: .001s !important; } }
+
+</style>
+<style data-om-responsive>
+/* ── Responsive ───────────────────────────────────────────────────────────
+   The timeline rail is a fixed gutter the body pads itself away from. Its
+   floor was 96px plus a 10px offset, which is a quarter of a 375px phone
+   given over to a ruler. These breakpoints rescale the whole rail from two
+   variables and shorten the full-viewport blocks so a phone reader is not
+   scrolling through screenfuls of empty background between beats. */
+
+@media (max-width: 900px) {
+  #top { --gut: 82px !important; --tick-w: 18px !important; --tick-gap: 11px !important; }
+  .om-lbl { font-size: 11px !important; }
+  .om-rail { top: 132px !important; }
+}
+
+@media (max-width: 620px) {
+  #top { --gut: 62px !important; --tick-w: 13px !important; --tick-gap: 7px !important; }
+  .om-lbl { font-size: 9.5px !important; letter-spacing: 0 !important; }
+  .om-stop { height: 18px !important; margin-top: -9px !important; }
+  .om-rail { top: 104px !important; bottom: 20px !important; right: 6px !important; }
+  /* A 96px chip overhangs a 62px gutter and lands on the masthead. The
+     rail already names the year and month the reader is in, so the phone
+     chip keeps only the countdown and fits the gutter exactly. */
+  .om-hud { right: 6px !important; top: 8px !important; }
+  .om-hud-date { display: none !important; }
+  /* Full-screen beats: content is vertically centred, so at 100vh half a
+     screen of nothing sits either side of every line on a phone. */
+  .om-full { min-height: 74vh !important; }
+  .om-intro { min-height: 52vh !important; }
+}
+
+/* Short landscape phones: height, not width, is what is scarce. */
+@media (max-height: 520px) {
+  .om-full { min-height: 100svh !important; }
+  .om-intro { min-height: 78svh !important; }
+}
+
 </style>
 </helmet>
 
-<div dir="rtl" lang="he" id="top" style="position:relative;min-height:100vh;overflow-x:hidden;background:#04081a;--gut:clamp(96px,10.5vw,150px);--rail:calc(var(--gut) - 20px);padding-right:var(--gut)">
+<div dir="rtl" lang="he" id="top" style="position:relative;min-height:100vh;overflow-x:hidden;background:#04081a;--gut:clamp(96px,10.5vw,150px);--rail:calc(var(--gut) - 20px);--tick-w:24px;--tick-gap:16px;padding-right:var(--gut)">
 
 <div ref="{{ tintRef }}" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 85% at 82% 0%, oklch(0.26 0.07 268), transparent 66%), #04081a;transition:background 1.4s ease"></div>
 <div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 120% 85% at 50% 50%, transparent 42%, rgba(0,0,0,0.62) 100%)"></div>
@@ -55,9 +93,9 @@ a:hover { color: #ffffff; }
   <div ref="{{ barRef }}" style="height:100%;width:0%;background:#c8102e"></div>
 </div>
 
-<div ref="{{ hudRef }}" style="position:fixed;z-index:71;top:14px;right:10px;width:var(--rail);opacity:0;transform:translateY(-10px);transition:opacity .5s ease, transform .5s ease;pointer-events:none">
+<div ref="{{ hudRef }}" class="om-hud" style="position:fixed;z-index:71;top:14px;right:10px;width:var(--rail);opacity:0;transform:translateY(-10px);transition:opacity .5s ease, transform .5s ease;pointer-events:none">
   <div style="width:100%;background:rgba(0,0,0,0.74);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.16)">
-    <div style="padding:5px 6px 6px;border-bottom:1px solid rgba(255,255,255,0.14)">
+    <div class="om-hud-date" style="padding:5px 6px 6px;border-bottom:1px solid rgba(255,255,255,0.14)">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8b97c4;line-height:1.3">תאריך</div>
       <div ref="{{ hudDateRef }}" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">—</div>
     </div>
@@ -68,16 +106,16 @@ a:hover { color: #ffffff; }
   </div>
 </div>
 
-<div ref="{{ railRef }}" style="position:fixed;z-index:72;top:160px;bottom:40px;right:10px;width:var(--rail);overflow:visible;pointer-events:none;opacity:1">
-  <div style="position:absolute;top:0;bottom:0;right:19px;width:1px;background:rgba(139,151,196,0.26)"></div>
-  <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:18px;width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45)"></div>
+<div ref="{{ railRef }}" class="om-rail" style="position:fixed;z-index:72;top:160px;bottom:40px;right:10px;width:var(--rail);overflow:visible;pointer-events:none;opacity:1">
+  <div style="position:absolute;top:0;bottom:0;right:calc(var(--tick-w) - 5px);width:1px;background:rgba(139,151,196,0.26)"></div>
+  <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:calc(var(--tick-w) - 6px);width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45)"></div>
   <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="12">
-    <div style="position:absolute;top:{{ t.top }};margin-top:-12px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:16px;height:24px">
-      <button type="button" onClick="{{ t.go }}" title="{{ t.title }}" style="cursor:pointer;pointer-events:auto;background:{{ t.tickColor }};border:0;width:24px;height:3px;padding:0;flex:0 0 auto;opacity:0;animation:omStopIn .6s {{ t.delay }} cubic-bezier(.2,.9,.2,1) both;transition:opacity .3s ease, background .2s ease" style-hover="background:#ff7a8e" style-focus="outline:2px solid #ff5a6e;outline-offset:2px"></button>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:{{ t.labelSize }};font-weight:500;letter-spacing:.04em;color:{{ t.labelColor }};white-space:nowrap;line-height:1">{{ t.yearLabel }}</div>
+    <div class="om-stop" style="position:absolute;top:{{ t.top }};margin-top:-12px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:var(--tick-gap);height:24px">
+      <button type="button" onClick="{{ t.go }}" title="{{ t.title }}" class="om-tick" style="cursor:pointer;pointer-events:auto;background:{{ t.tickColor }};border:0;width:var(--tick-w);height:3px;padding:0;flex:0 0 auto;opacity:0;animation:omStopIn .6s {{ t.delay }} cubic-bezier(.2,.9,.2,1) both;transition:opacity .3s ease, background .2s ease" style-hover="background:#ff7a8e" style-focus="outline:2px solid #ff5a6e;outline-offset:2px"></button>
+      <div class="om-lbl" style="font-family:'IBM Plex Mono',monospace;font-size:{{ t.labelSize }};font-weight:500;letter-spacing:.04em;color:{{ t.labelColor }};white-space:nowrap;line-height:1">{{ t.yearLabel }}</div>
     </div>
   </sc-for>
-  <div ref="{{ railDotRef }}" style="position:absolute;right:-14px;width:14px;height:14px;margin-top:-7px;opacity:1">
+  <div ref="{{ railDotRef }}" style="position:absolute;right:calc(var(--tick-w) - 11.5px);width:14px;height:14px;margin-top:-7px;opacity:1">
     <div style="position:absolute;inset:0;border-radius:50%;background:#ff5a6e;animation:omDotPulse 2.6s ease-in-out infinite"></div>
     <div style="position:absolute;top:50%;right:16px;width:clamp(12px,2vw,30px);height:1px;margin-top:-0.5px;background:linear-gradient(to left,rgba(255,90,110,0.95),transparent)"></div>
   </div>
@@ -116,7 +154,7 @@ a:hover { color: #ffffff; }
 </header>
 
 <section id="prologue" style="position:relative;z-index:3;background:#000">
-  <div style="min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);max-width:1240px;margin:0 auto;padding:clamp(40px,10vh,110px) clamp(20px,5vw,80px)">
+  <div class="om-intro" style="min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);max-width:1240px;margin:0 auto;padding:clamp(40px,10vh,110px) clamp(20px,5vw,80px)">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4">לפני המסמך</div>
     <p style="margin:0;max-width:34ch;font-weight:800;font-size:clamp(24px,4.4vw,58px);line-height:1.18;letter-spacing:-0.03em;color:#fff;text-wrap:balance">
       אלה הדברים שנאמרו לראש הממשלה על חמאס. לכל אחד מהם התאריך שבו נאמר.
@@ -125,7 +163,7 @@ a:hover { color: #ffffff; }
   </div>
 
   <sc-for list="{{ prologue }}" as="p" hint-placeholder-count="9">
-    <div data-beat="1" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:{{ p.bg }};content-visibility:auto;contain-intrinsic-size:auto 100vh">
+    <div data-beat="1" class="om-full" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:{{ p.bg }};content-visibility:auto;contain-intrinsic-size:auto 100vh">
       <div data-anim="pulse" style="position:absolute;top:50%;left:50%;width:min(120vw,1200px);height:min(120vw,1200px);transform:translate(-50%,-50%);pointer-events:none;border-radius:50%;background:radial-gradient(circle,{{ p.glow }},transparent 62%);opacity:.18;animation:omBreathe 6s ease-in-out infinite"></div>
 
       <div style="position:relative;z-index:2;width:100%;max-width:1240px;margin:0 auto;padding:clamp(30px,7vh,80px) clamp(20px,5vw,80px);display:flex;flex-direction:column;gap:clamp(16px,3vh,34px)">
@@ -148,7 +186,7 @@ a:hover { color: #ffffff; }
     </div>
   </sc-for>
 
-  <div data-beat="1" style="position:relative;min-height:100vh;display:flex;align-items:center;background:#000;content-visibility:auto;contain-intrinsic-size:auto 100vh">
+  <div data-beat="1" class="om-full" style="position:relative;min-height:100vh;display:flex;align-items:center;background:#000;content-visibility:auto;contain-intrinsic-size:auto 100vh">
     <div style="width:100%;max-width:1240px;margin:0 auto;padding:clamp(30px,7vh,80px) clamp(20px,5vw,80px);display:flex;flex-direction:column;gap:clamp(18px,3.4vh,40px)">
       <div data-anim="count" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(62px,17vw,220px);line-height:0.8;letter-spacing:-0.05em;color:#c8102e">06:29</div>
       <div data-anim="rule" style="height:3px;width:100%;max-width:520px;background:#c8102e;transform-origin:right center"></div>
