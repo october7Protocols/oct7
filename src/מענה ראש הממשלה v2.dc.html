@@ -187,7 +187,7 @@ a:hover { color: #ffffff; }
   <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="3">
     <section id="{{ ch.anchor }}" data-chapter="{{ ch.idx }}" data-tint="{{ ch.tint }}" data-screen-label="{{ ch.label }}" style="position:relative">
 
-      <div style="min-height:88vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.6vh,30px);max-width:1240px;margin:0 auto;padding:clamp(50px,10vh,120px) clamp(20px,5vw,80px)">
+      <div style="min-height:42vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.2vh,24px);max-width:1240px;margin:0 auto;padding:clamp(30px,5.5vh,68px) clamp(20px,5vw,80px)">
         <sc-if value="{{ ch.numbered }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:center;gap:12px">
             <span style="display:inline-block;background:#c8102e;color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(13px,1.6vw,17px);padding:6px 14px;letter-spacing:.08em">פרק {{ ch.num }}</span>
