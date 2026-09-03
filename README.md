@@ -36,10 +36,16 @@ runtime network dependencies. It works on any static host and from `file://`.
 ## Working on it
 
 ```bash
-python3 build.py            # → dist/index.html
-python3 build.py --check    # readiness report, writes nothing, exit 1 if broken
+python3 build.py                    # → dist/ (index.html + portraits/)
+python3 build.py --check            # readiness report, writes nothing, exit 1 if broken
+python3 build.py --inline-portraits # everything in one file, slower first paint
 open dist/index.html
 ```
+
+By default the photos are copied to `dist/portraits/` and referenced as
+sibling files, so the browser fetches them lazily as the reader scrolls
+instead of making everyone download ~4 MB of base64 before the first paint.
+`dist/` is the whole site — `index.html` plus that folder.
 
 To edit the design, open `src/מענה ראש הממשלה v2.dc.html` — in Claude Design
 for visual editing, or in any editor for the markup and the component script
@@ -67,19 +73,16 @@ Any static host works just as well: `dist/index.html` is the whole site.
 
 ## State
 
-Working: all 11 chapters, 325 items, 116 quote screens, 54 document cards,
-17 comptroller questions, the 22-person cast strip, the timeline rail with
-40 stops and 147 dated marks, chapter tints, the countdown chip. Built and
-loaded with **no console errors and no external requests**.
+Everything renders: all 11 chapters, 325 items, 116 quote screens with all
+116 portraits loading, the 22-person cast strip, 54 document cards, 17
+comptroller questions, the timeline rail with 40 stops and 147 dated marks,
+chapter tints, the countdown chip, and the rail and cast jump targets. Built
+and loaded with **no console errors and no external requests**.
 
-Outstanding: **portraits**. Only `halevi-aman` is present, so 21 of 22
-speakers render as a name placeholder instead of a face — and the design is
-built around those portraits. The photos already placed on the canvas live in
-`.image-slots.state.json`, a hidden file in the editor project folder that
-did not come across with the rest. Drop it into `src/` and every portrait
-comes back in one step; `build.py` reads it automatically. Failing that, add
-files to `src/assets/portraits/<speaker-key>.png` — `--check` lists the keys
-that are still missing.
+One thing worth a second pair of eyes: the portrait for `abtam`
+(ראש אבט״מ) is the מלמ״ב emblem, which was the closest match among the
+supplied files — swap `src/assets/portraits/abtam.png` if that is wrong. The
+other 21 came from unambiguously named files.
 
 ## Before this goes public
 

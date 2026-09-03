@@ -27,6 +27,7 @@ Usage
 -----
     python3 build.py                    # -> dist/index.html
     python3 build.py --check            # readiness report, writes nothing
+    python3 build.py --inline-portraits # fold photos in too (one file, slower first paint)
     SITE_URL=https://example.org python3 build.py     # adds canonical + og:url
 """
 
@@ -35,6 +36,7 @@ import json
 import mimetypes
 import os
 import re
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -148,15 +150,14 @@ FETCH_SIDECAR_OLD = """    const map = {};
     map['halevi-aman'] = './halevi-aman.png';"""
 
 FETCH_SIDECAR_NEW = """    const map = {};
-    // Built for publication: portraits are inlined as data URIs
-    // (see #dc-portraits) instead of read from the editor's sidecar.
+    // Built for publication: the portrait map ships in the page (see
+    // #dc-portraits) instead of being read from the editor's sidecar.
+    // Values are sibling file paths by default, or data: URIs when the
+    // page was built with --inline-portraits.
     try {
       const el = document.getElementById('dc-portraits');
       const j = el && el.textContent.trim() ? JSON.parse(el.textContent) : {};
-      for (const k in j) {
-        const u = j[k];
-        if (typeof u === 'string' && u.indexOf('data:image/') === 0) map[k] = u;
-      }
+      for (const k in j) if (typeof j[k] === 'string' && j[k]) map[k] = j[k];
     } catch (e) { console.error('portrait map parse failed', e); }"""
 
 # The cast strip's <image-slot> is an editor element: it reads the sidecar
@@ -227,14 +228,27 @@ def speech_speakers(transcript):
             if it.get("kind") == "speech" and it.get("speaker"):
                 keys.add(it["speaker"])
     keys.add("comptroller")
-    keys.discard("aman")   # re-attributed to halevi / halevi-aman by the design
+    # 'aman' stays in: only quotes dated 09/2014-03/2018 are re-attributed to
+    # halevi, so the unnamed AMAN chief still needs his own portrait for
+    # every quote outside that window.
     return keys
 
 
+INLINE_PORTRAITS = "--inline-portraits" in sys.argv
+
+
 def load_portraits(transcript):
-    """Portraits come from either source, sidecar first so a loose file in
-    assets/portraits/ can override one photo without touching the sidecar."""
+    """Portrait key -> URL. By default the photos are copied into
+    dist/portraits/ and referenced as sibling files, so the browser fetches
+    them lazily as the reader scrolls instead of making everyone download
+    ~5 MB of base64 before the first paint. --inline-portraits folds them
+    into the HTML instead, for when a single file matters more than speed.
+
+    Both sources are read, sidecar first, so a loose file in
+    assets/portraits/ can override one photo without touching the sidecar.
+    """
     out, notes = {}, []
+    copies = {}   # dist-relative path -> source file to copy
 
     # The canvas editor stores every dropped photo in this one (hidden) file,
     # keyed "cast-<speaker>", as a data URI. Copying it out of the editor
@@ -250,15 +264,30 @@ def load_portraits(transcript):
         except Exception as e:
             notes.append("could not read the portrait sidecar: %s" % e)
 
+    def add(key, path):
+        if INLINE_PORTRAITS:
+            out[key] = data_uri(path)
+        else:
+            rel = "portraits/" + key + os.path.splitext(path)[1].lower()
+            out[key] = rel
+            copies[rel] = path
+
     if os.path.isdir(PORTRAIT_DIR):
         for name in sorted(os.listdir(PORTRAIT_DIR)):
             stem, ext = os.path.splitext(name)
             if ext.lower() in (".png", ".jpg", ".jpeg", ".webp"):
-                out[stem] = data_uri(os.path.join(PORTRAIT_DIR, name))
+                add(stem, os.path.join(PORTRAIT_DIR, name))
     if os.path.exists(HALEVI):
-        out["halevi-aman"] = data_uri(HALEVI)
+        add("halevi-aman", HALEVI)
     else:
         notes.append("no src/assets/halevi-aman.png")
+
+    # A sidecar entry is a data URI with no file behind it, so it always
+    # inlines; only keys that came from a file can be shipped separately.
+    inlined = [k for k, v in out.items() if v.startswith("data:")]
+    if inlined and not INLINE_PORTRAITS:
+        notes.append("%d portrait(s) from the sidecar stay inlined "
+                     "(no file to copy): %s" % (len(inlined), ", ".join(sorted(inlined))))
 
     missing = sorted(speech_speakers(transcript) - set(out))
     if missing:
@@ -269,7 +298,7 @@ def load_portraits(transcript):
             notes.append("src/.image-slots.state.json is absent — that hidden "
                          "file in the editor project holds every photo already "
                          "placed on the canvas")
-    return out, "; ".join(notes) if notes else None
+    return out, copies, "; ".join(notes) if notes else None
 
 
 def head_meta():
@@ -357,7 +386,7 @@ def main():
     lines, idx, shell_template = load_shell()
 
     transcript, t_note = load_transcript()
-    portraits, p_note = load_portraits(transcript)
+    portraits, copies, p_note = load_portraits(transcript)
 
     n_items = sum(len(c.get("items") or []) for c in (transcript or {}).get("chapters") or [])
     print("build report")
@@ -366,7 +395,8 @@ def main():
         "%d chapters, %d items, %d speakers"
         % (len(transcript["chapters"]), n_items, len(transcript.get("speakers") or {}))
         if transcript and transcript.get("chapters") else "MISSING"))
-    print("  portraits  : %d inlined" % len(portraits))
+    print("  portraits  : %d %s" % (
+        len(portraits), "inlined" if INLINE_PORTRAITS else "as sibling files"))
     if t_note:
         print("  ! " + t_note)
     if p_note:
@@ -383,12 +413,25 @@ def main():
     # and truncates the payload. The export does the same.
     lines[idx] = json.dumps(template, ensure_ascii=False).replace("</", "<\\u002F")
 
+    # Rebuild dist/portraits/ from scratch so a renamed or deleted speaker
+    # cannot leave an orphan behind for the next deploy to publish.
+    shutil.rmtree(os.path.join(DIST, "portraits"), ignore_errors=True)
     os.makedirs(DIST, exist_ok=True)
     out = os.path.join(DIST, "index.html")
     with open(out, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
-    print("\nwrote dist/index.html (%.1f MB)" % (os.path.getsize(out) / 1048576.0))
+    total = os.path.getsize(out)
+    for rel, srcfile in sorted(copies.items()):
+        dest = os.path.join(DIST, rel)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        shutil.copyfile(srcfile, dest)
+        total += os.path.getsize(dest)
+
+    print("\nwrote dist/index.html (%.1f MB)%s"
+          % (os.path.getsize(out) / 1048576.0,
+             "" if not copies else " + %d portraits, %.1f MB total"
+             % (len(copies), total / 1048576.0)))
     if not transcript:
         print("NOTE: no transcript — the page will show hero, prologue and footer only.")
     return 0
