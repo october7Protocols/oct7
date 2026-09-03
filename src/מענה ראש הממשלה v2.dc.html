@@ -108,14 +108,14 @@ a:hover { color: #ffffff; }
 
 <div ref="{{ railRef }}" class="om-rail" style="position:fixed;z-index:72;top:160px;bottom:40px;right:10px;width:var(--rail);overflow:visible;pointer-events:none;opacity:1">
   <div style="position:absolute;top:0;bottom:0;right:calc(var(--tick-w) - 5px);width:1px;background:rgba(139,151,196,0.26)"></div>
-  <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:calc(var(--tick-w) - 6px);width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45)"></div>
+  <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:calc(var(--tick-w) - 6px);width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45);transition:height .5s cubic-bezier(.4,0,.2,1)"></div>
   <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="12">
     <div class="om-stop" style="position:absolute;top:{{ t.top }};margin-top:-12px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:var(--tick-gap);height:24px">
       <button type="button" onClick="{{ t.go }}" title="{{ t.title }}" class="om-tick" style="cursor:pointer;pointer-events:auto;background:{{ t.tickColor }};border:0;width:var(--tick-w);height:3px;padding:0;flex:0 0 auto;opacity:0;animation:omStopIn .6s {{ t.delay }} cubic-bezier(.2,.9,.2,1) both;transition:opacity .3s ease, background .2s ease" style-hover="background:#ff7a8e" style-focus="outline:2px solid #ff5a6e;outline-offset:2px"></button>
       <div class="om-lbl" style="font-family:'IBM Plex Mono',monospace;font-size:{{ t.labelSize }};font-weight:500;letter-spacing:.04em;color:{{ t.labelColor }};white-space:nowrap;line-height:1">{{ t.yearLabel }}</div>
     </div>
   </sc-for>
-  <div ref="{{ railDotRef }}" style="position:absolute;right:calc(var(--tick-w) - 11.5px);width:14px;height:14px;margin-top:-7px;opacity:1">
+  <div ref="{{ railDotRef }}" style="position:absolute;right:calc(var(--tick-w) - 11.5px);width:14px;height:14px;margin-top:-7px;opacity:1;transition:top .5s cubic-bezier(.4,0,.2,1)">
     <div style="position:absolute;inset:0;border-radius:50%;background:#ff5a6e;animation:omDotPulse 2.6s ease-in-out infinite"></div>
     <div style="position:absolute;top:50%;right:16px;width:clamp(12px,2vw,30px);height:1px;margin-top:-0.5px;background:linear-gradient(to left,rgba(255,90,110,0.95),transparent)"></div>
   </div>
@@ -489,7 +489,6 @@ class Component extends DCLogic {
         this.sweep();
         this.railTrack();
         this.magnify();
-        this.updateChip();
       });
     };
     // Photos can be replaced from outside this document (a drop on another
@@ -767,41 +766,36 @@ class Component extends DCLogic {
     this.emphasise(node.getAttribute('data-daysnum'));
   }
 
-  // The marker rides the rail continuously: its position is interpolated
-  // between the document positions of the dated items, so it glides with
-  // the scroll instead of snapping between the 12 stops.
-  railTrack() {
+  // The last dated item the reader has passed. Undated prose between quotes
+  // keeps the previous date rather than dropping out of the timeline.
+  currentMark() {
     const m = this._marks;
-    if (!m || !m.length) return;
+    if (!m || !m.length) return null;
     const c = (window.scrollY || document.documentElement.scrollTop) + window.innerHeight * 0.42;
-    let i = 0;
-    while (i < m.length && m[i].y < c) i++;
-    let pct, item = m[0];
-    if (i === 0) pct = m[0].pct;
-    else if (i >= m.length) { pct = m[m.length - 1].pct; item = m[m.length - 1]; }
-    else {
-      const a = m[i - 1], b = m[i];
-      const t = Math.max(0, Math.min(1, (c - a.y) / Math.max(1, b.y - a.y)));
-      pct = a.pct + (b.pct - a.pct) * t;
-      item = t < 0.5 ? a : b;
-    }
+    let cur = m[0];
+    for (let i = 0; i < m.length && m[i].y <= c; i++) cur = m[i];
+    return cur;
+  }
+
+  // The single place that decides where the reader is: the marker and the
+  // chip both read it, so they cannot disagree. They used to — the marker
+  // interpolated its way between two marks while the chip snapped to the
+  // nearest, which put the dot on מאי while the chip read 12 בפברואר.
+  // Smoothness now comes from a CSS transition on the marker, so it glides
+  // between stops without ever standing between two of them.
+  railTrack() {
+    const item = this.currentMark();
+    if (!item) return;
     this._currentMark = item;
-    const dated = item.uid ? document.querySelector('[data-uid="' + item.uid + '"]') : null;
-    if (dated) this.showHud(dated);
-    this._centerPct = pct;
-    const s = pct.toFixed(3) + '%';
+    this._centerPct = item.pct;
+    const s = item.pct.toFixed(3) + '%';
     if (this.railDotRef.current) {
       this.railDotRef.current.style.top = s;
       this.railDotRef.current.style.opacity = '1';
     }
     if (this.railFillRef.current) this.railFillRef.current.style.height = s;
     if (this.railRef.current) this.railRef.current.style.opacity = '1';
-    this.showHudForMark(item);
-  }
-  
-  showHudForMark(item) {
-    if (!item || !item.uid) return;
-    const dated = [...document.querySelectorAll('[data-uid]')].find(n => n.getAttribute('data-uid') === item.uid);
+    const dated = document.querySelector('[data-uid="' + item.uid + '"]');
     if (dated) this.showHud(dated);
   }
 
@@ -827,24 +821,6 @@ class Component extends DCLogic {
       s.b.style.transform = 'scale(' + (1 + 0.34 * w).toFixed(3) + ')';
       s.b.style.opacity = (0.42 + 0.58 * w).toFixed(3);
       s.b.style.zIndex = w > 0.04 ? '2' : '1';
-    }
-  }
-
-  // Update the chip (date & countdown) to match the current scroll position.
-  updateChip() {
-    const m = this._marks;
-    if (!m || !m.length || !this.hudDateRef.current) return;
-    const c = (window.scrollY || document.documentElement.scrollTop) + window.innerHeight * 0.42;
-    let item = m[0];
-    for (const mk of m) {
-      if (Math.abs(mk.y - c) < Math.abs(item.y - c)) item = mk;
-    }
-    const dated = [...document.querySelectorAll('[data-uid][data-date]')].find(n => n.getAttribute('data-uid') === item.uid);
-    if (dated) {
-      const d = dated.getAttribute('data-daysnum');
-      const dt = dated.getAttribute('data-date');
-      if (dt) this.hudDateRef.current.textContent = dt.split('-').reverse().join('.');
-      this.emphasise(d);
     }
   }
 
@@ -879,6 +855,21 @@ class Component extends DCLogic {
     return 'polygon(' + pts.join(',') + ')';
   }
 
+  // The document writes most of its dates as "12 בפברואר 2023" rather than
+  // 12.02.2023. A numeric-only parser left 22 items off the timeline and,
+  // through the chapter's carry-forward, every quote that followed them —
+  // unplaced on the rail and unattributed. The one idiom to skip is
+  // "לפני ה-7 באוקטובר 2023", which points at the attack instead of dating
+  // the document it sits in.
+  static hebDate(hay) {
+    const m = /(?<!לפני ה-)(?<!לאחר ה-)(?<!אחרי ה-)(\d{1,2})\s+(בינואר|בפברואר|במרץ|באפריל|במאי|ביוני|ביולי|באוגוסט|בספטמבר|באוקטובר|בנובמבר|בדצמבר)\s+(\d{4})/.exec(hay);
+    if (!m) return null;
+    const mo = MONTHS.indexOf(m[2]);
+    if (mo < 0) return null;
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    return m[3] + '-' + pad(mo + 1) + '-' + pad(+m[1]);
+  }
+
   // Days between a dd.mm.yyyy string and 7 Oct 2023, plus a Hebrew date.
   static dateInfo(iso) {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
@@ -892,6 +883,8 @@ class Component extends DCLogic {
     const hay = (it.source || '') + ' ' + (it.text || '') + ' ' + (it.title || '');
     const m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(hay);
     if (m) return Component.dateInfo(m[3] + '-' + m[2] + '-' + m[1]);
+    const h = Component.hebDate(hay);
+    if (h) return Component.dateInfo(h);
     // The 7 October chapter is timestamped by clock time, not by date.
     if (chapterId === 'oct7') return Component.dateInfo('2023-10-07');
     return null;
