@@ -98,7 +98,7 @@ a:hover { color: #ffffff; }
   </div>
 
   <p style="margin:0;max-width:52ch;font-size:clamp(18px,2.2vw,28px);line-height:1.55;color:#c3cbe6;font-weight:300;text-wrap:pretty">
-    אתם עומדים להיכנס לחדר. שאלות המבקר, מענה ראש הממשלה, והדיונים הביטחוניים עצמם — דובר אחר דובר, בלשונם.
+    מה שאל מבקר המדינה ומה ענה ראש הממשלה. בתוך התשובות מובאים הדיונים הביטחוניים עצמם, כל דובר בלשונו.
   </p>
 
   <nav style="display:flex;flex-wrap:wrap;gap:7px;margin-top:clamp(6px,2vh,20px)">
@@ -117,11 +117,11 @@ a:hover { color: #ffffff; }
 
 <section id="prologue" style="position:relative;z-index:3;background:#000">
   <div style="min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);max-width:1240px;margin:0 auto;padding:clamp(40px,10vh,110px) clamp(20px,5vw,80px)">
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4">לפני שנפתח את המסמך</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4">לפני המסמך</div>
     <p style="margin:0;max-width:34ch;font-weight:800;font-size:clamp(24px,4.4vw,58px);line-height:1.18;letter-spacing:-0.03em;color:#fff;text-wrap:balance">
-      אלה הדברים שנאמרו לראש הממשלה על חמאס — עם התאריך שבו נאמרו.
+      אלה הדברים שנאמרו לראש הממשלה על חמאס. לכל אחד מהם התאריך שבו נאמר.
     </p>
-    <p style="margin:0;max-width:44ch;font-size:clamp(16px,1.9vw,22px);line-height:1.6;color:#b8c1de;font-weight:300">כל ציטוט בעמודים הבאים מופיע במסמך, ואושר לפרסום בידי ראש הממשלה. הספירה היא עד שבת בבוקר, 7 באוקטובר 2023.</p>
+    <p style="margin:0;max-width:44ch;font-size:clamp(16px,1.9vw,22px);line-height:1.6;color:#b8c1de;font-weight:300">כל ציטוט בעמודים הבאים מופיע במסמך ואושר לפרסום בידי ראש הממשלה. הספירה מגיעה עד שבת בבוקר, 7 באוקטובר 2023.</p>
   </div>
 
   <sc-for list="{{ prologue }}" as="p" hint-placeholder-count="9">
@@ -153,8 +153,8 @@ a:hover { color: #ffffff; }
       <div data-anim="count" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(62px,17vw,220px);line-height:0.8;letter-spacing:-0.05em;color:#c8102e">06:29</div>
       <div data-anim="rule" style="height:3px;width:100%;max-width:520px;background:#c8102e;transform-origin:right center"></div>
       <div data-anim="line" style="display:flex;flex-direction:column;gap:14px;max-width:min(100%,36ch)">
-        <p style="margin:0;font-weight:800;font-size:clamp(22px,3.4vw,50px);line-height:1.2;letter-spacing:-0.03em;color:#fff">שבת, 7 באוקטובר 2023. שיחת ווטסאפ מהמזכיר הצבאי מעדכנת את ראש הממשלה על פתיחת המתקפה.</p>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.2vw,13px);color:#8b97c4;line-height:1.6">(פרק 7 במסמך — יום ה-7 באוקטובר 2023)</div>
+        <p style="margin:0;font-weight:800;font-size:clamp(22px,3.4vw,50px);line-height:1.2;letter-spacing:-0.03em;color:#fff">שבת, 7 באוקטובר 2023. שיחת ווטסאפ מהמזכיר הצבאי מעדכנת את ראש הממשלה שהמתקפה החלה.</p>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.2vw,13px);color:#8b97c4;line-height:1.6">(פרק 7 במסמך, יום ה-7 באוקטובר 2023)</div>
       </div>
       <a href="#cast" style="align-self:flex-start;margin-top:clamp(10px,2vh,24px);padding:13px 24px;background:#c8102e;color:#fff;font-weight:700;font-size:clamp(14px,1.6vw,17px)" style-hover="background:#fff;color:#c8102e">להיכנס למסמך ↓</a>
     </div>
@@ -343,10 +343,10 @@ a:hover { color: #ffffff; }
     <div style="height:4px;width:100%;background:#c8102e;margin-bottom:clamp(24px,4vh,44px)"></div>
     <div style="display:inline-block;background:#c8102e;color:#fff;font-weight:800;font-size:14px;padding:7px 15px;margin-bottom:20px">סוף המסמך</div>
     <p style="margin:0;max-width:54ch;font-size:clamp(17px,2vw,24px);line-height:1.6;color:#c3cbe6;font-weight:300;text-wrap:pretty">
-      כל האמור לעיל הוא מענה ראש הממשלה לשאלות מבקר המדינה, כפי שהוגש בדצמבר 2025 — 55 עמודים ו־33 נספחים. חלקים שלא אושרו לפרסום מוצגים כמושחרים.
+      כל האמור לעיל הוא מענה ראש הממשלה לשאלות מבקר המדינה, כפי שהוגש בדצמבר 2025. המסמך מונה 55 עמודים ו־33 נספחים. חלקים שלא אושרו לפרסום מוצגים כמושחרים.
     </p>
     <div style="margin-top:26px;font-size:15px;color:#7a86b4;line-height:1.7;max-width:54ch">
-      בדיקת האירועים טרם הושלמה. הדברים המובאים כאן הם טענות ועמדות של ראש הממשלה ושל הדוברים בדיונים — לא קביעות של גוף בודק.
+      בדיקת האירועים טרם הושלמה. הדברים המובאים כאן הם טענות ועמדות של ראש הממשלה ושל הדוברים בדיונים, ולא קביעות של גוף בודק.
     </div>
     <a href="#top" style="display:inline-block;margin-top:32px;padding:12px 22px;background:rgba(255,255,255,0.08);font-size:15px;font-weight:500;color:#fff" style-hover="background:#c8102e">חזרה לראש העמוד ↑</a>
   </footer>
@@ -986,7 +986,7 @@ class Component extends DCLogic {
         src: p.src,
         date: di ? di.label : '',
         days: p.hours ? '05:15' : (di ? String(di.days) : ''),
-        unit: p.hours ? 'בבוקר — כשעה ורבע לפני תחילת המתקפה' : (di && di.days === 1 ? 'יום לפני ה־7 באוקטובר' : 'ימים לפני ה־7 באוקטובר'),
+        unit: p.hours ? 'בבוקר, כשעה ורבע לפני תחילת המתקפה' : (di && di.days === 1 ? 'יום לפני ה־7 באוקטובר' : 'ימים לפני ה־7 באוקטובר'),
         bg: 'radial-gradient(120% 90% at 78% 8%, rgba(200,16,46,' + red.toFixed(3) + '), transparent 64%), #000',
         glow: 'rgba(200,16,46,' + (0.12 + near * 0.34).toFixed(3) + ')',
         numColor: near > 0.86 ? '#ff5a6e' : '#ffffff',
