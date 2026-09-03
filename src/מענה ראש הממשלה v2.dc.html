@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail" data-bg-color="#04081a">
+  <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#04081a"/>
+    <line x1="30" y1="30" x2="30" y2="90" stroke="#8b97c4" stroke-width="3"/>
+    <circle cx="25" cy="50" r="6" fill="#ff5a6e"/>
+    <text x="50" y="65" font-size="14" fill="#ff5a6e" font-family="monospace" font-weight="bold">מענה</text>
+  </svg>
+</template>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>תיק 7 באוקטובר — מענה ראש הממשלה לשאלות מבקר המדינה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="./image-slot.js"></script>
+<style>
+html { background: #04081a; }
+body { margin: 0; background: #04081a; color: #ffffff; font-family: Heebo, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+a { color: #ff5a6e; text-decoration: none; }
+a:hover { color: #ffffff; }
+::selection { background: #c8102e; color: #fff; }
+@keyframes omPulse { 0%,100% { opacity: .25; } 50% { opacity: .9; } }
+@keyframes omPortraitIn { from { opacity: 0; transform: translateX(-7%) scale(1.09); } to { opacity: 1; transform: translateX(0) scale(1.02); } }
+@keyframes omWipeIn { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes omQuoteIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+@keyframes omMetaIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes omSweep { 0% { opacity: 0; transform: translateX(-130%) skewX(-12deg); } 22% { opacity: .5; } 100% { opacity: 0; transform: translateX(130%) skewX(-12deg); } }
+@keyframes omCountIn { from { opacity: 0; transform: translateY(40px) scale(0.94); letter-spacing: .1em; } to { opacity: 1; transform: none; letter-spacing: -0.04em; } }
+@keyframes omLineIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes omRule { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes omBreathe { 0%,100% { opacity: .18; transform: scale(1); } 50% { opacity: .46; transform: scale(1.06); } }
+@keyframes omRailRun { 0% { top: -10%; opacity: 0; } 14% { opacity: .95; } 86% { opacity: .95; } 100% { top: 106%; opacity: 0; } }
+@keyframes omStopIn { from { opacity: 0; } to { opacity: .5; } }
+@keyframes omDotPulse { 0%,100% { box-shadow: 0 0 0 4px rgba(200,16,46,0.26), 0 0 14px 2px rgba(255,90,110,0.5); } 50% { box-shadow: 0 0 0 9px rgba(200,16,46,0.10), 0 0 26px 6px rgba(255,90,110,0.85); } }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; transition-duration: .001s !important; } }
+</style>
+</helmet>
+
+<div dir="rtl" lang="he" id="top" style="position:relative;min-height:100vh;overflow-x:hidden;background:#04081a;--gut:clamp(96px,10.5vw,150px);--rail:calc(var(--gut) - 20px);padding-right:var(--gut)">
+
+<div ref="{{ tintRef }}" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 85% at 82% 0%, oklch(0.26 0.07 268), transparent 66%), #04081a;transition:background 1.4s ease"></div>
+<div style="position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 120% 85% at 50% 50%, transparent 42%, rgba(0,0,0,0.62) 100%)"></div>
+
+<div style="position:fixed;top:0;right:0;left:0;height:4px;z-index:80;background:rgba(255,255,255,0.07)">
+  <div ref="{{ barRef }}" style="height:100%;width:0%;background:#c8102e"></div>
+</div>
+
+<div ref="{{ hudRef }}" style="position:fixed;z-index:71;top:14px;right:10px;width:var(--rail);opacity:0;transform:translateY(-10px);transition:opacity .5s ease, transform .5s ease;pointer-events:none">
+  <div style="width:100%;background:rgba(0,0,0,0.74);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.16)">
+    <div style="padding:5px 6px 6px;border-bottom:1px solid rgba(255,255,255,0.14)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8b97c4;line-height:1.3">תאריך</div>
+      <div ref="{{ hudDateRef }}" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">—</div>
+    </div>
+    <div style="padding:5px 6px 6px;background:rgba(200,16,46,0.24)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#ffb3bd;line-height:1.3">ימים ל־7.10</div>
+      <div ref="{{ hudDaysRef }}" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(11px,1.3vw,15px);color:#ff5a6e;letter-spacing:.02em;line-height:1.2">—</div>
+    </div>
+  </div>
+</div>
+
+<div ref="{{ railRef }}" style="position:fixed;z-index:72;top:160px;bottom:40px;right:10px;width:var(--rail);overflow:visible;pointer-events:none;opacity:1">
+  <div style="position:absolute;top:0;bottom:0;right:19px;width:1px;background:rgba(139,151,196,0.26)"></div>
+  <div ref="{{ railFillRef }}" style="position:absolute;top:0;right:18px;width:3px;height:0;background:linear-gradient(to bottom,rgba(139,151,196,0.5),#ff5a6e);box-shadow:0 0 7px rgba(255,90,110,0.45)"></div>
+  <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="12">
+    <div style="position:absolute;top:{{ t.top }};margin-top:-24px;right:0;display:flex;align-items:center;justify-content:flex-start;gap:16px;height:24px">
+      <button type="button" onClick="{{ t.go }}" title="{{ t.title }}" style="cursor:pointer;pointer-events:auto;background:{{ t.tickColor }};border:0;width:24px;height:3px;padding:0;flex:0 0 auto;opacity:0;animation:omStopIn .6s {{ t.delay }} cubic-bezier(.2,.9,.2,1) both;transition:opacity .3s ease, background .2s ease" style-hover="background:#ff7a8e" style-focus="outline:2px solid #ff5a6e;outline-offset:2px"></button>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:{{ t.labelSize }};font-weight:500;letter-spacing:.04em;color:{{ t.labelColor }};white-space:nowrap;line-height:1">{{ t.yearLabel }}</div>
+    </div>
+  </sc-for>
+  <div ref="{{ railDotRef }}" style="position:absolute;right:-14px;width:14px;height:14px;margin-top:-7px;opacity:1">
+    <div style="position:absolute;inset:0;border-radius:50%;background:#ff5a6e;animation:omDotPulse 2.6s ease-in-out infinite"></div>
+    <div style="position:absolute;top:50%;right:16px;width:clamp(12px,2vw,30px);height:1px;margin-top:-0.5px;background:linear-gradient(to left,rgba(255,90,110,0.95),transparent)"></div>
+  </div>
+</div>
+
+<header style="position:relative;z-index:3;min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3vh,36px);max-width:1240px;margin:0 auto;padding:clamp(26px,6vw,80px)">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+    <span style="display:inline-block;background:#c8102e;color:#fff;font-weight:800;font-size:clamp(12px,1.5vw,16px);letter-spacing:.06em;padding:7px 16px">בלמ״ס · מלחמת התקומה</span>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.12em;color:#8b97c4">דצמבר 2025</span>
+  </div>
+
+  <h1 style="margin:0;font-weight:900;font-size:clamp(44px,9.4vw,138px);line-height:0.9;letter-spacing:-0.045em;text-wrap:balance">
+    תיק<br /><span style="color:#ff5a6e">7 באוקטובר</span>
+  </h1>
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div style="height:3px;width:clamp(40px,7vw,90px);background:#c8102e"></div>
+    <div style="font-weight:700;font-size:clamp(15px,1.9vw,24px);color:#e7ebf8;letter-spacing:-0.01em">מענה ראש הממשלה לשאלות מבקר המדינה</div>
+  </div>
+
+  <p style="margin:0;max-width:52ch;font-size:clamp(18px,2.2vw,28px);line-height:1.55;color:#c3cbe6;font-weight:300;text-wrap:pretty">
+    אתם עומדים להיכנס לחדר. שאלות המבקר, מענה ראש הממשלה, והדיונים הביטחוניים עצמם — דובר אחר דובר, בלשונם.
+  </p>
+
+  <nav style="display:flex;flex-wrap:wrap;gap:7px;margin-top:clamp(6px,2vh,20px)">
+    <sc-for list="{{ toc }}" as="t" hint-placeholder-count="10">
+      <a href="#{{ t.anchor }}" style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(255,255,255,0.06);font-size:14.5px;color:#c3cbe6;font-weight:500" style-hover="background:#c8102e;color:#fff">
+        <span style="font-family:'IBM Plex Mono',monospace;color:#ff5a6e;font-size:12px">{{ t.num }}</span>{{ t.title }}
+      </a>
+    </sc-for>
+  </nav>
+
+  <div style="display:flex;align-items:center;gap:10px;color:#8b97c4;font-size:14px;margin-top:auto;padding-top:22px">
+    <span style="display:inline-block;width:2px;height:26px;background:#c8102e;animation:omPulse 2.4s ease-in-out infinite"></span>
+    גללו כדי להיכנס
+  </div>
+</header>
+
+<section id="prologue" style="position:relative;z-index:3;background:#000">
+  <div style="min-height:70vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);max-width:1240px;margin:0 auto;padding:clamp(40px,10vh,110px) clamp(20px,5vw,80px)">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.3vw,13px);letter-spacing:.2em;color:#8b97c4">לפני שנפתח את המסמך</div>
+    <p style="margin:0;max-width:34ch;font-weight:800;font-size:clamp(24px,4.4vw,58px);line-height:1.18;letter-spacing:-0.03em;color:#fff;text-wrap:balance">
+      אלה הדברים שנאמרו לראש הממשלה על חמאס — עם התאריך שבו נאמרו.
+    </p>
+    <p style="margin:0;max-width:44ch;font-size:clamp(16px,1.9vw,22px);line-height:1.6;color:#b8c1de;font-weight:300">כל ציטוט בעמודים הבאים מופיע במסמך, ואושר לפרסום בידי ראש הממשלה. הספירה היא עד שבת בבוקר, 7 באוקטובר 2023.</p>
+  </div>
+
+  <sc-for list="{{ prologue }}" as="p" hint-placeholder-count="9">
+    <div data-beat="1" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:{{ p.bg }};content-visibility:auto;contain-intrinsic-size:auto 100vh">
+      <div data-anim="pulse" style="position:absolute;top:50%;left:50%;width:min(120vw,1200px);height:min(120vw,1200px);transform:translate(-50%,-50%);pointer-events:none;border-radius:50%;background:radial-gradient(circle,{{ p.glow }},transparent 62%);opacity:.18;animation:omBreathe 6s ease-in-out infinite"></div>
+
+      <div style="position:relative;z-index:2;width:100%;max-width:1240px;margin:0 auto;padding:clamp(30px,7vh,80px) clamp(20px,5vw,80px);display:flex;flex-direction:column;gap:clamp(16px,3vh,34px)">
+        <div data-anim="count" style="display:flex;align-items:baseline;gap:clamp(10px,1.6vw,18px);flex-wrap:wrap">
+          <span style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(56px,15vw,190px);line-height:0.8;letter-spacing:-0.05em;color:{{ p.numColor }}">{{ p.days }}</span>
+          <span style="font-weight:800;font-size:clamp(15px,2.1vw,28px);line-height:1.2;color:#fff;max-width:14ch">{{ p.unit }}</span>
+        </div>
+
+        <div data-anim="rule" style="height:3px;width:100%;max-width:520px;background:{{ p.numColor }};transform-origin:right center"></div>
+
+        <div data-anim="line" style="display:flex;flex-direction:column;gap:clamp(10px,1.8vh,18px);max-width:min(100%,40ch)">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:9px">
+            <span style="display:inline-block;background:{{ p.tagBg }};color:#fff;font-weight:800;font-size:clamp(12px,1.4vw,16px);padding:6px 14px">{{ p.who }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11.5px,1.3vw,14px);color:#8b97c4;letter-spacing:.06em">{{ p.date }}</span>
+          </div>
+          <p style="margin:0;font-weight:700;font-size:clamp(19px,2.7vw,40px);line-height:1.34;letter-spacing:-0.02em;color:#fff;text-wrap:pretty">{{ p.quote }}</p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.2vw,13px);color:#8b97c4;line-height:1.6">{{ p.src }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+
+  <div data-beat="1" style="position:relative;min-height:100vh;display:flex;align-items:center;background:#000;content-visibility:auto;contain-intrinsic-size:auto 100vh">
+    <div style="width:100%;max-width:1240px;margin:0 auto;padding:clamp(30px,7vh,80px) clamp(20px,5vw,80px);display:flex;flex-direction:column;gap:clamp(18px,3.4vh,40px)">
+      <div data-anim="count" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(62px,17vw,220px);line-height:0.8;letter-spacing:-0.05em;color:#c8102e">06:29</div>
+      <div data-anim="rule" style="height:3px;width:100%;max-width:520px;background:#c8102e;transform-origin:right center"></div>
+      <div data-anim="line" style="display:flex;flex-direction:column;gap:14px;max-width:min(100%,36ch)">
+        <p style="margin:0;font-weight:800;font-size:clamp(22px,3.4vw,50px);line-height:1.2;letter-spacing:-0.03em;color:#fff">שבת, 7 באוקטובר 2023. שיחת ווטסאפ מהמזכיר הצבאי מעדכנת את ראש הממשלה על פתיחת המתקפה.</p>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(11px,1.2vw,13px);color:#8b97c4;line-height:1.6">(פרק 7 במסמך — יום ה-7 באוקטובר 2023)</div>
+      </div>
+      <a href="#cast" style="align-self:flex-start;margin-top:clamp(10px,2vh,24px);padding:13px 24px;background:#c8102e;color:#fff;font-weight:700;font-size:clamp(14px,1.6vw,17px)" style-hover="background:#fff;color:#c8102e">להיכנס למסמך ↓</a>
+    </div>
+  </div>
+</section>
+
+<section id="cast" style="position:relative;z-index:3;max-width:1240px;margin:0 auto;padding:clamp(40px,8vh,90px) clamp(20px,5vw,80px)">
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(96px,11vw,150px),1fr));gap:clamp(8px,1.4vw,16px)">
+    <sc-for list="{{ cast }}" as="c" hint-placeholder-count="12">
+      <div>
+        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.6) brightness(1.04);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
+          <image-slot id="cast-{{ c.key }}" shape="rect" fit="cover" placeholder="{{ c.name }}"></image-slot>
+          <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.6;background-image:radial-gradient(circle at 0.9px 0.9px, rgba(0,0,0,0.55) 0.72px, transparent 0.95px);background-size:2.6px 2.6px"></div>
+          <div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.55;background-image:repeating-linear-gradient(52deg,rgba(0,0,0,0.22) 0 1px,transparent 1px 3px),repeating-linear-gradient(-38deg,rgba(255,255,255,0.18) 0 1px,transparent 1px 4px)"></div>
+        </div>
+        <button type="button" onClick="{{ c.go }}" title="{{ c.jumpTitle }}" style="display:block;width:100%;margin-top:7px;padding:0;background:none;border:0;font:inherit;text-align:right;cursor:pointer;color:inherit" style-hover="opacity:0.75">
+          <div style="display:flex;align-items:baseline;gap:5px">
+            <div style="font-weight:700;font-size:clamp(12px,1.3vw,14.5px);color:#fff;line-height:1.25">{{ c.name }}</div>
+            <span style="font-size:11px;color:#ff5a6e">←</span>
+          </div>
+          <div style="font-size:clamp(11px,1.15vw,12.5px);color:#8b97c4;line-height:1.3;margin-top:2px">{{ c.role }}</div>
+        </button>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<main style="position:relative;z-index:3">
+  <sc-for list="{{ chapters }}" as="ch" hint-placeholder-count="3">
+    <section id="{{ ch.anchor }}" data-chapter="{{ ch.idx }}" data-tint="{{ ch.tint }}" data-screen-label="{{ ch.label }}" style="position:relative">
+
+      <div style="min-height:88vh;display:flex;flex-direction:column;justify-content:center;gap:clamp(16px,2.6vh,30px);max-width:1240px;margin:0 auto;padding:clamp(50px,10vh,120px) clamp(20px,5vw,80px)">
+        <sc-if value="{{ ch.numbered }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="display:inline-block;background:#c8102e;color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(13px,1.6vw,17px);padding:6px 14px;letter-spacing:.08em">פרק {{ ch.num }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7a86b4;letter-spacing:.1em">עמוד {{ ch.page }}</span>
+          </div>
+        </sc-if>
+        <h2 style="margin:0;font-weight:900;font-size:clamp(32px,6.2vw,92px);line-height:1.02;letter-spacing:-0.03em;text-wrap:balance;max-width:24ch">{{ ch.title }}</h2>
+        <div style="height:5px;width:clamp(70px,12vw,160px);background:#c8102e"></div>
+      </div>
+
+      <sc-if value="{{ ch.hasQuestions }}" hint-placeholder-val="{{ true }}">
+        <div style="max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,80px) clamp(40px,8vh,90px)">
+          <div style="display:grid;grid-template-columns:clamp(78px,11vw,150px) 1fr;gap:clamp(16px,2.6vw,34px);align-items:start;background:linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.03));padding:clamp(18px,2.8vw,32px)">
+            <div style="position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;filter:grayscale(1) contrast(1.08);background:repeating-linear-gradient(45deg,rgba(255,255,255,0.07) 0 6px,transparent 6px 12px)">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7a86b4;text-align:center;padding:6px">מתניהו אנגלמן</div>
+              <div data-portrait="comptroller" style="position:absolute;inset:0;background-size:cover;background-position:center 22%;background-repeat:no-repeat"></div>
+            </div>
+            <div style="min-width:0">
+              <div style="display:inline-block;background:#3d4f8f;color:#fff;font-weight:800;font-size:clamp(12.5px,1.5vw,15px);padding:6px 14px;margin-bottom:clamp(13px,2vh,20px)">שאלות מבקר המדינה</div>
+              <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:clamp(11px,1.8vh,17px)">
+                <sc-for list="{{ ch.questions }}" as="q" hint-placeholder-count="2">
+                  <li style="font-size:clamp(17px,2.1vw,25px);line-height:1.52;color:#e7ebf8;font-weight:400;text-wrap:pretty;padding-inline-start:16px;border-inline-start:3px solid rgba(255,255,255,0.22)">{{ q }}</li>
+                </sc-for>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ ch.items }}" as="it" hint-placeholder-count="6">
+          <div data-uid="{{ it.uid }}" data-speaker="{{ it.speaker }}" data-date="{{ it.dateLabel }}" data-days="{{ it.daysLabel }}" data-short="{{ it.dateShort }}" data-daysnum="{{ it.daysNum }}">
+
+            <sc-if value="{{ it.isSpeech }}" hint-placeholder-val="{{ false }}">
+              <div data-stage="1" style="position:relative;min-height:clamp(360px,62vh,680px);overflow:hidden;opacity:0.34;transition:opacity 1.1s ease;display:grid;direction:ltr;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));align-items:center;justify-content:center;gap:clamp(18px,3.4vw,64px);max-width:1680px;margin:0 auto;padding:clamp(26px,5vh,64px) clamp(20px,4vw,64px)">
+
+                <div data-anim="portrait" style="align-self:center;justify-self:end;position:relative;width:100%;max-width:clamp(200px,31vw,470px)">
+                  <div style="position:relative;display:block;width:100%">
+                    <img data-portrait="{{ it.portrait }}" alt="{{ it.name }}" style="display:block;width:100%;height:auto;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.62) brightness(1.02) drop-shadow(0 18px 40px rgba(0,0,0,0.7))" />
+                    <div data-inkmask="1" style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.72;background-image:radial-gradient(circle at 0.9px 0.9px, rgba(0,0,0,0.62) 0.72px, transparent 0.95px),repeating-linear-gradient(52deg,rgba(0,0,0,0.16) 0 1px,transparent 1px 3px),repeating-linear-gradient(-38deg,rgba(255,255,255,0.14) 0 1px,transparent 1px 4px);background-size:2.6px 2.6px, auto, auto"></div>
+                  </div>
+                  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top, #04081a 0%, rgba(4,8,26,0.35) 16%, transparent 40%)"></div>
+                  <div data-anim="sweep" style="position:absolute;top:0;bottom:0;left:0;width:70%;pointer-events:none;opacity:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)"></div>
+                </div>
+
+                <div dir="rtl" style="direction:rtl;min-width:0">
+                  <div style="max-width:min(100%,54ch)">
+                    <div data-anim="label" style="display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-bottom:clamp(13px,2.2vh,22px)">
+                      <span style="display:inline-block;background:{{ it.tagBg }};color:#fff;font-weight:800;font-size:clamp(12.5px,1.5vw,17px);padding:7px 15px;letter-spacing:.02em">{{ it.name }}</span>
+                      <span style="font-size:clamp(12.5px,1.4vw,15px);color:#9aa6d0;font-weight:400">{{ it.role }}</span>
+                    </div>
+
+                    <div data-anim="quote" style="position:relative">
+                      <p style="margin:0;font-weight:700;font-size:clamp(19px,2.6vw,38px);line-height:1.36;letter-spacing:-0.018em;color:#fff;text-wrap:pretty;text-shadow:0 4px 34px rgba(0,0,0,0.7)">{{ it.quoted }}</p>
+                      <div data-veil="1" style="position:absolute;inset:0;pointer-events:none;opacity:1;background:linear-gradient(to top,#04081a 2%,rgba(4,8,26,0.76) 30%,transparent 66%);transition:opacity 1.1s ease"></div>
+                    </div>
+
+                    <div data-anim="meta" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7a86b4;margin-top:clamp(12px,1.8vh,20px);line-height:1.5">{{ it.note }}</div>
+                    <div data-anim="meta" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8b97c4;margin-top:8px;line-height:1.55">{{ it.source }}</div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isClaim }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(16px,3vh,34px) clamp(20px,5vw,80px)">
+                <div style="max-width:min(100%,46ch);margin-inline-end:auto;border-inline-start:4px solid #c8102e;padding-inline-start:clamp(14px,2.2vw,26px)">
+                  <p style="margin:0;font-size:clamp(17px,2.2vw,29px);line-height:1.55;color:#eef1fa;font-weight:400;text-wrap:pretty">{{ it.text }}</p>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8b97c4;margin-top:10px;line-height:1.55">{{ it.source }}</div>
+                  <div style="font-size:14px;color:#7a86b4;margin-top:7px;line-height:1.55;font-style:italic">{{ it.note }}</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isQuote }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(26px,5vh,60px) clamp(20px,5vw,80px)">
+                <div style="filter:drop-shadow(0 26px 60px rgba(0,0,0,0.72));transform:rotate(-0.35deg)">
+                  <figure style="margin:0;background:#fbf9f2;color:#141726;padding:clamp(30px,4.4vw,64px) clamp(22px,3.6vw,56px);clip-path:{{ tornClip }}">
+                    <div style="display:inline-block;background:#141726;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;padding:5px 11px;margin-bottom:clamp(14px,2vh,22px)">מתוך המסמך</div>
+
+  
+                    <blockquote style="margin:0;font-weight:700;font-size:clamp(17px,2.3vw,30px);line-height:1.85;white-space:pre-line;text-wrap:pretty">
+                      <span style="background:#fbe94f;padding:0.06em 0.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 0 0 0.14em #fbe94f">{{ it.text }}</span>
+                    </blockquote>
+                    <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6d6647;margin-top:clamp(18px,2.6vh,30px);padding-top:14px;border-top:1px solid rgba(20,23,38,0.18);line-height:1.55">{{ it.source }}</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isHeading }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(40px,9vh,110px) clamp(20px,5vw,80px) clamp(14px,2.4vh,28px)">
+                <div style="display:inline-block;background:#c8102e;color:#fff;font-weight:800;font-size:clamp(14px,1.9vw,24px);padding:10px 18px;max-width:34ch;line-height:1.3;text-wrap:balance">{{ it.text }}</div>
+                <div style="font-size:14px;color:#7a86b4;margin-top:11px;font-style:italic">{{ it.note }}</div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isList }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(16px,3vh,34px) clamp(20px,5vw,80px)">
+                <div style="background:rgba(255,255,255,0.05);border-top:4px solid #3d4f8f;padding:clamp(18px,2.8vw,36px)">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:#9aa6d0;margin-bottom:clamp(13px,2vh,20px)">{{ it.title }}</div>
+                  <ol style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:clamp(11px,1.7vh,16px)">
+                    <sc-for list="{{ it.items }}" as="li" hint-placeholder-count="3">
+                      <li style="font-size:clamp(16px,2vw,24px);line-height:1.54;color:#e2e7f6;font-weight:300;text-wrap:pretty">{{ li }}</li>
+                    </sc-for>
+                  </ol>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isTimeline }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(16px,3vh,34px) clamp(20px,5vw,80px)">
+                <div style="display:grid;grid-template-columns:clamp(78px,11vw,168px) 1fr;gap:clamp(14px,2.4vw,34px);align-items:start;background:linear-gradient(180deg,rgba(200,16,46,0.20),rgba(200,16,46,0.05));border-inline-start:6px solid #c8102e;padding:clamp(18px,3vw,36px)">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(22px,3.4vw,52px);line-height:1;color:#ff5a6e;letter-spacing:-0.03em">{{ it.time }}</div>
+                  <div style="min-width:0">
+                    <div style="font-weight:800;font-size:clamp(17px,2.1vw,27px);color:#fff;margin-bottom:10px">{{ it.title }}</div>
+                    <p style="margin:0;font-size:clamp(16px,2vw,24px);line-height:1.58;color:#eef1fa;font-weight:300;white-space:pre-line;text-wrap:pretty">{{ it.text }}</p>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isNote }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(14px,2.4vh,26px) clamp(20px,5vw,80px)">
+                <p style="margin:0;font-size:clamp(16px,2vw,24px);line-height:1.64;color:#c3cbe6;font-weight:300;padding-inline-start:clamp(14px,2vw,22px);border-inline-start:2px solid rgba(255,255,255,0.18);white-space:pre-line;text-wrap:pretty;max-width:min(100%,50ch);margin-inline-end:auto">{{ it.text }}</p>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ it.isStage }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(10px,2vh,22px) clamp(20px,5vw,80px);text-align:center;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#7a86b4;letter-spacing:.04em">{{ it.text }}</div>
+            </sc-if>
+
+            <sc-if value="{{ it.isSource }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(6px,1.2vh,14px) clamp(20px,5vw,80px);font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8b97c4;line-height:1.6">{{ it.text }}</div>
+            </sc-if>
+
+            <sc-if value="{{ it.isRedacted }}" hint-placeholder-val="{{ false }}">
+              <div style="max-width:1240px;margin:0 auto;padding:clamp(30px,6vh,70px) clamp(20px,5vw,80px)">
+                <div style="background:#000;border:1px solid rgba(255,255,255,0.12);padding:clamp(24px,4.4vw,60px);text-align:center">
+                  <div style="height:clamp(110px,22vh,260px);background:#000;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.06);margin-bottom:22px"></div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#8b97c4;line-height:1.7;max-width:46ch;margin:0 auto">{{ it.text }}</div>
+                </div>
+              </div>
+            </sc-if>
+
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+
+  <footer style="position:relative;z-index:3;max-width:1240px;margin:0 auto;padding:clamp(60px,12vh,140px) clamp(20px,5vw,80px) clamp(50px,10vh,110px)">
+    <div style="height:4px;width:100%;background:#c8102e;margin-bottom:clamp(24px,4vh,44px)"></div>
+    <div style="display:inline-block;background:#c8102e;color:#fff;font-weight:800;font-size:14px;padding:7px 15px;margin-bottom:20px">סוף המסמך</div>
+    <p style="margin:0;max-width:54ch;font-size:clamp(17px,2vw,24px);line-height:1.6;color:#c3cbe6;font-weight:300;text-wrap:pretty">
+      כל האמור לעיל הוא מענה ראש הממשלה לשאלות מבקר המדינה, כפי שהוגש בדצמבר 2025 — 55 עמודים ו־33 נספחים. חלקים שלא אושרו לפרסום מוצגים כמושחרים.
+    </p>
+    <div style="margin-top:26px;font-size:15px;color:#7a86b4;line-height:1.7;max-width:54ch">
+      בדיקת האירועים טרם הושלמה. הדברים המובאים כאן הם טענות ועמדות של ראש הממשלה ושל הדוברים בדיונים — לא קביעות של גוף בודק.
+    </div>
+    <a href="#top" style="display:inline-block;margin-top:32px;padding:12px 22px;background:rgba(255,255,255,0.08);font-size:15px;font-weight:500;color:#fff" style-hover="background:#c8102e">חזרה לראש העמוד ↑</a>
+  </footer>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;showSources&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;תוכן&quot;},&quot;chapterTints&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;אווירה&quot;}}">
+const OCT7 = Date.UTC(2023, 9, 7);
+const MONTHS = ['בינואר','בפברואר','במרץ','באפריל','במאי','ביוני','ביולי','באוגוסט','בספטמבר','באוקטובר','בנובמבר','בדצמבר'];
+
+// Every quote below appears in the document and was cleared for
+// publication by the Prime Minister. The countdown is arithmetic on the
+// date each one was written — no editorialising, just the calendar.
+const PROLOGUE = [
+  { d: '2023-02-12', who: 'ראש השב״כ, רונן בר', pm: false,
+    quote: 'בחדר הזה עכשיו בעזה אצל סנואר אין שום סיבה לשנות משהו... יחיא סנואר מנהיג מפוכח, הוא לא מוכן לאותה מלחמת תקומה.',
+    src: '(דיון קבינט, 12.02.2023 — פרק 4 במסמך)' },
+  { d: '2023-06-04', who: 'הרמטכ״ל, הרצל הלוי', pm: false,
+    quote: 'ההרתעה של מדינת ישראל היא תקפה מאוד, חזקה מאוד, אנחנו רואים את הסימנים האלה בחומר.',
+    src: '(הערכת מצב בראשות ראש הממשלה, 04.06.2023 — פרק 4 במסמך)' },
+  { d: '2023-09-14', who: 'תמונת מודיעין, אמ״ן', pm: false,
+    quote: 'המצב הפנימי בישראל: מעצב מרכזי בהערכת המצב של חמאס; השפעה מרסנת ברצועת עזה.',
+    src: '(מסמך אמ״ן, 14.09.2023 — נספח יב׳)' },
+  { d: '2023-09-20', who: 'אמ״ן ופיקוד הדרום', pm: false,
+    quote: 'אסטרטגיית חמאס לשימור השקט ברצועה יציבה בטווח הנראה לעין... איננו מזהים אתגר לאסטרטגיה זו.',
+    src: '(מסמך אמ״ן ופד״ם, 20.09.2023 — נספח יג׳)' },
+  { d: '2023-09-21', who: 'דו״ח מודיעין, שב״כ', pm: false,
+    quote: 'המהלך הזה לא משקף שינוי באסטרטגיה הבסיסית של חמאס, וניכר שגם כעת אין לה עניין בהידרדרות לעימות צבאי נרחב.',
+    src: '(דו״ח שב״כ, 21.09.2023 — נספח כד׳)' },
+  { d: '2023-10-03', who: 'סיכום שנתי, אמ״ן', pm: false,
+    quote: 'הפלסטינים לא יהיו הכוח המניע מאחורי מערכה רב זירתית.',
+    src: '(סיכום הערכת המודיעין השנתית, 03.10.2023 — נספח כג׳)' },
+  { d: '2023-10-03', who: 'דו״ח מודיעין, שב״כ', pm: false,
+    quote: 'חידוש ההבנות בין ישראל לחמאס... מגלם פוטנציאל לשימור היציבות ברצועה — ייתכן אף לאורך זמן.',
+    src: '(דו״ח שב״כ, 03.10.2023 — נספח כז׳)' },
+  { d: '2023-10-04', who: 'ראש השב״כ, רונן בר', pm: false,
+    quote: 'השבת השקט במרחב הגדר במסגרת ההבנות עם חמאס... הוא הישג שניתן למנפו לקידום הסדרה עמוקה יותר בזירה.',
+    src: '(סיכום ר׳ השב״כ, 04.10.2023 — נספח כח׳)' },
+  { d: '2023-10-07', who: 'ראש השב״כ — 05:15', pm: false, hours: true,
+    quote: 'יציאה למערכה רחבה — סבור כי הסיכוי לכך נמוך לאור היעדר אינדיקציה מודיעינית.',
+    src: '(סיכום הערכת מצב ר׳ השב״כ, 07.10.2023, כשעה ורבע לפני הטבח — נספח כט׳)' }
+];
+
+const TINTS = [
+  'oklch(0.26 0.07 268)', 'oklch(0.25 0.08 258)', 'oklch(0.26 0.09 22)',
+  'oklch(0.25 0.07 210)', 'oklch(0.26 0.08 300)', 'oklch(0.25 0.075 240)',
+  'oklch(0.26 0.085 30)', 'oklch(0.27 0.10 14)',  'oklch(0.25 0.07 190)',
+  'oklch(0.22 0.04 260)', 'oklch(0.26 0.08 268)'
+];
+
+class Component extends DCLogic {
+  // Only `data` drives rendering. Scroll progress, chapter tint, stage
+  // focus and the quote veils are mutated directly on the DOM so scrolling
+  // never triggers a React render — 325 items would otherwise tank fps.
+  state = { data: null };
+
+  constructor(props) {
+    super(props);
+    this.barRef = React.createRef();
+    this.tintRef = React.createRef();
+    this.hudRef = React.createRef();
+    this.hudDateRef = React.createRef();
+    this.hudDaysRef = React.createRef();
+    this.railRef = React.createRef();
+    this.railDotRef = React.createRef();
+    this.railFillRef = React.createRef();
+    this._railTop = {};
+    this._observed = new WeakSet();
+    this._built = null;
+    this._builtFor = null;
+  }
+
+  async componentDidMount() {
+    window.__rail = this;
+    this.hookSidecarWrites();
+    this.loadPortraits();
+    try {
+      const res = await fetch('./transcript.json');
+      this.setState({ data: await res.json() });
+    } catch (e) { console.error('transcript load failed', e); }
+
+    this._onScroll = () => {
+      if (this._ticking) return;
+      this._ticking = true;
+      requestAnimationFrame(() => {
+        this._ticking = false;
+        const h = document.documentElement;
+        const max = Math.max(1, h.scrollHeight - window.innerHeight);
+        const p = Math.min(1, Math.max(0, h.scrollTop / max));
+        if (this.barRef.current) this.barRef.current.style.width = (p * 100).toFixed(2) + '%';
+        this.sweep();
+        this.railTrack();
+        this.magnify();
+        this.updateChip();
+      });
+    };
+    // Photos can be replaced from outside this document (a drop on another
+    // page, an edit to the sidecar) — re-read whenever we regain focus.
+    this._onWake = () => { if (!document.hidden) this.loadPortraits(); };
+    window.addEventListener('focus', this._onWake);
+    document.addEventListener('visibilitychange', this._onWake);
+
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onResize = () => { clearTimeout(this._rz); this._rz = setTimeout(() => this.measureStages(), 200); };
+    window.addEventListener('resize', this._onResize);
+    this._onScroll();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('focus', this._onWake);
+    document.removeEventListener('visibilitychange', this._onWake);
+    if (this._stageObs) this._stageObs.disconnect();
+    if (this._hudObs) this._hudObs.disconnect();
+    if (this._chObs) this._chObs.disconnect();
+    if (this._restoreWrite) this._restoreWrite();
+  }
+
+  componentDidUpdate() { this.wire(); }
+
+  // ── portraits ──────────────────────────────────────────────────────────
+  // One <image-slot> per speaker lives in the cast strip (unique ids); the
+  // portrait behind every quote is a plain div that mirrors the dropped
+  // image by reading the shared sidecar. Cheap DOM, no duplicate slots.
+  async loadPortraits() {
+    const map = {};
+    try {
+      const r = await fetch('./.image-slots.state.json', { cache: 'no-store' });
+      if (!r.ok) throw new Error('no sidecar');
+      const j = await r.json();
+      for (const k in j) {
+        if (k.indexOf('cast-') !== 0) continue;
+        const v = j[k];
+        const u = typeof v === 'string' ? v : (v && v.u);
+        if (u && u.indexOf('data:image/') === 0) map[k.slice(5)] = u;
+      }
+    } catch (e) { /* no sidecar yet — placeholders stay */ }
+    // Era-specific portrait shipped with the page, not user-dropped.
+    map['halevi-aman'] = './halevi-aman.png';
+    this._portraits = map;
+    this.paintPortraits();
+  }
+
+  paintPortraits() {
+    const map = this._portraits;
+    if (!map) return;
+    document.querySelectorAll('[data-portrait]').forEach((n) => {
+      const u = map[n.getAttribute('data-portrait')];
+      // Speech portraits are real <img> elements so the photo sets its own
+      // box and can never be cropped; the cast strip uses backgrounds.
+      if (n.tagName === 'IMG') {
+        if (u && n.getAttribute('src') !== u) n.src = u;
+        else if (!u && n.hasAttribute('src')) n.removeAttribute('src');
+        // Clip the print-dot screen to the photo's own alpha so a cut-out
+        // PNG stays cut out instead of sitting on a grey plate.
+        const ink = n.parentElement && n.parentElement.querySelector('[data-inkmask]');
+        if (ink) {
+          const m = u ? 'url("' + u + '")' : 'none';
+          if (ink.style.maskImage !== m) {
+            ink.style.maskImage = m;
+            ink.style.webkitMaskImage = m;
+            ink.style.maskSize = '100% 100%';
+            ink.style.webkitMaskSize = '100% 100%';
+          }
+        }
+        return;
+      }
+      const want = u ? 'url("' + u + '")' : '';
+      if (n.style.backgroundImage !== want) n.style.backgroundImage = want;
+    });
+  }
+
+  // Re-read the sidecar shortly after any <image-slot> persists a drop.
+  hookSidecarWrites() {
+    const om = window.omelette;
+    if (!om || typeof om.writeFile !== 'function' || om.__portraitHook) return;
+    const orig = om.writeFile.bind(om);
+    om.__portraitHook = true;
+    om.writeFile = (path, ...rest) => {
+      const out = orig(path, ...rest);
+      if (typeof path === 'string' && path.indexOf('.image-slots.state.json') !== -1) {
+        clearTimeout(this._sidecarTimer);
+        this._sidecarTimer = setTimeout(() => this.loadPortraits(), 500);
+      }
+      return out;
+    };
+    this._restoreWrite = () => { om.writeFile = orig; om.__portraitHook = false; };
+  }
+
+  // ── observers (idempotent; re-attach to any new nodes) ─────────────────
+  wire() {
+    if (!this.state.data) return;
+
+    // Dim every stage but the one you are standing in, and stage a short
+    // cut-to-the-next-speaker entrance each time one takes focus.
+    if (!this._stageObs) {
+      this._CUES = {
+        count:    'omCountIn 1100ms cubic-bezier(.16,.84,.28,1) both',
+        rule:     'omRule 900ms 300ms cubic-bezier(.16,.84,.28,1) both',
+        line:     'omLineIn 900ms 480ms cubic-bezier(.16,.84,.28,1) both',
+        portrait: 'omPortraitIn 1000ms cubic-bezier(.16,.84,.28,1) both',
+        sweep:    'omSweep 900ms 60ms cubic-bezier(.3,.7,.3,1) both',
+        label:    'omWipeIn 560ms 140ms cubic-bezier(.2,.9,.2,1) both',
+        quote:    'omQuoteIn 820ms 230ms cubic-bezier(.16,.84,.28,1) both',
+        meta:     'omMetaIn 700ms 520ms ease both'
+      };
+      this._stageObs = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          const el = e.target;
+          if (e.isIntersecting) {
+            el.style.opacity = '1';
+            // Reveal the quote tail here rather than from a separate
+            // observer: content-visibility:auto makes one-shot offscreen
+            // callbacks unreliable, and this path fires for every stage.
+            this.cue(el);
+          } else {
+            el.style.opacity = '0.3';
+          }
+        }
+      }, { rootMargin: '-22% 0px -26% 0px', threshold: 0 });
+    }
+
+    // Dated items drive the countdown chip — quotes, claims and memos too,
+    // not only the speech stages.
+    if (!this._hudObs) {
+      this._hudLive = new Set();
+      this._hudObs = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) this._hudLive.add(e.target);
+          else this._hudLive.delete(e.target);
+        }
+        const mid = window.innerHeight / 2;
+        let best = null, bestD = Infinity;
+        this._hudLive.forEach((n) => {
+          const r = n.getBoundingClientRect();
+          const d = Math.abs((r.top + r.bottom) / 2 - mid);
+          if (d < bestD) { bestD = d; best = n; }
+        });
+        if (best) this.showHud(best);
+      }, { rootMargin: '-18% 0px -34% 0px', threshold: 0 });
+    }
+
+    if (!this._chObs) {
+      this._chObs = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const t = e.target.getAttribute('data-tint');
+          if (t && t !== 'transparent' && this.tintRef.current && this._tint !== t) {
+            this._tint = t;
+            this.tintRef.current.style.background =
+              'radial-gradient(120% 85% at 82% 0%, ' + t + ', transparent 66%), #04081a';
+          }
+        }
+      }, { rootMargin: '-45% 0px -50% 0px' });
+    }
+
+    const attach = (sel, obs) => {
+      document.querySelectorAll(sel).forEach((n) => {
+        const seen = this._observed.has(n) && n.__omObs === obs;
+        if (seen) return;
+        this._observed.add(n);
+        n.__omObs = obs;
+        obs.observe(n);
+      });
+    };
+    attach('[data-stage]', this._stageObs);
+    attach('[data-beat]', this._stageObs);
+    attach('[data-uid][data-date]:not([data-date=""])', this._hudObs);
+    attach('[data-chapter]', this._chObs);
+
+    this.paintPortraits();
+
+    // Measure once the tree exists, then again after webfonts settle —
+    // Heebo swapping in reflows every stage.
+    // Re-measure until the mark table matches the built data — the first
+    // update can land before the transcript has been folded in.
+    const want = (this._markPcts || []).length;
+    if (!this._measured || (this._marks || []).length !== want) {
+      this._measured = true;
+      this.measureStages();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.measureStages());
+      setTimeout(() => this.measureStages(), 1200);
+    }
+  }
+
+  // Fire a stage's entrance once. Idempotent — the scroll sweep and the
+  // observer both call it; whoever gets there first wins.
+  cue(el) {
+    const veil = el.querySelector('[data-veil]');
+    if (veil) veil.style.opacity = '0';
+    const uidNode = el.closest('[data-uid]');
+    if (uidNode) this.showHud(uidNode);
+    if (el.__cued) return;
+    el.__cued = true;
+    const CUES = this._CUES || {};
+    el.querySelectorAll('[data-anim]').forEach((n) => {
+      const anim = CUES[n.getAttribute('data-anim')];
+      if (anim) { n.style.animation = 'none'; void n.offsetWidth; n.style.animation = anim; }
+    });
+  }
+
+  // IntersectionObserver deliveries can be coalesced away when a stage
+  // transits the band inside a single tick — at flick speed most stages
+  // were never reported. The authoritative pass is this monotonic sweep
+  // over pre-measured midpoints: a forward-only cursor, so it is O(1) per
+  // frame and physically cannot skip a stage.
+  measureStages() {
+    const nodes = document.querySelectorAll('[data-stage],[data-beat]');
+    if (!nodes.length) return;
+    const y = window.scrollY || document.documentElement.scrollTop;
+    this._stages = [...nodes].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { el, mid: r.top + y + r.height / 2 };
+    }).sort((a, b) => a.mid - b.mid);
+    this._cursor = 0;
+
+    // Document positions of every dated item, for the continuous marker.
+    this._marks = (this._markPcts || []).map((m) => {
+      const n = document.querySelector('[data-uid="' + m.uid + '"]');
+      if (!n) return null;
+      const r = n.getBoundingClientRect();
+      return { y: r.top + y + r.height / 2, pct: m.pct };
+    }).filter(Boolean).sort((a, b) => a.y - b.y);
+
+    this.sweep();
+    this.railTrack();
+  }
+
+  sweep() {
+    const list = this._stages;
+    if (!list) return;
+    const limit = (window.scrollY || document.documentElement.scrollTop) + window.innerHeight * 0.82;
+    while (this._cursor < list.length && list[this._cursor].mid <= limit) {
+      this.cue(list[this._cursor].el);
+      this._cursor++;
+    }
+  }
+
+  // The running countdown chip. Only shows while the item in focus carries
+  // a date, so it never displays a stale number.
+  showHud(node) {
+    const hud = this.hudRef.current;
+    if (!hud) return;
+    const date = node && node.getAttribute('data-date');
+    const days = node && node.getAttribute('data-days');
+    // Latch the last dated item: undated prose between quotes shouldn't
+    // drop the reader out of the timeline.
+    if (!date) return;
+    // Compact readouts: the chip now lives inside the timeline gutter, so
+    // it shows instrument values; the full date rides the rail tooltips.
+    if (this.hudDateRef.current) this.hudDateRef.current.textContent = node.getAttribute('data-date') || date;
+    if (this.hudDaysRef.current) this.hudDaysRef.current.textContent = node.getAttribute('data-daysnum') || (days || '—');
+    hud.style.opacity = '1';
+    hud.style.transform = 'none';
+
+    // Slide the timeline marker to this document's place on the rail.
+    if (this.railRef.current) this.railRef.current.style.opacity = '1';
+    const dot = this.railDotRef.current;
+    const top = this._railTop[node.getAttribute('data-uid')];
+    if (!top) return;
+
+    // Light the stop the reader is standing on, dim the rest.
+    this.emphasise(node.getAttribute('data-daysnum'));
+  }
+
+  // The marker rides the rail continuously: its position is interpolated
+  // between the document positions of the dated items, so it glides with
+  // the scroll instead of snapping between the 12 stops.
+  railTrack() {
+    const m = this._marks;
+    if (!m || !m.length) return;
+    const c = (window.scrollY || document.documentElement.scrollTop) + window.innerHeight * 0.42;
+    let i = 0;
+    while (i < m.length && m[i].y < c) i++;
+    let pct, item = m[0];
+    if (i === 0) pct = m[0].pct;
+    else if (i >= m.length) { pct = m[m.length - 1].pct; item = m[m.length - 1]; }
+    else {
+      const a = m[i - 1], b = m[i];
+      const t = Math.max(0, Math.min(1, (c - a.y) / Math.max(1, b.y - a.y)));
+      pct = a.pct + (b.pct - a.pct) * t;
+      item = t < 0.5 ? a : b;
+    }
+    this._currentMark = item;
+    const dated = item.uid ? [...document.querySelectorAll('[data-uid]')].find(n => n.getAttribute('data-uid') === item.uid) : null;
+    let dotPct = pct;
+    if (dated) {
+      this.showHud(dated);
+      const railTop = this._railTop[item.uid];
+      if (railTop) dotPct = parseFloat(railTop);
+    }
+    this._centerPct = dotPct;
+    const s = dotPct.toFixed(3) + '%';
+    if (this.railDotRef.current) {
+      this.railDotRef.current.style.top = s;
+      this.railDotRef.current.style.opacity = '1';
+    }
+    if (this.railFillRef.current) this.railFillRef.current.style.height = s;
+    if (this.railRef.current) this.railRef.current.style.opacity = '1';
+    this.showHudForMark(item);
+  }
+  
+  showHudForMark(item) {
+    if (!item || !item.uid) return;
+    const dated = [...document.querySelectorAll('[data-uid]')].find(n => n.getAttribute('data-uid') === item.uid);
+    if (dated) this.showHud(dated);
+  }
+
+  // Dock-style magnification: stops swell as the marker nears them and
+  // fall off smoothly with distance along the rail.
+  magnify() {
+    const rail = this.railRef.current;
+    if (!rail || this._centerPct == null) return;
+    if (!this._stops) {
+      this._stops = [...rail.querySelectorAll('button')].map((b) => ({
+        b, top: parseFloat(b.style.top)
+      }));
+      if (!this._stops.length) { this._stops = null; return; }
+    }
+    const R = 14;
+    for (const s of this._stops) {
+      const d = Math.abs(s.top - this._centerPct);
+      let w = Math.max(0, 1 - d / R);
+      w = w * w * (3 - 2 * w);
+      s.b.style.transformOrigin = 'right center';
+      // Capped so a magnified stop still fits the reserved gutter and can
+      // never grow out over the page text.
+      s.b.style.transform = 'scale(' + (1 + 0.34 * w).toFixed(3) + ')';
+      s.b.style.opacity = (0.42 + 0.58 * w).toFixed(3);
+      s.b.style.zIndex = w > 0.04 ? '2' : '1';
+    }
+  }
+
+  // Update the chip (date & countdown) to match the current scroll position.
+  updateChip() {
+    const m = this._marks;
+    if (!m || !m.length || !this.hudDateRef.current) return;
+    const c = (window.scrollY || document.documentElement.scrollTop) + window.innerHeight * 0.42;
+    let item = m[0];
+    for (const mk of m) {
+      if (Math.abs(mk.y - c) < Math.abs(item.y - c)) item = mk;
+    }
+    const dated = [...document.querySelectorAll('[data-uid][data-date]')].find(n => n.getAttribute('data-uid') === item.uid);
+    if (dated) {
+      const d = dated.getAttribute('data-daysnum');
+      const dt = dated.getAttribute('data-date');
+      if (dt) this.hudDateRef.current.textContent = dt.split('-').reverse().join('.');
+      this.emphasise(d);
+    }
+  }
+
+  // The countdown itself tightens: the closer the document sits to
+  // 7 October, the larger and hotter the number reads.
+  emphasise(raw) {
+    const el = this.hudDaysRef.current;
+    if (!el || !raw) return;
+    const days = Math.abs(parseInt(String(raw).replace(/[^0-9]/g, ''), 10) || 0);
+    const p = 1 - Math.min(1, days / 420);
+    const eased = p * p;
+    el.style.fontSize = (12 + 20 * eased).toFixed(1) + 'px';
+    el.style.lineHeight = '1.05';
+    el.style.color = eased > 0.55 ? '#ffffff' : '#ff5a6e';
+    el.style.textShadow = eased > 0.15 ? '0 0 ' + (6 + 22 * eased).toFixed(0) + 'px rgba(255,60,84,' + (0.45 + 0.5 * eased).toFixed(2) + ')' : 'none';
+    const cell = el.parentElement;
+    if (cell) cell.style.background = 'rgba(200,16,46,' + (0.18 + 0.5 * eased).toFixed(3) + ')';
+  }
+
+  // A torn-paper edge as a clip-path: deterministic jitter along the top
+  // and bottom so every document card reads as a strip torn out of the
+  // original. Computed once, never per frame.
+  static tornClip() {
+    const rnd = (i) => { const x = Math.sin(i * 12.9898) * 43758.5453; return x - Math.floor(x); };
+    const n = 44, amp = 2.1, pts = [];
+    for (let i = 0; i <= n; i++) {
+      pts.push((i / n * 100).toFixed(2) + '% ' + (rnd(i) * amp).toFixed(2) + '%');
+    }
+    for (let i = n; i >= 0; i--) {
+      pts.push((i / n * 100).toFixed(2) + '% ' + (100 - rnd(i + 97) * amp).toFixed(2) + '%');
+    }
+    return 'polygon(' + pts.join(',') + ')';
+  }
+
+  // Days between a dd.mm.yyyy string and 7 Oct 2023, plus a Hebrew date.
+  static dateInfo(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+    if (!m) return null;
+    const y = +m[1], mo = +m[2] - 1, day = +m[3];
+    const days = Math.round((OCT7 - Date.UTC(y, mo, day)) / 86400000);
+    return { label: day + ' ' + MONTHS[mo] + ' ' + y, days, iso };
+  }
+
+  static findDate(it, chapterId) {
+    const hay = (it.source || '') + ' ' + (it.text || '') + ' ' + (it.title || '');
+    const m = /(\d{2})\.(\d{2})\.(\d{4})/.exec(hay);
+    if (m) return Component.dateInfo(m[3] + '-' + m[2] + '-' + m[1]);
+    // The 7 October chapter is timestamped by clock time, not by date.
+    if (chapterId === 'oct7') return Component.dateInfo('2023-10-07');
+    return null;
+  }
+
+  // ── render inputs, built once per data/props change ────────────────────
+  build() {
+    const d = this.state.data;
+    const showSources = this.props.showSources !== false;
+    const tinted = this.props.chapterTints !== false;
+    const cacheKey = (d ? 'data' : 'empty') + '|' + showSources + '|' + tinted;
+    if (this._built && this._builtFor === cacheKey) return this._built;
+
+    const speakers = (d && d.speakers) || {};
+    const chapters = [];
+    const toc = [];
+    const cast = [];
+    const seenSpeaker = {};
+    let uid = 0;
+
+    if (d) {
+      d.chapters.forEach((ch, idx) => {
+        let ctxIso = '';
+        const anchor = 'ch-' + ch.id;
+        const num = String(ch.n).padStart(2, '0');
+        if (ch.n > 0) {
+          toc.push({ anchor, num, title: ch.title.length > 44 ? ch.title.slice(0, 42) + '…' : ch.title });
+        }
+        chapters.push({
+          idx, anchor, num, label: num, numbered: ch.n > 0,
+          tint: tinted ? TINTS[idx % TINTS.length] : 'transparent',
+          title: ch.title, page: ch.page || '',
+          hasQuestions: !!(ch.questions && ch.questions.length),
+          questions: ch.questions || [],
+          items: (ch.items || []).map((it) => {
+            const key = 'L' + (++uid);
+            const isSpeech = it.kind === 'speech';
+
+            // The document quotes "ראש אמ״ן" without naming him. Herzi
+            // Halevi held the post from September 2014 to March 2018, so
+            // quotes from that window are attributed to him by name and
+            // portrait; later ones stay unattributed.
+            const di = Component.findDate(it, ch.id);
+            if (di) ctxIso = di.iso;
+            let speakerKey = it.speaker;
+            let portraitKey = it.speaker;
+            if (isSpeech && speakerKey === 'aman' && ctxIso &&
+                ctxIso >= '2014-09-01' && ctxIso <= '2018-03-31') {
+              speakerKey = 'halevi';
+              // His own AMAN-era photo, used only on these quotes — the
+              // cast strip keeps his Chief-of-Staff portrait.
+              portraitKey = 'halevi-aman';
+            }
+
+            const sp = speakerKey ? speakers[speakerKey] : null;
+            const isPm = isSpeech && speakerKey === 'netanyahu';
+            const raw = it.text || '';
+            if (isSpeech && speakerKey && !seenSpeaker[speakerKey]) {
+              seenSpeaker[speakerKey] = true;
+              const firstUid = key;
+              cast.push({
+                key: speakerKey,
+                name: sp ? sp.name : speakerKey,
+                role: sp ? sp.role : '',
+                jumpTitle: 'לציטוט הראשון של ' + (sp ? sp.name : speakerKey),
+                go: () => {
+                  const el = document.querySelector('[data-uid="' + firstUid + '"]');
+                  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.12, behavior: 'smooth' });
+                }
+              });
+            }
+            return {
+              uid: key,
+              speaker: isSpeech ? (speakerKey || 'none') : 'none',
+              portrait: isSpeech ? (portraitKey || 'none') : 'none',
+              isSpeech,
+              isClaim: it.kind === 'claim',
+              isQuote: it.kind === 'quote',
+              isHeading: it.kind === 'heading',
+              isList: it.kind === 'list',
+              isTimeline: it.kind === 'timeline',
+              isNote: it.kind === 'note',
+              isStage: it.kind === 'stage',
+              isSource: it.kind === 'source' && showSources,
+              isRedacted: it.kind === 'redacted',
+              tagBg: isPm ? '#c8102e' : '#3d4f8f',
+              name: sp ? sp.name : '',
+              role: it.role || (sp ? sp.role : ''),
+              text: raw,
+              quoted: isSpeech ? '\u201D' + raw + '\u201C' : raw,
+              title: it.title || '',
+              time: it.time || '',
+              note: it.note || '',
+              source: showSources ? (it.source || '') : '',
+              items: it.items || [],
+              dateLabel: (function () { const di = Component.findDate(it, ch.id); return di ? di.label : ''; })(),
+              sortKey: (function () {
+                const di = Component.findDate(it, ch.id);
+                return di ? di.iso : '';
+              })(),
+              dateShort: (function () {
+                const di = Component.findDate(it, ch.id);
+                if (!di) return '';
+                const p = di.iso.split('-');
+                return p[2] + '.' + p[1] + '.' + p[0].slice(2);
+              })(),
+              daysNum: (function () {
+                const di = Component.findDate(it, ch.id);
+                if (!di) return '';
+                if (di.days === 0) return '0';
+                return (di.days > 0 ? '' : '+') + Math.abs(di.days).toLocaleString('he-IL');
+              })(),
+              daysLabel: (function () {
+                const di = Component.findDate(it, ch.id);
+                if (!di) return '';
+                if (di.days > 0) return di.days.toLocaleString('he-IL') + ' ימים לפני';
+                if (di.days === 0) return 'אותו היום';
+                return Math.abs(di.days).toLocaleString('he-IL') + ' ימים אחרי';
+              })()
+            };
+          })
+        });
+      });
+      cast.unshift({
+        key: 'comptroller', name: 'מתניהו אנגלמן', role: 'מבקר המדינה',
+        jumpTitle: 'לשאלות הביקורת הראשונות',
+        go: () => {
+          const el = document.getElementById('ch-policy-gaza');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    const prologue = PROLOGUE.map((p, i) => {
+      const di = Component.dateInfo(p.d);
+      const near = di ? Math.max(0, Math.min(1, 1 - di.days / 240)) : 1;
+      const red = 0.05 + near * 0.30;
+      return {
+        who: p.who,
+        quote: p.quote,
+        src: p.src,
+        date: di ? di.label : '',
+        days: p.hours ? '05:15' : (di ? String(di.days) : ''),
+        unit: p.hours ? 'בבוקר — כשעה ורבע לפני תחילת המתקפה' : (di && di.days === 1 ? 'יום לפני ה־7 באוקטובר' : 'ימים לפני ה־7 באוקטובר'),
+        bg: 'radial-gradient(120% 90% at 78% 8%, rgba(200,16,46,' + red.toFixed(3) + '), transparent 64%), #000',
+        glow: 'rgba(200,16,46,' + (0.12 + near * 0.34).toFixed(3) + ')',
+        numColor: near > 0.86 ? '#ff5a6e' : '#ffffff',
+        tagBg: p.pm ? '#c8102e' : '#3d4f8f'
+      };
+    });
+
+    // ── the timeline rail ────────────────────────────────────────────────
+    // Every dated document in the answer, ordered by its own date and
+    // spaced evenly so the 2023 cluster stays legible next to 2014.
+    const dated = [];
+    chapters.forEach((ch) => ch.items.forEach((it) => {
+      if (it.dateLabel && it.sortKey) dated.push(it);
+    }));
+    dated.sort((a, b) => (a.sortKey < b.sortKey ? -1 : a.sortKey > b.sortKey ? 1 : 0));
+    // Rail position tracks a document's ordinal place in the sequence, not
+    // its group, so the marker advances evenly instead of stalling on the
+    // collapsed 2014–2020 stop and then racing.
+    const span = Math.max(1, dated.length - 1);
+    dated.forEach((it, idx) => { it._pct = (idx / span) * 92; });
+
+    // Aggregated so every stop is a real hit target: one stop per year up
+    // to 2022, then one per month through 2023 as the countdown tightens.
+    const groups = [];
+    const byKey = {};
+    dated.forEach((it) => {
+      const year = it.sortKey.slice(0, 4);
+      const key = year === '2023' ? it.sortKey.slice(0, 7) : year;
+      if (!byKey[key]) {
+        byKey[key] = { key, year, month: year === '2023' ? +it.sortKey.slice(5, 7) : 0, is23: year === '2023', items: [] };
+        groups.push(byKey[key]);
+      }
+      byKey[key].items.push(it);
+    });
+    // Add 2023 as top-level stop before months
+    const months23 = Object.keys(byKey).filter(k => k.startsWith('2023-')).sort();
+    if (months23.length > 0) {
+      const first23 = byKey[months23[0]];
+      const all23Items = [];
+      months23.forEach(k => all23Items.push(...(byKey[k].items || [])));
+      const idx = groups.findIndex(g => g.key === months23[0]);
+      if (idx >= 0) {
+        groups.splice(idx, 0, { key: '2023', year: '2023', month: 0, is23: true, is23Year: true, items: all23Items });
+      }
+    }
+
+    const railTop = {};
+    const markList = [];
+    const timeline = [];
+    const SHORT = ['ינו','פבר','מרץ','אפר','מאי','יונ','יול','אוג','ספט','אוק','נוב','דצמ'];
+    const stopH = 100 / Math.max(1, groups.length);
+    groups.forEach((g, i) => {
+      // Even spacing between all stops (years + months).
+      const top = (i * stopH).toFixed(3) + '%';
+      g.items.forEach((it) => { railTop[it.uid] = top; markList.push({ uid: it.uid, pct: it._pct }); });
+      const is23 = g.is23;
+      const first = g.items[0];
+      const isYear = !is23;
+      timeline.push({
+        top,
+        dateShort: first.dateShort || '',
+        title: (g.is23Year ? '2023' : is23 ? SHORT[g.month - 1] + ' 2023' : g.year) + ' · ' +
+               g.items.length + ' מסמכים · ' + first.daysLabel,
+        yearLabel: g.is23Year ? '2023' : is23 ? SHORT[g.month - 1] : g.year,
+        tickW: is23 ? '24px' : isYear ? '12px' : '16px',
+        tickH: is23 ? '3px' : isYear ? '2px' : '3px',
+        tickInset: '2px',
+        tickColor: is23 ? '#ff5a6e' : 'rgba(139,151,196,0.65)',
+        labelColor: is23 ? '#ff5a6e' : '#b8c1d8',
+        labelSize: is23 ? '13px' : '12px',
+        delay: (0.35 + i * 0.045).toFixed(3) + 's',
+        go: () => {
+          const el = document.querySelector('[data-uid="' + first.uid + '"]');
+          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.32, behavior: 'smooth' });
+        }
+      });
+    });
+    this._railTop = railTop;
+    this._markPcts = markList;
+
+    this._built = { chapters, toc, cast, prologue, timeline };
+    this._builtFor = cacheKey;
+    return this._built;
+  }
+
+  renderVals() {
+    const b = this.build();
+    return {
+      chapters: b.chapters,
+      toc: b.toc,
+      cast: b.cast,
+      prologue: b.prologue,
+      timeline: b.timeline,
+      railRef: this.railRef,
+      railDotRef: this.railDotRef,
+      railFillRef: this.railFillRef,
+      hudDateRef: this.hudDateRef,
+      tornClip: Component.tornClip(),
+      barRef: this.barRef,
+      tintRef: this.tintRef,
+      hudRef: this.hudRef,
+      hudDateRef: this.hudDateRef,
+      hudDaysRef: this.hudDaysRef
+    };
+  }
+}
+</script>
+</body>
+</html>
