@@ -1,86 +1,91 @@
-# תיק 7 באוקטובר — production build
+# תיק 7 באוקטובר
 
-Turns the Claude Design export into one self-contained HTML file that can be
-published anywhere.
+מענה ראש הממשלה לשאלות מבקר המדינה — scroll-driven presentation, Hebrew RTL.
+11 chapters, 325 items, 22 speakers.
 
-## Why a build step exists
+```
+src/מענה ראש הממשלה v2.dc.html   the design — edit this
+src/transcript.json               the document data — see SCHEMA.md
+src/assets/portraits/<key>.png    one per speaker key
+src/.image-slots.state.json       (optional) the editor's portrait file
+build.py                          → dist/index.html
+vendor/export-shell.html          runtime + fonts, not edited by hand
+```
 
-The export cannot go live as it stands. At runtime the page fetches three files
-the bundle never shipped:
+## Why there is a build step
 
-| fetched | contains | status in the export |
-|---|---|---|
-| `./transcript.json` | **all 11 chapters and every quote** | missing |
-| `./.image-slots.state.json` | the portrait sidecar | missing |
-| `./halevi-aman.png` | one shipped portrait | missing |
+Opened straight from `src/`, the design fetches five things that do not exist
+on a live URL:
 
-On a real URL those are three 404s. What survives is the hero, the nine
-prologue beats (hardcoded in the page's own script), the 06:29 beat and the
-footer — no chapters, no cast strip, no timeline rail, no countdown. Verified
-against the export directly: 10 beats render, 0 chapters.
+| fetched at runtime | contains |
+|---|---|
+| `./transcript.json` | **all 11 chapters and every quote** |
+| `./.image-slots.state.json` | the portrait sidecar |
+| `./halevi-aman.png` | the AMAN-era portrait |
+| unpkg.com | React + ReactDOM |
+| fonts.googleapis.com | Heebo, IBM Plex Mono |
 
-`build.py` inlines all three into the bundle and rewrites the fetches to read
-the inlined copies, so the output has **zero runtime network dependencies** —
-no CDN, no Google Fonts, no sidecar. It is one file you can drop on any static
-host, and it works from `file://` too.
+Publishing the folder as-is gives you three 404s and two third-party requests.
+What survives is the hero, the nine prologue beats and the footer — no
+chapters, no cast strip, no timeline rail. (That is exactly what the earlier
+`export.html` did: 10 beats, 0 chapters.)
 
-## Use
+`build.py` inlines all five and emits **one self-contained file** with zero
+runtime network dependencies. It works on any static host and from `file://`.
+
+## Working on it
 
 ```bash
-python3 build.py --check          # readiness report, writes nothing (exit 1 if data missing)
-python3 build.py                  # → dist/index.html
-SITE_URL=https://example.org/oct7 python3 build.py   # adds canonical + og:url
+python3 build.py            # → dist/index.html
+python3 build.py --check    # readiness report, writes nothing, exit 1 if broken
+open dist/index.html
 ```
 
-Inputs, all next to `build.py`:
+To edit the design, open `src/מענה ראש הממשלה v2.dc.html` — in Claude Design
+for visual editing, or in any editor for the markup and the component script
+at the bottom. To edit the content, edit `src/transcript.json` against
+`SCHEMA.md`. Then rebuild.
 
-```
-source-export.html        the Claude Design export (already here)
-transcript.json           the document data          ← see SCHEMA.md
-assets/portraits/<key>.png
-assets/halevi-aman.png
-```
+`src/index.html` is a dev wrapper that frames the design directly; it needs a
+local server (`python3 -m http.server`) and the network for React and the
+fonts. It is for editing, not for publishing — publish `dist/index.html`.
 
-Missing inputs are reported, never fatal — you can build at any stage and see
-how far along the page is.
+## Deploying
 
-## What still needs supplying
+`.github/workflows/deploy.yml` builds on every push to `main` and publishes
+`dist/` to GitHub Pages. It runs `--check` first, so a commit that breaks the
+transcript fails the build instead of publishing a page with no chapters.
 
-**`transcript.json`.** It is the body of the piece and it is not recoverable
-from the export — the export ships the design, not the data. It has to come out
-of the editor project the canvas was built in (the file sat next to the
-`.dc.html`), or be rebuilt from the source document. `SCHEMA.md` documents the
-exact format the page expects, derived from the page's own code.
+Two things to set on the repo once:
 
-Portraits are optional in the sense that the build succeeds without them; the
-cast strip and the quote screens then show name placeholders instead of faces.
+1. **Settings → Pages → Source: GitHub Actions**
+2. **Settings → Variables → Actions → new variable `SITE_URL`**, e.g.
+   `https://<user>.github.io/<repo>` — without it the page ships no canonical
+   URL and no `og:image`, so link previews are bare.
 
-## Verifying
+Any static host works just as well: `dist/index.html` is the whole site.
 
-```bash
-python3 build.py --fixture        # builds test/dist/index.html from a synthetic fixture
-python3 -m http.server 8781 --directory test/dist
-```
+## State
 
-The fixture contains **no real quotes** — it is placeholder text whose only job
-is to exercise every render path. It lives in `test/` precisely so it cannot be
-confused with, or overwrite, the real build.
+Working: all 11 chapters, 325 items, 116 quote screens, 54 document cards,
+17 comptroller questions, the 22-person cast strip, the timeline rail with
+40 stops and 147 dated marks, chapter tints, the countdown chip. Built and
+loaded with **no console errors and no external requests**.
 
-Last fixture run rendered clean: 11 chapters, 133 items, 34 quote screens with
-34 portraits loaded and 0 broken, 11 torn-paper cards, 11 redaction blocks,
-15 timeline stops, 86 dated marks, chapter tints tracking — with **no console
-errors and no failed requests**.
+Outstanding: **portraits**. Only `halevi-aman` is present, so 21 of 22
+speakers render as a name placeholder instead of a face — and the design is
+built around those portraits. The photos already placed on the canvas live in
+`.image-slots.state.json`, a hidden file in the editor project folder that
+did not come across with the rest. Drop it into `src/` and every portrait
+comes back in one step; `build.py` reads it automatically. Failing that, add
+files to `src/assets/portraits/<speaker-key>.png` — `--check` lists the keys
+that are still missing.
 
-## Before publishing
+## Before this goes public
 
-- The page presents quotes attributed to named, real people from a real
-  document. The build pipeline copies whatever `transcript.json` says,
-  verbatim — accuracy against the source document is not something it can
-  check. Have the quotes and citations checked against the document before this
-  goes to a public URL.
-- The footer's framing ("טענות ועמדות … לא קביעות של גוף בודק") is part of the
-  design and should stay.
-- `SITE_URL` is worth setting: without it the page ships no canonical URL and
-  no `og:image`, so link previews will be bare.
-- An `og.png` (1200×630) at the site root is referenced when `SITE_URL` is set;
-  add one or link previews fall back to text only.
+- The page attributes quotes to named, real people from a real document. The
+  build copies `transcript.json` verbatim and cannot check any of it against
+  the source. Have the quotes and citations verified before publishing.
+- Keep the footer's framing (*טענות ועמדות … לא קביעות של גוף בודק*) — it is
+  what marks the material as the speakers' claims rather than findings.
+- Add a 1200×630 `og.png` if you want real link previews.
