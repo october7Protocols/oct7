@@ -64,11 +64,13 @@ a:hover { color: #ffffff; }
   .om-lbl { font-size: 9.5px !important; letter-spacing: 0 !important; }
   .om-stop { height: 18px !important; margin-top: -9px !important; }
   .om-rail { top: 104px !important; bottom: 20px !important; right: 6px !important; }
-  /* A 96px chip overhangs a 62px gutter and lands on the masthead. The
-     rail already names the year and month the reader is in, so the phone
-     chip keeps only the countdown and fits the gutter exactly. */
-  .om-hud { right: 6px !important; top: 8px !important; }
-  .om-hud-date { display: none !important; }
+  /* The full date cannot fit a 62px gutter, so the phone chip carries the
+     numeric form instead of dropping the date altogether. It only appears
+     once the reader is into the document, which is what lets it be wider
+     than the gutter without landing on the masthead. */
+  .om-hud { width: 78px !important; right: 6px !important; top: 8px !important; }
+  .om-hud-full { display: none !important; }
+  .om-hud-short { display: block !important; }
   /* Full-screen beats: content is vertically centred, so at 100vh half a
      screen of nothing sits either side of every line on a phone. */
   .om-full { min-height: 74vh !important; }
@@ -97,7 +99,8 @@ a:hover { color: #ffffff; }
   <div style="width:100%;background:rgba(0,0,0,0.74);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.16)">
     <div class="om-hud-date" style="padding:5px 6px 6px;border-bottom:1px solid rgba(255,255,255,0.14)">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8b97c4;line-height:1.3">תאריך</div>
-      <div ref="{{ hudDateRef }}" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">—</div>
+      <div ref="{{ hudDateRef }}" class="om-hud-full" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">—</div>
+      <div ref="{{ hudShortRef }}" class="om-hud-short" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;color:#fff;letter-spacing:.02em;line-height:1.2">—</div>
     </div>
     <div style="padding:5px 6px 6px;background:rgba(200,16,46,0.24)">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#ffb3bd;line-height:1.3">ימים ל־7.10</div>
@@ -294,7 +297,7 @@ a:hover { color: #ffffff; }
 
                 <div data-anim="portrait" style="align-self:center;justify-self:end;position:relative;width:100%;max-width:clamp(200px,31vw,470px)">
                   <div style="position:relative;display:block;width:100%">
-                    <img data-portrait="{{ it.portrait }}" alt="{{ it.name }}" style="display:block;width:100%;height:auto;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.62) brightness(1.02) drop-shadow(0 18px 40px rgba(0,0,0,0.7))" />
+                    <img data-portrait="{{ it.portrait }}" alt="{{ it.name }}" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;filter:grayscale(1) sepia(0.5) saturate(1.5) contrast(1.62) brightness(1.02) drop-shadow(0 18px 40px rgba(0,0,0,0.7))" />
                     <div data-inkmask="1" style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.72;background-image:radial-gradient(circle at 0.9px 0.9px, rgba(0,0,0,0.62) 0.72px, transparent 0.95px),repeating-linear-gradient(52deg,rgba(0,0,0,0.16) 0 1px,transparent 1px 3px),repeating-linear-gradient(-38deg,rgba(255,255,255,0.14) 0 1px,transparent 1px 4px);background-size:2.6px 2.6px, auto, auto"></div>
                   </div>
                   <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top, #04081a 0%, rgba(4,8,26,0.35) 16%, transparent 40%)"></div>
@@ -496,6 +499,7 @@ class Component extends DCLogic {
     this.hudRef = React.createRef();
     this.hudDateRef = React.createRef();
     this.hudDaysRef = React.createRef();
+    this.hudShortRef = React.createRef();
     this.railRef = React.createRef();
     this.railDotRef = React.createRef();
     this.railFillRef = React.createRef();
@@ -664,11 +668,18 @@ class Component extends DCLogic {
       }
       const want = u ? 'url("' + u + '")' : '';
       if (n.style.backgroundImage !== want) n.style.backgroundImage = want;
-      // The cut-outs are transparent, so the fallback name behind them
-      // reads straight through the photo. Show it only when there is no
-      // photo to show.
+      // The cut-outs are transparent, so the fallback name behind them reads
+      // straight through the photo once it is there. But hiding it the moment
+      // the URL is assigned leaves an empty tile for as long as the download
+      // takes — which on a phone is long enough to photograph. Hold the name
+      // until the image has actually decoded.
       const ph = n.parentElement && n.parentElement.querySelector('.om-ph');
-      if (ph) ph.style.display = u ? 'none' : '';
+      if (!ph) return;
+      if (!u) { ph.style.display = ''; return; }
+      if (n.__shown === u) { ph.style.display = 'none'; return; }
+      const probe = new Image();
+      probe.onload = () => { n.__shown = u; ph.style.display = 'none'; };
+      probe.src = u;
     });
   }
 
@@ -835,9 +846,8 @@ class Component extends DCLogic {
     // Compact readouts: the chip now lives inside the timeline gutter, so
     // it shows instrument values; the full date rides the rail tooltips.
     if (this.hudDateRef.current) this.hudDateRef.current.textContent = node.getAttribute('data-date') || date;
+    if (this.hudShortRef.current) this.hudShortRef.current.textContent = node.getAttribute('data-short') || '';
     if (this.hudDaysRef.current) this.hudDaysRef.current.textContent = node.getAttribute('data-daysnum') || (days || '—');
-    hud.style.opacity = '1';
-    hud.style.transform = 'none';
 
     // Slide the timeline marker to this document's place on the rail.
     if (this.railRef.current) this.railRef.current.style.opacity = '1';
@@ -880,6 +890,15 @@ class Component extends DCLogic {
     if (this.railRef.current) this.railRef.current.style.opacity = '1';
     const dated = document.querySelector('[data-uid="' + item.uid + '"]');
     if (dated) this.showHud(dated);
+    // The chip is the rail's readout. Over the masthead it has nothing to
+    // report and, at the width it needs to stay legible on a phone, it only
+    // crowds the title — so it arrives with the document.
+    const hud = this.hudRef.current;
+    if (hud) {
+      const inDoc = (window.scrollY || document.documentElement.scrollTop) > window.innerHeight * 0.75;
+      hud.style.opacity = inDoc ? '1' : '0';
+      hud.style.transform = inDoc ? 'none' : 'translateY(-10px)';
+    }
   }
 
   // Dock-style magnification: stops swell as the marker nears them and
@@ -1331,7 +1350,8 @@ class Component extends DCLogic {
       tintRef: this.tintRef,
       hudRef: this.hudRef,
       hudDateRef: this.hudDateRef,
-      hudDaysRef: this.hudDaysRef
+      hudDaysRef: this.hudDaysRef,
+      hudShortRef: this.hudShortRef
     };
   }
 }
