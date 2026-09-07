@@ -504,7 +504,12 @@ const TINTS = [
 ];
 
 function strings(lang) {
-  return Object.assign({}, I18N.he || {}, I18N[lang] || {});
+  const t = Object.assign({}, I18N.he || {}, I18N[lang] || {});
+  // Document strings are keyed by the Hebrew they translate, so a string with
+  // no translation yet falls through to the Hebrew rather than vanishing.
+  const doc = t.doc || {};
+  t.tr = (x) => (x && doc[x]) || x;
+  return t;
 }
 
 // A remembered language must still exist in the table; a stale one from an
@@ -1113,7 +1118,7 @@ class Component extends DCLogic {
           tint: tinted ? TINTS[idx % TINTS.length] : 'transparent',
           title: (t.chapters || {})[ch.id] || ch.title, page: ch.page || '',
           hasQuestions: !!(ch.questions && ch.questions.length),
-          questions: ch.questions || [],
+          questions: (ch.questions || []).map(t.tr),
           items: (ch.items || []).map((it) => {
             const key = 'L' + (++uid);
             const isSpeech = it.kind === 'speech';
@@ -1186,14 +1191,14 @@ class Component extends DCLogic {
               isRedacted: it.kind === 'redacted',
               tagBg: isPm ? '#c8102e' : '#3d4f8f',
               name: sp ? nameFor(speakerKey) : '',
-              role: eraRole || (sp ? roleFor(speakerKey, 'role') : '') || it.role || '',
-              text: raw,
-              quoted: isSpeech ? '\u201D' + raw + '\u201C' : raw,
-              title: it.title || '',
+              role: eraRole || (sp ? roleFor(speakerKey, 'role') : '') || t.tr(it.role) || '',
+              text: t.tr(raw),
+              quoted: isSpeech ? '\u201D' + t.tr(raw) + '\u201C' : t.tr(raw),
+              title: t.tr(it.title) || '',
               time: it.time || '',
-              note: it.note || '',
-              source: showSources ? (it.source || '') : '',
-              items: it.items || [],
+              note: t.tr(it.note) || '',
+              source: showSources ? (t.tr(it.source) || '') : '',
+              items: (it.items || []).map(t.tr),
               dateLabel: eff ? eff.label : '',
               sortKey: eff ? eff.iso : '',
               dateShort: eff ? (function () {
@@ -1224,9 +1229,9 @@ class Component extends DCLogic {
       const near = di ? Math.max(0, Math.min(1, 1 - di.days / 240)) : 1;
       const red = 0.05 + near * 0.30;
       return {
-        who: p.who,
+        who: t.tr(p.who),
         quote: p.quote,
-        src: p.src,
+        src: t.tr(p.src),
         date: di ? di.label : '',
         days: p.hours ? '05:15' : (di ? String(di.days) : ''),
         unit: p.hours ? t.morning : (di && di.days === 1 ? t.dayBeforeOct7 : t.beforeOct7),
