@@ -1,0 +1,1033 @@
+{
+ "he": {
+  "label": "עברית",
+  "dir": "rtl",
+  "badge": "בלמ״ס · מלחמת התקומה",
+  "issued": "דצמבר 2025",
+  "t1": "תיק",
+  "t2": "7 באוקטובר",
+  "subtitle": "מענה ראש הממשלה לשאלות מבקר המדינה",
+  "heroLead": "מה שאל מבקר המדינה ומה ענה ראש הממשלה. בתוך התשובות מובאים הדיונים הביטחוניים עצמם, כל דובר בלשונו.",
+  "scrollCue": "גללו כדי להיכנס",
+  "proKicker": "לפני המסמך",
+  "proHead": "אלה הדברים שנאמרו לראש הממשלה על חמאס. לכל אחד מהם התאריך שבו נאמר.",
+  "proNote": "כל ציטוט בעמודים הבאים מופיע במסמך ואושר לפרסום בידי ראש הממשלה. הספירה מגיעה עד שבת בבוקר, 7 באוקטובר 2023.",
+  "oct7Line": "שבת, 7 באוקטובר 2023. שיחת ווטסאפ מהמזכיר הצבאי מעדכנת את ראש הממשלה שהמתקפה החלה.",
+  "oct7Src": "(פרק 7 במסמך, יום ה-7 באוקטובר 2023)",
+  "enterDoc": "להיכנס למסמך ↓",
+  "speakersKicker": "דוברים · אפשר לבחור כמה",
+  "periodKicker": "תקופה",
+  "questions": "שאלות מבקר המדינה",
+  "fromDoc": "מתוך המסמך",
+  "clear": "נקה סינון ✕",
+  "apply": "סנן ←",
+  "showAll": "הצג הכל ←",
+  "noFilter": "בלי סינון",
+  "allSpeakers": "כל הדוברים",
+  "resNone": "אין ציטוטים",
+  "resOne": "ציטוט אחד",
+  "resTwo": "שני ציטוטים",
+  "resMany": "{n} ציטוטים",
+  "andMore": "ועוד {n}",
+  "chapter": "פרק",
+  "page": "עמוד",
+  "hudDate": "תאריך",
+  "hudDays": "ימים ל־7.10",
+  "endDoc": "סוף המסמך",
+  "footer1": "כל האמור לעיל הוא מענה ראש הממשלה לשאלות מבקר המדינה, כפי שהוגש בדצמבר 2025. המסמך מונה 55 עמודים ו־33 נספחים. חלקים שלא אושרו לפרסום מוצגים כמושחרים.",
+  "footer2": "בדיקת האירועים טרם הושלמה. הדברים המובאים כאן הם טענות ועמדות של ראש הממשלה ושל הדוברים בדיונים, ולא קביעות של גוף בודק.",
+  "backTop": "חזרה לראש העמוד ↑",
+  "daysBefore": "{n} ימים לפני",
+  "sameDay": "אותו היום",
+  "daysAfter": "{n} ימים אחרי",
+  "beforeOct7": "ימים לפני ה־7 באוקטובר",
+  "dayBeforeOct7": "יום לפני ה־7 באוקטובר",
+  "morning": "בבוקר, כשעה ורבע לפני תחילת המתקפה",
+  "toFirstOf": "לציטוט הראשון של ",
+  "toQuestions": "לשאלות הביקורת הראשונות",
+  "docs": " מסמכים · ",
+  "pick": "לבחור את {n}",
+  "unpick": "להסיר את {n} מהבחירה",
+  "months": [
+   "בינואר",
+   "בפברואר",
+   "במרץ",
+   "באפריל",
+   "במאי",
+   "ביוני",
+   "ביולי",
+   "באוגוסט",
+   "בספטמבר",
+   "באוקטובר",
+   "בנובמבר",
+   "בדצמבר"
+  ],
+  "monthsShort": [
+   "ינו",
+   "פבר",
+   "מרץ",
+   "אפר",
+   "מאי",
+   "יונ",
+   "יול",
+   "אוג",
+   "ספט",
+   "אוק",
+   "נוב",
+   "דצמ"
+  ],
+  "srcNote": "",
+  "chapters": {},
+  "speakers": {
+   "comptroller": {
+    "castName": "מתניהו אנגלמן",
+    "castRole": "מבקר המדינה"
+   }
+  }
+ },
+ "en": {
+  "label": "English",
+  "dir": "ltr",
+  "badge": "UNCLASSIFIED · WAR OF REVIVAL",
+  "issued": "December 2025",
+  "t1": "THE",
+  "t2": "7 OCTOBER FILE",
+  "subtitle": "The Prime Minister's response to the State Comptroller's questions",
+  "heroLead": "What the State Comptroller asked and what the Prime Minister answered. Inside those answers are the security consultations themselves, each speaker in their own words.",
+  "scrollCue": "Scroll to enter",
+  "proKicker": "Before the document",
+  "proHead": "These are the things said to the Prime Minister about Hamas. Each carries the date it was said.",
+  "proNote": "Every quotation on the pages that follow appears in the document and was cleared for publication by the Prime Minister. The count runs to Saturday morning, 7 October 2023.",
+  "oct7Line": "Saturday, 7 October 2023. A WhatsApp call from the Military Secretary tells the Prime Minister the attack has begun.",
+  "oct7Src": "(Chapter 7 of the document, 7 October 2023)",
+  "enterDoc": "Enter the document ↓",
+  "speakersKicker": "SPEAKERS · SELECT AS MANY AS YOU LIKE",
+  "periodKicker": "PERIOD",
+  "questions": "State Comptroller's questions",
+  "fromDoc": "FROM THE DOCUMENT",
+  "clear": "Clear filter ✕",
+  "apply": "Filter →",
+  "showAll": "Show all →",
+  "noFilter": "No filter",
+  "allSpeakers": "All speakers",
+  "resNone": "No quotations",
+  "resOne": "One quotation",
+  "resTwo": "Two quotations",
+  "resMany": "{n} quotations",
+  "andMore": "and {n} more",
+  "chapter": "CH.",
+  "page": "page",
+  "hudDate": "DATE",
+  "hudDays": "DAYS TO 7.10",
+  "endDoc": "END OF DOCUMENT",
+  "footer1": "Everything above is the Prime Minister's response to the State Comptroller's questions, as submitted in December 2025. The document runs to 55 pages and 33 appendices. Passages not cleared for publication are shown redacted.",
+  "footer2": "The examination of these events is not complete. What appears here are the claims and positions of the Prime Minister and of the speakers in those consultations, not the findings of any investigating body.",
+  "backTop": "Back to top ↑",
+  "daysBefore": "{n} days before",
+  "sameDay": "that same day",
+  "daysAfter": "{n} days after",
+  "beforeOct7": "days before 7 October",
+  "dayBeforeOct7": "day before 7 October",
+  "morning": "in the morning, about an hour and a quarter before the attack began",
+  "toFirstOf": "To the first quotation from ",
+  "toQuestions": "To the first audit questions",
+  "docs": " documents · ",
+  "pick": "Select {n}",
+  "unpick": "Remove {n} from the selection",
+  "months": [
+   "January",
+   "February",
+   "March",
+   "April",
+   "May",
+   "June",
+   "July",
+   "August",
+   "September",
+   "October",
+   "November",
+   "December"
+  ],
+  "monthsShort": [
+   "Jan",
+   "Feb",
+   "Mar",
+   "Apr",
+   "May",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Oct",
+   "Nov",
+   "Dec"
+  ],
+  "srcNote": "Quotations appear in the original Hebrew.",
+  "chapters": {
+   "clarifications": "Clarifications on the content of the document",
+   "policy-gaza": "The Prime Minister's policy toward the Palestinian arena and the 'arrangement' approach to the Gaza Strip",
+   "targeted-killings": "The Prime Minister's policy on the targeted killing of senior figures in the Gaza Strip",
+   "defense": "The question of defence",
+   "warning": "The assessment of the warning situation regarding Hamas",
+   "jericho-wall": "The information presented to the Prime Minister on Hamas's capabilities and plans; and the information not passed to him ('Jericho Wall')",
+   "days-before": "The days preceding the attack",
+   "oct7": "7 October 2023",
+   "money": "The question of allowing funds into the Gaza Strip",
+   "intel-access": "Status of intelligence access in the Gaza Strip",
+   "conclusion": "Conclusion"
+  },
+  "speakers": {
+   "netanyahu": {
+    "name": "Benjamin Netanyahu",
+    "role": "Prime Minister"
+   },
+   "comptroller": {
+    "name": "State Comptroller",
+    "role": "Audit questions",
+    "castName": "Matanyahu Englman",
+    "castRole": "State Comptroller"
+   },
+   "gantz": {
+    "name": "Benny Gantz",
+    "role": "Chief of the General Staff / Defence Minister"
+   },
+   "eizenkot": {
+    "name": "Gadi Eisenkot",
+    "role": "Chief of the General Staff"
+   },
+   "kochavi": {
+    "name": "Aviv Kohavi",
+    "role": "Chief of the General Staff"
+   },
+   "halevi": {
+    "name": "Herzi Halevi",
+    "role": "Chief of the General Staff",
+    "castRole": "Chief of the General Staff / Head of Military Intelligence"
+   },
+   "yaalon": {
+    "name": "Moshe (Bogie) Ya'alon",
+    "role": "Defence Minister"
+   },
+   "liberman": {
+    "name": "Avigdor Liberman",
+    "role": "Foreign Minister / Defence Minister"
+   },
+   "galant": {
+    "name": "Yoav Gallant",
+    "role": "Defence Minister"
+   },
+   "bennett": {
+    "name": "Naftali Bennett",
+    "role": "Minister / Prime Minister"
+   },
+   "livni": {
+    "name": "Tzipi Livni",
+    "role": "Justice Minister"
+   },
+   "steinitz": {
+    "name": "Yuval Steinitz",
+    "role": "Minister of Energy and Infrastructure"
+   },
+   "cohen": {
+    "name": "Yoram Cohen",
+    "role": "Head of the Shin Bet"
+   },
+   "argaman": {
+    "name": "Nadav Argaman",
+    "role": "Head of the Shin Bet"
+   },
+   "bar": {
+    "name": "Ronen Bar",
+    "role": "Head of the Shin Bet"
+   },
+   "benshabbat": {
+    "name": "Meir Ben-Shabbat",
+    "role": "Head of the National Security Council"
+   },
+   "aman": {
+    "name": "Head of Military Intelligence",
+    "role": "Military Intelligence Directorate"
+   },
+   "haliva": {
+    "name": "Aharon Haliva",
+    "role": "Head of Military Intelligence"
+   },
+   "amanrep": {
+    "name": "Military Intelligence representative",
+    "role": "Military Intelligence Directorate"
+   },
+   "agat": {
+    "name": "Head of the Strategic Division",
+    "role": "Operations Directorate"
+   },
+   "mlal": {
+    "name": "Acting Head of the National Security Council",
+    "role": "National Security Council"
+   },
+   "abtam": {
+    "name": "Head of Information Security",
+    "role": "Information Security Division"
+   },
+   "deputyshabak": {
+    "name": "Deputy Head of the Shin Bet",
+    "role": "Shin Bet"
+   }
+  }
+ },
+ "fr": {
+  "label": "Français",
+  "dir": "ltr",
+  "badge": "NON CLASSIFIÉ · GUERRE DU RENOUVEAU",
+  "issued": "Décembre 2025",
+  "t1": "LE DOSSIER",
+  "t2": "7 OCTOBRE",
+  "subtitle": "Réponse du Premier ministre aux questions du Contrôleur de l'État",
+  "heroLead": "Ce qu'a demandé le Contrôleur de l'État et ce qu'a répondu le Premier ministre. Dans ces réponses figurent les consultations de sécurité elles-mêmes, chaque intervenant dans ses propres mots.",
+  "scrollCue": "Faites défiler pour entrer",
+  "proKicker": "Avant le document",
+  "proHead": "Voici ce qui a été dit au Premier ministre au sujet du Hamas. Chaque propos porte la date à laquelle il a été tenu.",
+  "proNote": "Chaque citation des pages qui suivent figure dans le document et a été autorisée à la publication par le Premier ministre. Le décompte va jusqu'au samedi matin 7 octobre 2023.",
+  "oct7Line": "Samedi 7 octobre 2023. Un appel WhatsApp du secrétaire militaire informe le Premier ministre que l'attaque a commencé.",
+  "oct7Src": "(Chapitre 7 du document, 7 octobre 2023)",
+  "enterDoc": "Entrer dans le document ↓",
+  "speakersKicker": "INTERVENANTS · PLUSIEURS CHOIX POSSIBLES",
+  "periodKicker": "PÉRIODE",
+  "questions": "Questions du Contrôleur de l'État",
+  "fromDoc": "EXTRAIT DU DOCUMENT",
+  "clear": "Effacer le filtre ✕",
+  "apply": "Filtrer →",
+  "showAll": "Tout afficher →",
+  "noFilter": "Aucun filtre",
+  "allSpeakers": "Tous les intervenants",
+  "resNone": "Aucune citation",
+  "resOne": "Une citation",
+  "resTwo": "Deux citations",
+  "resMany": "{n} citations",
+  "andMore": "et {n} de plus",
+  "chapter": "CHAP.",
+  "page": "page",
+  "hudDate": "DATE",
+  "hudDays": "JOURS AVANT LE 7.10",
+  "endDoc": "FIN DU DOCUMENT",
+  "footer1": "Tout ce qui précède constitue la réponse du Premier ministre aux questions du Contrôleur de l'État, telle que remise en décembre 2025. Le document compte 55 pages et 33 annexes. Les passages non autorisés à la publication sont caviardés.",
+  "footer2": "L'examen de ces événements n'est pas achevé. Ce qui figure ici relève des affirmations et des positions du Premier ministre et des intervenants de ces consultations, et non des conclusions d'un organe d'enquête.",
+  "backTop": "Retour en haut ↑",
+  "daysBefore": "{n} jours avant",
+  "sameDay": "le jour même",
+  "daysAfter": "{n} jours après",
+  "beforeOct7": "jours avant le 7 octobre",
+  "dayBeforeOct7": "jour avant le 7 octobre",
+  "morning": "au matin, environ une heure et quart avant le début de l'attaque",
+  "toFirstOf": "Vers la première citation de ",
+  "toQuestions": "Vers les premières questions du contrôle",
+  "docs": " documents · ",
+  "pick": "Sélectionner {n}",
+  "unpick": "Retirer {n} de la sélection",
+  "months": [
+   "janvier",
+   "février",
+   "mars",
+   "avril",
+   "mai",
+   "juin",
+   "juillet",
+   "août",
+   "septembre",
+   "octobre",
+   "novembre",
+   "décembre"
+  ],
+  "monthsShort": [
+   "janv",
+   "févr",
+   "mars",
+   "avr",
+   "mai",
+   "juin",
+   "juil",
+   "août",
+   "sept",
+   "oct",
+   "nov",
+   "déc"
+  ],
+  "srcNote": "Les citations sont reproduites dans leur hébreu d'origine.",
+  "chapters": {
+   "clarifications": "Précisions sur le contenu du document",
+   "policy-gaza": "La politique du Premier ministre face à l'arène palestinienne et la conception de l'« arrangement » avec la bande de Gaza",
+   "targeted-killings": "La politique du Premier ministre concernant l’élimination ciblée de responsables dans la bande de Gaza",
+   "defense": "La question de la défense",
+   "warning": "L'évaluation de l'état d'alerte face au Hamas",
+   "jericho-wall": "Les informations présentées au Premier ministre sur les capacités et les plans du Hamas ; et celles qui ne lui ont pas été transmises (« Mur de Jéricho »)",
+   "days-before": "Les jours qui ont précédé l'attaque",
+   "oct7": "7 octobre 2023",
+   "money": "La question de l'entrée de fonds dans la bande de Gaza",
+   "intel-access": "État de l'accès du renseignement dans la bande de Gaza",
+   "conclusion": "Conclusion"
+  },
+  "speakers": {
+   "netanyahu": {
+    "name": "Benyamin Netanyahou",
+    "role": "Premier ministre"
+   },
+   "comptroller": {
+    "name": "Contrôleur de l'État",
+    "role": "Questions du contrôle",
+    "castName": "Matanyahou Englman",
+    "castRole": "Contrôleur de l'État"
+   },
+   "gantz": {
+    "name": "Benny Gantz",
+    "role": "Chef d'état-major / Ministre de la Défense"
+   },
+   "eizenkot": {
+    "name": "Gadi Eisenkot",
+    "role": "Chef d'état-major"
+   },
+   "kochavi": {
+    "name": "Aviv Kohavi",
+    "role": "Chef d'état-major"
+   },
+   "halevi": {
+    "name": "Herzi Halevi",
+    "role": "Chef d'état-major",
+    "castRole": "Chef d'état-major / Chef du renseignement militaire"
+   },
+   "yaalon": {
+    "name": "Moshé (Bogie) Yaalon",
+    "role": "Ministre de la Défense"
+   },
+   "liberman": {
+    "name": "Avigdor Liberman",
+    "role": "Ministre des Affaires étrangères / Ministre de la Défense"
+   },
+   "galant": {
+    "name": "Yoav Gallant",
+    "role": "Ministre de la Défense"
+   },
+   "bennett": {
+    "name": "Naftali Bennett",
+    "role": "Ministre / Premier ministre"
+   },
+   "livni": {
+    "name": "Tzipi Livni",
+    "role": "Ministre de la Justice"
+   },
+   "steinitz": {
+    "name": "Yuval Steinitz",
+    "role": "Ministre de l'Énergie et des Infrastructures"
+   },
+   "cohen": {
+    "name": "Yoram Cohen",
+    "role": "Chef du Shin Bet"
+   },
+   "argaman": {
+    "name": "Nadav Argaman",
+    "role": "Chef du Shin Bet"
+   },
+   "bar": {
+    "name": "Ronen Bar",
+    "role": "Chef du Shin Bet"
+   },
+   "benshabbat": {
+    "name": "Meir Ben-Shabbat",
+    "role": "Chef du Conseil de sécurité nationale"
+   },
+   "aman": {
+    "name": "Chef du renseignement militaire",
+    "role": "Direction du renseignement militaire"
+   },
+   "haliva": {
+    "name": "Aharon Haliva",
+    "role": "Chef du renseignement militaire"
+   },
+   "amanrep": {
+    "name": "Représentant du renseignement militaire",
+    "role": "Direction du renseignement militaire"
+   },
+   "agat": {
+    "name": "Chef de la division stratégique",
+    "role": "Direction des opérations"
+   },
+   "mlal": {
+    "name": "Chef par intérim du Conseil de sécurité nationale",
+    "role": "Conseil de sécurité nationale"
+   },
+   "abtam": {
+    "name": "Chef de la sécurité de l'information",
+    "role": "Division de la sécurité de l'information"
+   },
+   "deputyshabak": {
+    "name": "Chef adjoint du Shin Bet",
+    "role": "Shin Bet"
+   }
+  }
+ },
+ "ar": {
+  "label": "العربية",
+  "dir": "rtl",
+  "badge": "غير مصنّف · حرب النهوض",
+  "issued": "كانون الأول/ديسمبر 2025",
+  "t1": "ملف",
+  "t2": "7 أكتوبر",
+  "subtitle": "ردّ رئيس الوزراء على أسئلة مراقب الدولة",
+  "heroLead": "ما سأله مراقب الدولة وما أجاب عنه رئيس الوزراء. وداخل هذه الأجوبة ترد المشاورات الأمنية نفسها، كلّ متحدّث بكلماته.",
+  "scrollCue": "مرّر للدخول",
+  "proKicker": "قبل المستند",
+  "proHead": "هذه هي الأقوال التي قيلت لرئيس الوزراء عن حماس. ولكلّ منها تاريخ قوله.",
+  "proNote": "كل اقتباس في الصفحات التالية وارد في المستند وأُجيز نشره من قِبل رئيس الوزراء. ويمتد العدّ حتى صباح السبت 7 أكتوبر 2023.",
+  "oct7Line": "السبت، 7 أكتوبر 2023. مكالمة واتساب من السكرتير العسكري تُبلغ رئيس الوزراء أن الهجوم قد بدأ.",
+  "oct7Src": "(الفصل 7 من المستند، 7 أكتوبر 2023)",
+  "enterDoc": "الدخول إلى المستند ↓",
+  "speakersKicker": "المتحدّثون · يمكن اختيار أكثر من واحد",
+  "periodKicker": "الفترة",
+  "questions": "أسئلة مراقب الدولة",
+  "fromDoc": "من المستند",
+  "clear": "مسح التصفية ✕",
+  "apply": "تصفية ←",
+  "showAll": "عرض الكل ←",
+  "noFilter": "بلا تصفية",
+  "allSpeakers": "كل المتحدّثين",
+  "resNone": "لا اقتباسات",
+  "resOne": "اقتباس واحد",
+  "resTwo": "اقتباسان",
+  "resMany": "{n} اقتباسًا",
+  "andMore": "و{n} إضافية",
+  "chapter": "الفصل",
+  "page": "صفحة",
+  "hudDate": "التاريخ",
+  "hudDays": "أيام حتى 7.10",
+  "endDoc": "نهاية المستند",
+  "footer1": "كل ما ورد أعلاه هو ردّ رئيس الوزراء على أسئلة مراقب الدولة، كما قُدّم في كانون الأول/ديسمبر 2025. ويقع المستند في 55 صفحة و33 ملحقًا. أما المقاطع التي لم يُجَز نشرها فتظهر محجوبة.",
+  "footer2": "لم يكتمل بعد فحص هذه الأحداث. وما يرد هنا هو ادعاءات ومواقف رئيس الوزراء والمتحدّثين في تلك المشاورات، وليس نتائج أي جهة تحقيق.",
+  "backTop": "العودة إلى الأعلى ↑",
+  "daysBefore": "{n} يومًا قبل",
+  "sameDay": "في اليوم نفسه",
+  "daysAfter": "{n} يومًا بعد",
+  "beforeOct7": "يومًا قبل 7 أكتوبر",
+  "dayBeforeOct7": "يوم قبل 7 أكتوبر",
+  "morning": "صباحًا، قبل نحو ساعة وربع من بدء الهجوم",
+  "toFirstOf": "إلى الاقتباس الأول لـ",
+  "toQuestions": "إلى أسئلة الرقابة الأولى",
+  "docs": " مستندات · ",
+  "pick": "اختيار {n}",
+  "unpick": "إزالة {n} من الاختيار",
+  "months": [
+   "يناير",
+   "فبراير",
+   "مارس",
+   "أبريل",
+   "مايو",
+   "يونيو",
+   "يوليو",
+   "أغسطس",
+   "سبتمبر",
+   "أكتوبر",
+   "نوفمبر",
+   "ديسمبر"
+  ],
+  "monthsShort": [
+   "ينا",
+   "فبر",
+   "مار",
+   "أبر",
+   "مايو",
+   "يون",
+   "يول",
+   "أغس",
+   "سبت",
+   "أكت",
+   "نوف",
+   "ديس"
+  ],
+  "srcNote": "الاقتباسات واردة بالعبرية الأصلية.",
+  "chapters": {
+   "clarifications": "إيضاحات بشأن محتوى المستند",
+   "policy-gaza": "سياسة رئيس الوزراء تجاه الساحة الفلسطينية ومفهوم «التسوية» مع قطاع غزة",
+   "targeted-killings": "سياسة رئيس الوزراء بشأن الاغتيالات المستهدفة لكبار المسؤولين في قطاع غزة",
+   "defense": "مسألة الدفاع",
+   "warning": "تقدير حالة الإنذار في مواجهة حماس",
+   "jericho-wall": "المعلومات التي عُرضت على رئيس الوزراء بشأن قدرات حماس وخططها؛ والمعلومات التي لم تُعرض عليه («سور أريحا»)",
+   "days-before": "الأيام التي سبقت الهجوم",
+   "oct7": "7 أكتوبر 2023",
+   "money": "مسألة إدخال الأموال إلى قطاع غزة",
+   "intel-access": "حالة الوصول الاستخباري في قطاع غزة",
+   "conclusion": "الخلاصة"
+  },
+  "speakers": {
+   "netanyahu": {
+    "name": "بنيامين نتنياهو",
+    "role": "رئيس الوزراء"
+   },
+   "comptroller": {
+    "name": "مراقب الدولة",
+    "role": "أسئلة الرقابة",
+    "castName": "متنياهو إنغلمان",
+    "castRole": "مراقب الدولة"
+   },
+   "gantz": {
+    "name": "بيني غانتس",
+    "role": "رئيس الأركان / وزير الدفاع"
+   },
+   "eizenkot": {
+    "name": "غادي آيزنكوت",
+    "role": "رئيس الأركان"
+   },
+   "kochavi": {
+    "name": "أفيف كوخافي",
+    "role": "رئيس الأركان"
+   },
+   "halevi": {
+    "name": "هرتسي هليفي",
+    "role": "رئيس الأركان",
+    "castRole": "رئيس الأركان / رئيس الاستخبارات العسكرية"
+   },
+   "yaalon": {
+    "name": "موشيه (بوغي) يعلون",
+    "role": "وزير الدفاع"
+   },
+   "liberman": {
+    "name": "أفيغدور ليبرمان",
+    "role": "وزير الخارجية / وزير الدفاع"
+   },
+   "galant": {
+    "name": "يوآف غالانت",
+    "role": "وزير الدفاع"
+   },
+   "bennett": {
+    "name": "نفتالي بينيت",
+    "role": "وزير / رئيس الوزراء"
+   },
+   "livni": {
+    "name": "تسيبي ليفني",
+    "role": "وزيرة العدل"
+   },
+   "steinitz": {
+    "name": "يوفال شتاينيتس",
+    "role": "وزير الطاقة والبنى التحتية"
+   },
+   "cohen": {
+    "name": "يورام كوهين",
+    "role": "رئيس الشاباك"
+   },
+   "argaman": {
+    "name": "نداف أرغمان",
+    "role": "رئيس الشاباك"
+   },
+   "bar": {
+    "name": "رونين بار",
+    "role": "رئيس الشاباك"
+   },
+   "benshabbat": {
+    "name": "مئير بن شبات",
+    "role": "رئيس مجلس الأمن القومي"
+   },
+   "aman": {
+    "name": "رئيس الاستخبارات العسكرية",
+    "role": "شعبة الاستخبارات العسكرية"
+   },
+   "haliva": {
+    "name": "أهارون هاليفا",
+    "role": "رئيس الاستخبارات العسكرية"
+   },
+   "amanrep": {
+    "name": "ممثل الاستخبارات العسكرية",
+    "role": "شعبة الاستخبارات العسكرية"
+   },
+   "agat": {
+    "name": "رئيس الشعبة الاستراتيجية",
+    "role": "شعبة العمليات"
+   },
+   "mlal": {
+    "name": "القائم بأعمال رئيس مجلس الأمن القومي",
+    "role": "مجلس الأمن القومي"
+   },
+   "abtam": {
+    "name": "رئيس أمن المعلومات",
+    "role": "شعبة أمن المعلومات"
+   },
+   "deputyshabak": {
+    "name": "نائب رئيس الشاباك",
+    "role": "الشاباك"
+   }
+  }
+ },
+ "de": {
+  "label": "Deutsch",
+  "dir": "ltr",
+  "badge": "NICHT KLASSIFIZIERT · KRIEG DER WIEDERERSTEHUNG",
+  "issued": "Dezember 2025",
+  "t1": "DIE AKTE",
+  "t2": "7. OKTOBER",
+  "subtitle": "Die Antwort des Ministerpräsidenten auf die Fragen des Staatskontrolleurs",
+  "heroLead": "Was der Staatskontrolleur fragte und was der Ministerpräsident antwortete. In diesen Antworten stehen die Sicherheitsberatungen selbst, jeder Sprecher mit seinen eigenen Worten.",
+  "scrollCue": "Zum Eintreten scrollen",
+  "proKicker": "Vor dem Dokument",
+  "proHead": "Dies wurde dem Ministerpräsidenten über die Hamas gesagt. Jede Aussage trägt das Datum, an dem sie fiel.",
+  "proNote": "Jedes Zitat auf den folgenden Seiten steht im Dokument und wurde vom Ministerpräsidenten zur Veröffentlichung freigegeben. Die Zählung läuft bis Samstagmorgen, den 7. Oktober 2023.",
+  "oct7Line": "Samstag, 7. Oktober 2023. Ein WhatsApp-Anruf des Militärsekretärs meldet dem Ministerpräsidenten, dass der Angriff begonnen hat.",
+  "oct7Src": "(Kapitel 7 des Dokuments, 7. Oktober 2023)",
+  "enterDoc": "Das Dokument öffnen ↓",
+  "speakersKicker": "SPRECHER · MEHRFACHAUSWAHL MÖGLICH",
+  "periodKicker": "ZEITRAUM",
+  "questions": "Fragen des Staatskontrolleurs",
+  "fromDoc": "AUS DEM DOKUMENT",
+  "clear": "Filter löschen ✕",
+  "apply": "Filtern →",
+  "showAll": "Alle anzeigen →",
+  "noFilter": "Kein Filter",
+  "allSpeakers": "Alle Sprecher",
+  "resNone": "Keine Zitate",
+  "resOne": "Ein Zitat",
+  "resTwo": "Zwei Zitate",
+  "resMany": "{n} Zitate",
+  "andMore": "und {n} weitere",
+  "chapter": "KAP.",
+  "page": "Seite",
+  "hudDate": "DATUM",
+  "hudDays": "TAGE BIS 7.10.",
+  "endDoc": "ENDE DES DOKUMENTS",
+  "footer1": "Alles Vorstehende ist die Antwort des Ministerpräsidenten auf die Fragen des Staatskontrolleurs, wie sie im Dezember 2025 eingereicht wurde. Das Dokument umfasst 55 Seiten und 33 Anhänge. Nicht zur Veröffentlichung freigegebene Passagen erscheinen geschwärzt.",
+  "footer2": "Die Prüfung dieser Ereignisse ist nicht abgeschlossen. Was hier steht, sind Behauptungen und Positionen des Ministerpräsidenten und der Sprecher jener Beratungen, nicht die Feststellungen eines untersuchenden Gremiums.",
+  "backTop": "Zurück nach oben ↑",
+  "daysBefore": "{n} Tage davor",
+  "sameDay": "am selben Tag",
+  "daysAfter": "{n} Tage danach",
+  "beforeOct7": "Tage vor dem 7. Oktober",
+  "dayBeforeOct7": "Tag vor dem 7. Oktober",
+  "morning": "morgens, etwa eineinviertel Stunden vor Beginn des Angriffs",
+  "toFirstOf": "Zum ersten Zitat von ",
+  "toQuestions": "Zu den ersten Prüfungsfragen",
+  "docs": " Dokumente · ",
+  "pick": "{n} auswählen",
+  "unpick": "{n} aus der Auswahl entfernen",
+  "months": [
+   "Januar",
+   "Februar",
+   "März",
+   "April",
+   "Mai",
+   "Juni",
+   "Juli",
+   "August",
+   "September",
+   "Oktober",
+   "November",
+   "Dezember"
+  ],
+  "monthsShort": [
+   "Jan",
+   "Feb",
+   "Mär",
+   "Apr",
+   "Mai",
+   "Jun",
+   "Jul",
+   "Aug",
+   "Sep",
+   "Okt",
+   "Nov",
+   "Dez"
+  ],
+  "srcNote": "Die Zitate stehen im hebräischen Original.",
+  "chapters": {
+   "clarifications": "Klarstellungen zum Inhalt des Dokuments",
+   "policy-gaza": "Die Politik des Ministerpräsidenten gegenüber der palästinensischen Arena und das Konzept der „Regelung“ mit dem Gazastreifen",
+   "targeted-killings": "Die Politik des Ministerpräsidenten zur gezielten Tötung führender Personen im Gazastreifen",
+   "defense": "Die Frage der Verteidigung",
+   "warning": "Die Bewertung der Warnlage gegenüber der Hamas",
+   "jericho-wall": "Die dem Ministerpräsidenten vorgelegten Informationen über Fähigkeiten und Pläne der Hamas; und die ihm nicht vorgelegten Informationen („Jericho-Mauer“)",
+   "days-before": "Die Tage vor dem Angriff",
+   "oct7": "7. Oktober 2023",
+   "money": "Die Frage der Einbringung von Geldern in den Gazastreifen",
+   "intel-access": "Stand des nachrichtendienstlichen Zugangs im Gazastreifen",
+   "conclusion": "Zusammenfassung"
+  },
+  "speakers": {
+   "netanyahu": {
+    "name": "Benjamin Netanjahu",
+    "role": "Ministerpräsident"
+   },
+   "comptroller": {
+    "name": "Staatskontrolleur",
+    "role": "Prüfungsfragen",
+    "castName": "Matanjahu Englman",
+    "castRole": "Staatskontrolleur"
+   },
+   "gantz": {
+    "name": "Benny Gantz",
+    "role": "Generalstabschef / Verteidigungsminister"
+   },
+   "eizenkot": {
+    "name": "Gadi Eisenkot",
+    "role": "Generalstabschef"
+   },
+   "kochavi": {
+    "name": "Aviv Kochavi",
+    "role": "Generalstabschef"
+   },
+   "halevi": {
+    "name": "Herzi Halevi",
+    "role": "Generalstabschef",
+    "castRole": "Generalstabschef / Leiter des Militärgeheimdienstes"
+   },
+   "yaalon": {
+    "name": "Mosche (Bogie) Jaalon",
+    "role": "Verteidigungsminister"
+   },
+   "liberman": {
+    "name": "Avigdor Lieberman",
+    "role": "Außenminister / Verteidigungsminister"
+   },
+   "galant": {
+    "name": "Joav Galant",
+    "role": "Verteidigungsminister"
+   },
+   "bennett": {
+    "name": "Naftali Bennett",
+    "role": "Minister / Ministerpräsident"
+   },
+   "livni": {
+    "name": "Zipi Livni",
+    "role": "Justizministerin"
+   },
+   "steinitz": {
+    "name": "Juval Steinitz",
+    "role": "Minister für Energie und Infrastruktur"
+   },
+   "cohen": {
+    "name": "Joram Cohen",
+    "role": "Leiter des Schin Bet"
+   },
+   "argaman": {
+    "name": "Nadav Argaman",
+    "role": "Leiter des Schin Bet"
+   },
+   "bar": {
+    "name": "Ronen Bar",
+    "role": "Leiter des Schin Bet"
+   },
+   "benshabbat": {
+    "name": "Meir Ben-Schabbat",
+    "role": "Leiter des Nationalen Sicherheitsrats"
+   },
+   "aman": {
+    "name": "Leiter des Militärgeheimdienstes",
+    "role": "Direktion des Militärgeheimdienstes"
+   },
+   "haliva": {
+    "name": "Aharon Haliva",
+    "role": "Leiter des Militärgeheimdienstes"
+   },
+   "amanrep": {
+    "name": "Vertreter des Militärgeheimdienstes",
+    "role": "Direktion des Militärgeheimdienstes"
+   },
+   "agat": {
+    "name": "Leiter der Strategischen Abteilung",
+    "role": "Operationsdirektion"
+   },
+   "mlal": {
+    "name": "Amtierender Leiter des Nationalen Sicherheitsrats",
+    "role": "Nationaler Sicherheitsrat"
+   },
+   "abtam": {
+    "name": "Leiter der Informationssicherheit",
+    "role": "Abteilung Informationssicherheit"
+   },
+   "deputyshabak": {
+    "name": "Stellvertretender Leiter des Schin Bet",
+    "role": "Schin Bet"
+   }
+  }
+ },
+ "es": {
+  "label": "Español",
+  "dir": "ltr",
+  "badge": "NO CLASIFICADO · GUERRA DEL RESURGIMIENTO",
+  "issued": "Diciembre de 2025",
+  "t1": "EL EXPEDIENTE",
+  "t2": "7 DE OCTUBRE",
+  "subtitle": "Respuesta del Primer Ministro a las preguntas del Contralor del Estado",
+  "heroLead": "Qué preguntó el Contralor del Estado y qué respondió el Primer Ministro. Dentro de esas respuestas figuran las propias deliberaciones de seguridad, cada interviniente en sus propias palabras.",
+  "scrollCue": "Desplácese para entrar",
+  "proKicker": "Antes del documento",
+  "proHead": "Esto es lo que se le dijo al Primer Ministro sobre Hamás. Cada frase lleva la fecha en que se dijo.",
+  "proNote": "Cada cita de las páginas siguientes figura en el documento y fue autorizada para su publicación por el Primer Ministro. El recuento llega hasta la mañana del sábado 7 de octubre de 2023.",
+  "oct7Line": "Sábado, 7 de octubre de 2023. Una llamada de WhatsApp del secretario militar informa al Primer Ministro de que el ataque ha comenzado.",
+  "oct7Src": "(Capítulo 7 del documento, 7 de octubre de 2023)",
+  "enterDoc": "Entrar en el documento ↓",
+  "speakersKicker": "INTERVINIENTES · PUEDE ELEGIR VARIOS",
+  "periodKicker": "PERÍODO",
+  "questions": "Preguntas del Contralor del Estado",
+  "fromDoc": "DEL DOCUMENTO",
+  "clear": "Borrar filtro ✕",
+  "apply": "Filtrar →",
+  "showAll": "Mostrar todo →",
+  "noFilter": "Sin filtro",
+  "allSpeakers": "Todos los intervinientes",
+  "resNone": "Ninguna cita",
+  "resOne": "Una cita",
+  "resTwo": "Dos citas",
+  "resMany": "{n} citas",
+  "andMore": "y {n} más",
+  "chapter": "CAP.",
+  "page": "página",
+  "hudDate": "FECHA",
+  "hudDays": "DÍAS HASTA EL 7.10",
+  "endDoc": "FIN DEL DOCUMENTO",
+  "footer1": "Todo lo anterior es la respuesta del Primer Ministro a las preguntas del Contralor del Estado, tal como se presentó en diciembre de 2025. El documento consta de 55 páginas y 33 anexos. Los pasajes no autorizados para su publicación aparecen tachados.",
+  "footer2": "El examen de estos hechos no ha concluido. Lo que aquí figura son afirmaciones y posiciones del Primer Ministro y de los intervinientes en aquellas deliberaciones, no conclusiones de ningún órgano investigador.",
+  "backTop": "Volver arriba ↑",
+  "daysBefore": "{n} días antes",
+  "sameDay": "ese mismo día",
+  "daysAfter": "{n} días después",
+  "beforeOct7": "días antes del 7 de octubre",
+  "dayBeforeOct7": "día antes del 7 de octubre",
+  "morning": "por la mañana, alrededor de una hora y cuarto antes del inicio del ataque",
+  "toFirstOf": "A la primera cita de ",
+  "toQuestions": "A las primeras preguntas de la auditoría",
+  "docs": " documentos · ",
+  "pick": "Seleccionar a {n}",
+  "unpick": "Quitar a {n} de la selección",
+  "months": [
+   "enero",
+   "febrero",
+   "marzo",
+   "abril",
+   "mayo",
+   "junio",
+   "julio",
+   "agosto",
+   "septiembre",
+   "octubre",
+   "noviembre",
+   "diciembre"
+  ],
+  "monthsShort": [
+   "ene",
+   "feb",
+   "mar",
+   "abr",
+   "may",
+   "jun",
+   "jul",
+   "ago",
+   "sept",
+   "oct",
+   "nov",
+   "dic"
+  ],
+  "srcNote": "Las citas se reproducen en su hebreo original.",
+  "chapters": {
+   "clarifications": "Aclaraciones sobre el contenido del documento",
+   "policy-gaza": "La política del Primer Ministro ante el escenario palestino y el concepto de «arreglo» con la Franja de Gaza",
+   "targeted-killings": "La política del Primer Ministro respecto a la eliminación selectiva de altos cargos en la Franja de Gaza",
+   "defense": "La cuestión de la defensa",
+   "warning": "La evaluación de la situación de alerta frente a Hamás",
+   "jericho-wall": "La información presentada al Primer Ministro sobre las capacidades y los planes de Hamás; y la información que no se le trasladó («Muro de Jericó»)",
+   "days-before": "Los días previos al ataque",
+   "oct7": "7 de octubre de 2023",
+   "money": "La cuestión de la entrada de fondos en la Franja de Gaza",
+   "intel-access": "Situación del acceso de inteligencia en la Franja de Gaza",
+   "conclusion": "Conclusión"
+  },
+  "speakers": {
+   "netanyahu": {
+    "name": "Benjamín Netanyahu",
+    "role": "Primer Ministro"
+   },
+   "comptroller": {
+    "name": "Contralor del Estado",
+    "role": "Preguntas de la auditoría",
+    "castName": "Matanyahu Englman",
+    "castRole": "Contralor del Estado"
+   },
+   "gantz": {
+    "name": "Benny Gantz",
+    "role": "Jefe del Estado Mayor / Ministro de Defensa"
+   },
+   "eizenkot": {
+    "name": "Gadi Eisenkot",
+    "role": "Jefe del Estado Mayor"
+   },
+   "kochavi": {
+    "name": "Aviv Kohavi",
+    "role": "Jefe del Estado Mayor"
+   },
+   "halevi": {
+    "name": "Herzi Halevi",
+    "role": "Jefe del Estado Mayor",
+    "castRole": "Jefe del Estado Mayor / Jefe de Inteligencia Militar"
+   },
+   "yaalon": {
+    "name": "Moshé (Bogie) Yaalon",
+    "role": "Ministro de Defensa"
+   },
+   "liberman": {
+    "name": "Avigdor Lieberman",
+    "role": "Ministro de Exteriores / Ministro de Defensa"
+   },
+   "galant": {
+    "name": "Yoav Gallant",
+    "role": "Ministro de Defensa"
+   },
+   "bennett": {
+    "name": "Naftali Bennett",
+    "role": "Ministro / Primer Ministro"
+   },
+   "livni": {
+    "name": "Tzipi Livni",
+    "role": "Ministra de Justicia"
+   },
+   "steinitz": {
+    "name": "Yuval Steinitz",
+    "role": "Ministro de Energía e Infraestructura"
+   },
+   "cohen": {
+    "name": "Yoram Cohen",
+    "role": "Jefe del Shin Bet"
+   },
+   "argaman": {
+    "name": "Nadav Argaman",
+    "role": "Jefe del Shin Bet"
+   },
+   "bar": {
+    "name": "Ronen Bar",
+    "role": "Jefe del Shin Bet"
+   },
+   "benshabbat": {
+    "name": "Meir Ben-Shabat",
+    "role": "Jefe del Consejo de Seguridad Nacional"
+   },
+   "aman": {
+    "name": "Jefe de Inteligencia Militar",
+    "role": "Dirección de Inteligencia Militar"
+   },
+   "haliva": {
+    "name": "Aharon Haliva",
+    "role": "Jefe de Inteligencia Militar"
+   },
+   "amanrep": {
+    "name": "Representante de Inteligencia Militar",
+    "role": "Dirección de Inteligencia Militar"
+   },
+   "agat": {
+    "name": "Jefe de la División Estratégica",
+    "role": "Dirección de Operaciones"
+   },
+   "mlal": {
+    "name": "Jefe interino del Consejo de Seguridad Nacional",
+    "role": "Consejo de Seguridad Nacional"
+   },
+   "abtam": {
+    "name": "Jefe de Seguridad de la Información",
+    "role": "División de Seguridad de la Información"
+   },
+   "deputyshabak": {
+    "name": "Subjefe del Shin Bet",
+    "role": "Shin Bet"
+   }
+  }
+ }
+}

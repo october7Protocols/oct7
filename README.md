@@ -94,6 +94,25 @@ that speaker's words. The prologue hides too; it is the way into the document,
 not into one person. The timeline rail re-measures against the filtered set,
 so it shows only the years and months that speaker spoke in.
 
+## Languages
+
+`src/i18n.json` holds the interface copy for Hebrew, English, French, Arabic,
+German and Spanish, plus translated speaker names, posts and chapter titles.
+The picker sits top-left; the choice is remembered per reader. Hebrew and
+Arabic render RTL, the rest LTR — `dir` follows the language, and the
+timeline gutter stays on the right in every language.
+
+**Only the frame is translated.** The quoted material — the 323 transcript
+items and the nine prologue quotations — stays in the Hebrew it was given in,
+and each non-Hebrew language carries a `srcNote` telling the reader so. That
+is deliberate: these are quotations attributed to named people from a real
+document, and a translated quotation is no longer the quotation. Translating
+them is a decision about the record, not about the interface.
+
+To add a language, add a key to `i18n.json` with the same fields as `he`;
+the picker and the build pick it up with no code change. `build.py` fails if
+the file is missing or has no `he` entry to fall back to.
+
 ## Before this goes public
 
 - The page attributes quotes to named, real people from a real document. The

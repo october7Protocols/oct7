@@ -44,6 +44,7 @@ SRC = os.path.join(HERE, "src")
 SHELL = os.path.join(HERE, "vendor", "export-shell.html")
 DIST = os.path.join(HERE, "dist")
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
+I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
 HALEVI = os.path.join(SRC, "assets", "halevi-aman.png")
 SIDECAR = os.path.join(SRC, ".image-slots.state.json")
@@ -371,10 +372,21 @@ def build_template(shell_template, design_body, design_script, design_css, trans
                 % (label, design_script.count(old)))
         design_script = design_script.replace(old, new)
 
+    if not os.path.exists(I18N):
+        die("src/i18n.json is missing — the page would have no interface copy")
+    try:
+        strings = json.loads(read(I18N))
+    except Exception as e:
+        die("src/i18n.json is not valid JSON: %s" % e)
+    if "he" not in strings:
+        die("src/i18n.json has no 'he' entry to fall back to")
+
     payload = (
         '<script type="application/json" id="dc-transcript">%s</script>\n'
         '<script type="application/json" id="dc-portraits">%s</script>\n'
-        % (json_for_script(transcript or {}), json_for_script(portraits))
+        '<script type="application/json" id="dc-i18n">%s</script>\n'
+        % (json_for_script(transcript or {}), json_for_script(portraits),
+           json_for_script(strings))
     )
     # The published <title> comes from the shell's helmet, so editing the one
     # in the src design would change nothing. TITLE is the single source.
@@ -416,6 +428,8 @@ def main():
         "%d chapters, %d items, %d speakers"
         % (len(transcript["chapters"]), n_items, len(transcript.get("speakers") or {}))
         if transcript and transcript.get("chapters") else "MISSING"))
+    langs = sorted(json.loads(read(I18N)).keys()) if os.path.exists(I18N) else []
+    print("  languages  : %s" % (", ".join(langs) or "MISSING"))
     print("  portraits  : %d %s" % (
         len(portraits), "inlined" if INLINE_PORTRAITS else "as sibling files"))
     if t_note:
