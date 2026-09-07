@@ -326,7 +326,7 @@ a:hover { color: #ffffff; }
                     </div>
 
                     <div data-anim="quote" style="position:relative">
-                      <p style="margin:0;font-weight:700;font-size:clamp(19px,2.6vw,38px);line-height:1.36;letter-spacing:-0.018em;color:#fff;text-wrap:pretty;text-shadow:0 4px 34px rgba(0,0,0,0.7)">{{ it.quoted }}</p>
+                      <p title="{{ it.orig }}" style="margin:0;font-weight:700;font-size:clamp(19px,2.6vw,38px);line-height:1.36;letter-spacing:-0.018em;color:#fff;text-wrap:pretty;text-shadow:0 4px 34px rgba(0,0,0,0.7)">{{ it.quoted }}</p>
                       <div data-veil="1" style="position:absolute;inset:0;pointer-events:none;opacity:1;background:linear-gradient(to top,#04081a 2%,rgba(4,8,26,0.76) 30%,transparent 66%);transition:opacity 1.1s ease"></div>
                     </div>
 
@@ -355,7 +355,7 @@ a:hover { color: #ffffff; }
 
   
                     <blockquote style="margin:0;font-weight:700;font-size:clamp(17px,2.3vw,30px);line-height:1.85;white-space:pre-line;text-wrap:pretty">
-                      <span style="background:#fbe94f;padding:0.06em 0.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 0 0 0.14em #fbe94f">{{ it.text }}</span>
+                      <span title="{{ it.orig }}" style="background:#fbe94f;padding:0.06em 0.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 0 0 0.14em #fbe94f">{{ it.text }}</span>
                     </blockquote>
                     <figcaption style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6d6647;margin-top:clamp(18px,2.6vh,30px);padding-top:14px;border-top:1px solid rgba(20,23,38,0.18);line-height:1.55">{{ it.source }}</figcaption>
                   </figure>
@@ -1193,6 +1193,9 @@ class Component extends DCLogic {
               name: sp ? nameFor(speakerKey) : '',
               role: eraRole || (sp ? roleFor(speakerKey, 'role') : '') || t.tr(it.role) || '',
               text: t.tr(raw),
+              // Only set when the string was actually translated, so the
+              // Hebrew reading shows no redundant tooltip.
+              orig: t.tr(raw) === raw ? '' : raw,
               quoted: isSpeech ? '\u201D' + t.tr(raw) + '\u201C' : t.tr(raw),
               title: t.tr(it.title) || '',
               time: it.time || '',
