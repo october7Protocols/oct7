@@ -413,11 +413,17 @@ def prerender(page, he):
         if not n:
             die("src/landing.html: nothing to prerender into #%s" % el)
     # The listen link's label sits in a bare span inside the anchor.
-    pat = re.compile(r'(id="k-benlink"[\s\S]*?<span)(></span>)')
-    page, n = pat.subn(lambda m: m.group(1) + ">" + esc(he["landBennettLink"]) + "</span",
-                       page, count=1)
+    pat = re.compile(r'(id="k-benlink"[\s\S]*?<span)></span>')
+    page, n = pat.subn(
+        lambda m: m.group(1) + ">" + esc(he["landBennettLink"]) + "</span>",
+        page, count=1)
     if not n:
         die("src/landing.html: no span inside #k-benlink to prerender")
+    # An unclosed tag here does not look broken — it silently swallows
+    # everything after it into the link, which is how the "coming soon" block
+    # ended up opening a radio programme.
+    if page.count("</span>") != page.count("<span"):
+        die("prerender left an unbalanced <span> in the entry page")
     return page
 
 
