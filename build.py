@@ -466,6 +466,14 @@ def main():
     with open(out, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
+    # GitHub Pages reads the custom domain from a CNAME file at the root of
+    # the published artifact. Without it in dist/, every deploy drops the
+    # domain back to the github.io address.
+    cname = os.path.join(SRC, "CNAME")
+    if os.path.exists(cname):
+        shutil.copyfile(cname, os.path.join(DIST, "CNAME"))
+        print("  domain     : %s" % read(cname).strip())
+
     total = os.path.getsize(out)
     for rel, srcfile in sorted(copies.items()):
         dest = os.path.join(DIST, rel)
