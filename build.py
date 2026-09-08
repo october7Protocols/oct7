@@ -63,6 +63,12 @@ CONSENT = os.path.join(SRC, "consent.js")
 # The share image the meta tags point at. Every link shared to WhatsApp,
 # Telegram, Facebook or X shows this or shows nothing.
 OG_IMAGE = os.path.join(SRC, "assets", "og.png")
+
+# A chapter marked "draft": true is kept out of the published document and
+# out of every language of it. It appears only under /preview/, which is
+# linked from nowhere, excluded from the sitemap, and served with a noindex
+# so a search engine that stumbles on it does not keep it.
+PREVIEW = "preview"
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -244,6 +250,17 @@ IMAGE_SLOT_NEW = (
 )
 
 
+def template_line(html):
+    """Serialise the page into the <script type="__bundler/template"> tag.
+
+    Every "</" must be escaped or the HTML parser closes that tag at the
+    first one and truncates the payload — which shows up as a page that
+    renders 186 bytes and nothing else. This has been got wrong twice by
+    hand; it lives in one place now.
+    """
+    return json.dumps(html, ensure_ascii=False).replace("</", "<\\u002F")
+
+
 def write_text(path, body):
     with open(path, "w", encoding="utf-8") as f:
         f.write(body)
@@ -260,6 +277,20 @@ def data_uri(path):
     mime = mimetypes.guess_type(path)[0] or "image/png"
     with open(path, "rb") as f:
         return "data:" + mime + ";base64," + base64.b64encode(f.read()).decode("ascii")
+
+
+def split_drafts(transcript):
+    """Return (published, preview). Both are whole transcripts; the first has
+    the draft chapters removed."""
+    if not transcript:
+        return transcript, transcript
+    chapters = transcript.get("chapters") or []
+    drafts = [c for c in chapters if c.get("draft")]
+    if not drafts:
+        return transcript, transcript
+    published = dict(transcript)
+    published["chapters"] = [c for c in chapters if not c.get("draft")]
+    return published, transcript
 
 
 def load_transcript():
@@ -487,12 +518,31 @@ def gtm_head():
     return "<script>" + js + "</script>"
 
 
+def draft_banner():
+    """A visible mark on the preview copy.
+
+    /preview/ is linked from nowhere and carries a noindex, but the URL is
+    still reachable by anyone who has it. A draft that looks published is
+    worse than no draft, so it says what it is on its face.
+    """
+    return (
+        '<div dir="rtl" style="position:fixed;z-index:9998;inset-inline:0;bottom:0;'
+        'background:#fbe94f;color:#04081a;font-family:Heebo,system-ui,sans-serif;'
+        'font-size:13px;font-weight:700;line-height:1.5;padding:9px 16px;'
+        'text-align:center;box-shadow:0 -4px 18px rgba(0,0,0,.45)">'
+        'טיוטה שלא פורסמה · התמלול טרם אומת מול המסמכים · אינה מקושרת מהאתר'
+        '</div>')
+
+
 def gtm_body():
     if not GTM_ID:
         return ""
     return ('<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%s"'
             ' height="0" width="0" style="display:none;visibility:hidden"></iframe>'
             "</noscript>" % GTM_ID)
+
+
+ROBOTS = "index,follow"
 
 
 def head_meta(title, description, path="/", lang="he", langs=("he",)):
@@ -503,7 +553,7 @@ def head_meta(title, description, path="/", lang="he", langs=("he",)):
 
     tags = [
         '<meta name="description" content="%s">' % esc(description),
-        '<meta name="robots" content="index,follow">',
+        '<meta name="robots" content="%s">' % ROBOTS,
         '<meta property="og:type" content="article">',
         '<meta property="og:site_name" content="%s">' % esc(SITE_NAME),
         '<meta property="og:locale" content="%s">' % locale,
@@ -674,7 +724,7 @@ def build_landing(shell_text, manifest, lang, langs):
 
 
 def build_template(shell_template, design_body, design_script, design_css,
-                   transcript, portraits, lang="he", langs=("he",)):
+                   transcript, portraits, lang="he", langs=("he",), path=None):
     """Graft the current design onto the export shell, then inline the data.
 
     The shell contributes its <helmet> — which is where the export resolved
@@ -726,7 +776,8 @@ def build_template(shell_template, design_body, design_script, design_css,
                       lambda m: "<title>" + title + "</title>", head, count=1, flags=re.S)
     if not n:
         die("no <title> in the shell helmet to set")
-    out = (head + head_meta(title, description, lang_path(lang, True), lang, langs)
+    out = (head + head_meta(title, description, path or lang_path(lang, True),
+                            lang, langs)
            + "\n" + design_css + "\n</helmet>"
            + gtm_body() + design_body + "</x-dc>"
            + payload + design_script + tail)
@@ -752,7 +803,10 @@ def main():
     lines, idx, shell_template = load_shell()
 
     transcript, t_note = load_transcript()
-    portraits, copies, p_note = load_portraits(transcript)
+    published, preview = split_drafts(transcript)
+    drafts = [c for c in (transcript or {}).get("chapters") or [] if c.get("draft")]
+    transcript = published
+    portraits, copies, p_note = load_portraits(preview)
 
     n_items = sum(len(c.get("items") or []) for c in (transcript or {}).get("chapters") or [])
     print("build report")
@@ -770,6 +824,9 @@ def main():
     if p_note:
         print("  ! " + p_note)
     print("  site url   : " + (SITE_URL or "(unset — no canonical/og:url)"))
+    if drafts:
+        print("  drafts     : %s — /%s/ only, noindex, not in the sitemap"
+              % (", ".join(c["id"] for c in drafts), PREVIEW))
     print("  analytics  : " + (GTM_ID or "none (no third-party request)"))
 
     # Render the entry page even in --check: it is the first thing a visitor
@@ -796,6 +853,7 @@ def main():
     shutil.rmtree(os.path.join(DOC, "portraits"), ignore_errors=True)
     shutil.rmtree(os.path.join(DIST, "fonts"), ignore_errors=True)
     shutil.rmtree(os.path.join(DIST, "assets"), ignore_errors=True)
+    shutil.rmtree(os.path.join(DIST, PREVIEW), ignore_errors=True)
     # Before the entry page existed the document was the root and its photos
     # sat in dist/portraits/. Left behind, they are 4 MB of dead weight in
     # every deploy from a working tree that predates the split.
@@ -818,7 +876,7 @@ def main():
         # so every "</" has to be escaped or the HTML parser closes that tag
         # early and truncates the payload. The export does the same.
         page = list(lines)
-        page[idx] = json.dumps(template, ensure_ascii=False).replace("</", "<\\u002F")
+        page[idx] = template_line(template)
         # The loader page carries its own <title>: it is what the tab shows
         # while the bundle unpacks, and what a crawler that runs no script
         # reads.
@@ -838,6 +896,27 @@ def main():
         landdir = DIST if lang == "he" else os.path.join(DIST, lang)
         os.makedirs(landdir, exist_ok=True)
         write_text(os.path.join(landdir, "index.html"), pages[lang])
+    if drafts:
+        global ROBOTS
+        ROBOTS = "noindex,nofollow"
+        template = build_template(shell_template, body, script, css,
+                                  preview, portraits, "he", LANGS,
+                                  path="/%s/doc/" % PREVIEW)
+        page = list(lines)
+        page[idx] = template_line(template)
+        title = titles["he"] + " — טיוטה"
+        for i, line in enumerate(page[:idx]):
+            if "<title>" in line:
+                page[i] = re.sub(r"<title>.*?</title>",
+                                 lambda m: "<title>" + title + "</title>", line, count=1)
+                break
+        page[idx] = template_line(template.replace("</x-dc>",
+                                                   "</x-dc>" + draft_banner(), 1))
+        pdir = os.path.join(DIST, PREVIEW, "doc")
+        os.makedirs(pdir, exist_ok=True)
+        write_text(os.path.join(pdir, "index.html"), "\n".join(page))
+        ROBOTS = "index,follow"
+
     out = os.path.join(DOC, "index.html")
     if os.path.exists(OG_IMAGE):
         shutil.copyfile(OG_IMAGE, os.path.join(DIST, "og.png"))
