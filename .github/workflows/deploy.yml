@@ -29,6 +29,9 @@ jobs:
         run: python3 build.py
         env:
           SITE_URL: ${{ vars.SITE_URL }}
+          # Empty unless the repository variable is set, and empty means no
+          # third-party script ships at all.
+          GTM_ID: ${{ vars.GTM_ID }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
