@@ -10,8 +10,12 @@
   are the same faces the document uses, extracted from the bundle into
   fonts/ so this page makes no third-party request either.
 
-  __FONT_CSS__, __STRINGS__, __TITLE__, __META__, __LANGS__ are filled in
-  by build.py. Copy lives in src/i18n.json, not here.
+  The placeholders build.py fills in are named FONT_CSS, STRINGS, LANGS,
+  LANG, TITLE, META and GTM_BODY, each wrapped in double underscores.
+  They are spelled without the underscores here on purpose: this
+  comment ships to the reader, and a literal placeholder in it would
+  be substituted along with the real ones. Copy lives in
+  src/i18n.json, not here.
 -->
 <head>
 <meta charset="utf-8">
@@ -55,8 +59,8 @@ body {
 }
 /* The globe says what the two-letter codes are for. */
 .lang .globe { display: flex; align-items: center; padding: 0 5px 0 3px; color: #8b97c4; flex: none; }
-.lang button {
-  cursor: pointer; border: 0; padding: 6px 10px; background: transparent; color: #c3cbe6;
+.lang a {
+  cursor: pointer; text-decoration: none; padding: 6px 10px; background: transparent; color: #c3cbe6;
   /* Heebo, not the mono face: the mono has no Hebrew, so עב fell back to a
      different font at a different weight from the codes beside it, and the
      mono's own capitals are thin at this size. */
@@ -64,8 +68,8 @@ body {
   font-size: 14px; font-weight: 700; letter-spacing: .03em; line-height: 1;
   transition: background .2s ease, color .2s ease;
 }
-.lang button:hover { background: #c8102e; color: #fff; }
-.lang button[aria-current="true"] { background: #c8102e; color: #fff; }
+.lang a:hover { background: #c8102e; color: #fff; }
+.lang a[aria-current="true"] { background: #c8102e; color: #fff; }
 
 main {
   position: relative; z-index: 1; flex: 1;
@@ -231,7 +235,7 @@ footer {
 
 @media (max-width: 560px) {
   .lang { top: 8px; left: 6px; }
-  .lang button { padding: 6px 8px; font-size: 12.5px; }
+  .lang a { padding: 6px 8px; font-size: 12.5px; }
   .lang .globe { display: none; }
   .now { align-items: stretch; }
   .enter { width: 100%; justify-content: center; }
@@ -251,7 +255,7 @@ __GTM_BODY__
   <h1 id="k-title"></h1>
   <p class="lead" id="k-lead"></p>
 
-  <a class="now" id="enter-card" href="doc/">
+  <a class="now" id="enter-card" data-doc href="doc/">
     <span class="now-text">
       <span class="now-label" id="k-nowlabel"></span>
       <span class="now-title" id="k-doctitle"></span>
@@ -301,8 +305,18 @@ __GTM_BODY__
 <script>
 var S = __STRINGS__;
 var KEYS = __LANGS__;
+var PAGE_LANG = "__LANG__";
+
+/* Each language has its own URL. The picker is a set of real links, so a
+   crawler follows them and a reader can copy one out of the address bar;
+   the click handler switches in place instead, and rewrites the address to
+   match, so nobody waits for a reload to read a different translation. */
+function hrefFor(k) { return k === 'he' ? '/' : '/' + k + '/'; }
 
 function initial() {
+  // The URL is the language. A remembered choice only decides which URL a
+  // reader lands on, never what a given URL then shows.
+  if (S[PAGE_LANG]) return PAGE_LANG;
   try {
     var saved = window.localStorage.getItem('oct7.lang');
     if (saved && S[saved]) return saved;
@@ -372,8 +386,11 @@ function apply(k, remember) {
   if (remember) {
     try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
   }
-  var b = document.querySelectorAll('#lang button');
+  var b = document.querySelectorAll('#lang a');
   for (var i = 0; i < b.length; i++) b[i].setAttribute('aria-current', b[i].dataset.k === k ? 'true' : 'false');
+  document.querySelectorAll('a[data-doc]').forEach(function (a) {
+    a.setAttribute('href', hrefFor(k) + 'doc/');
+  });
 }
 
 (function () {
@@ -383,14 +400,21 @@ function apply(k, remember) {
     + 'stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.2"/>'
     + '<ellipse cx="8" cy="8" rx="2.7" ry="6.2"/><path d="M2 6h12M2 10h12"/></svg></span>');
   KEYS.forEach(function (k) {
-    var b = document.createElement('button');
-    b.type = 'button';
+    var b = document.createElement('a');
+    b.href = hrefFor(k);
     b.dataset.k = k;
     b.lang = k;
     b.title = (S[k] || {}).label || k;
     b.setAttribute('aria-label', (S[k] || {}).label || k);
     b.textContent = (S[k] || {}).code || k.toUpperCase();
-    b.onclick = function () { apply(k, true); track('language_pick', { language: k }); };
+    b.onclick = function (e) {
+      // A modified click is a new tab, and should stay one.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      apply(k, true);
+      track('language_pick', { language: k });
+      try { history.replaceState(null, '', hrefFor(k)); } catch (err) { /* file:// */ }
+    };
     nav.appendChild(b);
   });
   var first = initial();

@@ -76,7 +76,7 @@ a:hover { color: #ffffff; }
   /* The picker is fixed and the masthead is not, so at scroll 0 they occupy
      the same corner until the hero starts below it. */
   .om-lang { top: 8px !important; left: 6px !important; }
-  .om-lang button { padding: 6px 7px !important; font-size: 12.5px !important; }
+  .om-lang a { padding: 6px 7px !important; font-size: 12.5px !important; }
   /* Six codes, a globe and a back label do not fit a 375px bar beside the
      masthead. The arrow alone still reads as back. */
   .om-back-txt { display: none !important; }
@@ -119,7 +119,7 @@ a:hover { color: #ffffff; }
     <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.2"></circle><ellipse cx="8" cy="8" rx="2.7" ry="6.2"></ellipse><path d="M2 6h12M2 10h12"></path></svg>
   </span>
   <sc-for list="{{ langs }}" as="lg" hint-placeholder-count="6">
-    <button type="button" onClick="{{ lg.pick }}" title="{{ lg.label }}" lang="{{ lg.key }}" style="cursor:pointer;border:0;padding:6px 10px;font-family:Heebo,system-ui,sans-serif;font-size:14px;font-weight:700;letter-spacing:.03em;line-height:1;background:{{ lg.bg }};color:{{ lg.fg }};transition:background .2s ease,color .2s ease" style-hover="background:#c8102e;color:#fff">{{ lg.code }}</button>
+    <a href="{{ lg.href }}" onClick="{{ lg.pick }}" title="{{ lg.label }}" lang="{{ lg.key }}" style="cursor:pointer;text-decoration:none;padding:6px 10px;font-family:Heebo,system-ui,sans-serif;font-size:14px;font-weight:700;letter-spacing:.03em;line-height:1;background:{{ lg.bg }};color:{{ lg.fg }};transition:background .2s ease,color .2s ease" style-hover="background:#c8102e;color:#fff">{{ lg.code }}</a>
   </sc-for>
 </div>
 
@@ -540,7 +540,14 @@ function track(name, data) {
   } catch (e) { /* never let measurement break the page */ }
 }
 
+function langHref(k) { return (k === 'he' ? '/' : '/' + k + '/') + 'doc/'; }
+
 function initialLang() {
+  // The URL is the language. A remembered choice decides which URL a reader
+  // lands on, never what a given URL shows once they are on it.
+  try {
+    if (window.__lang && I18N[window.__lang]) return window.__lang;
+  } catch (e) { /* no page language */ }
   try {
     const saved = window.localStorage.getItem('oct7.lang');
     if (saved && I18N[saved]) return saved;
@@ -1487,7 +1494,14 @@ class Component extends DCLogic {
       on: k === this.state.lang,
       bg: k === this.state.lang ? '#c8102e' : 'transparent',
       fg: k === this.state.lang ? '#fff' : '#c3cbe6',
-      pick: () => this.setLang(k)
+      href: langHref(k),
+      pick: (e) => {
+        // A modified click is a new tab, and should stay one.
+        if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button)) return;
+        if (e && e.preventDefault) e.preventDefault();
+        this.setLang(k);
+        try { history.replaceState(null, '', langHref(k)); } catch (err) { /* file:// */ }
+      }
     }));
 
     this._built = { t, dir: t.dir || 'rtl', langs,

@@ -87,6 +87,23 @@ SITE_NAME = "חשיפת הפרוטוקולים"
 # The day the site went public. datePublished must not move when the site
 # is rebuilt; dateModified is what tracks a rebuild.
 PUBLISHED = "2026-09-08"
+
+# One URL per language, so a search engine can index all seven. Hebrew keeps
+# the bare paths — october7.co is already shared and must not break — and the
+# rest sit under a prefix.
+#
+#     /            /doc/            he
+#     /en/         /en/doc/         en   … and so on
+#
+# The pages still switch language in place; the picker's links are what a
+# crawler follows and what a reader copies out of the address bar.
+def lang_path(lang, doc=False):
+    base = "/" if lang == "he" else "/%s/" % lang
+    return base + "doc/" if doc else base
+
+
+OG_LOCALE = {"he": "he_IL", "en": "en_US", "fr": "fr_FR", "ar": "ar_AR",
+             "de": "de_DE", "es": "es_ES", "ru": "ru_RU"}
 TITLE = "תיק 7 באוקטובר: מענה ראש הממשלה לשאלות מבקר המדינה"
 DESCRIPTION = (
     "מה שאל מבקר המדינה ומה ענה ראש הממשלה על אירועי 7 באוקטובר 2023. "
@@ -325,7 +342,10 @@ def load_portraits(transcript):
             out[key] = data_uri(path)
         else:
             rel = "portraits/" + key + os.path.splitext(path)[1].lower()
-            out[key] = rel
+            # Root-absolute: /en/doc/ and /doc/ are different directories but
+            # share one set of photos, so a relative path would 404 in six of
+            # the seven.
+            out[key] = "/doc/" + rel
             copies[rel] = path
 
     if os.path.isdir(PORTRAIT_DIR):
@@ -469,9 +489,11 @@ def gtm_body():
             "</noscript>" % GTM_ID)
 
 
-def head_meta(title, description, path="/", locale="he_IL"):
+def head_meta(title, description, path="/", lang="he", langs=("he",)):
     def esc(s):
         return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+    locale = OG_LOCALE.get(lang, "he_IL")
 
     tags = [
         '<meta name="description" content="%s">' % esc(description),
@@ -479,6 +501,7 @@ def head_meta(title, description, path="/", locale="he_IL"):
         '<meta property="og:type" content="article">',
         '<meta property="og:site_name" content="%s">' % esc(SITE_NAME),
         '<meta property="og:locale" content="%s">' % locale,
+        '<meta name="robots" content="max-image-preview:large">',
         '<meta property="og:title" content="%s">' % esc(title),
         '<meta property="og:description" content="%s">' % esc(description),
         '<meta name="twitter:card" content="summary_large_image">',
@@ -494,6 +517,14 @@ def head_meta(title, description, path="/", locale="he_IL"):
         here = esc(SITE_URL + path)
         tags.append('<link rel="canonical" href="%s">' % here)
         tags.append('<meta property="og:url" content="%s">' % here)
+        # Every translation points at every other, and at itself. Without
+        # this a search engine treats them as duplicates and keeps one.
+        doc = path.endswith("/doc/")
+        for other in langs:
+            tags.append('<link rel="alternate" hreflang="%s" href="%s">'
+                        % (other, esc(SITE_URL + lang_path(other, doc))))
+        tags.append('<link rel="alternate" hreflang="x-default" href="%s">'
+                    % esc(SITE_URL + lang_path("he", doc)))
         for t in ('<meta property="og:image" content="%s/og.png">',
                   '<meta name="twitter:image" content="%s/og.png">'):
             tags.append(t % esc(SITE_URL))
@@ -575,7 +606,7 @@ def load_manifest(shell_text):
     return json.loads(m.group(1))
 
 
-def build_landing(shell_text, manifest):
+def build_landing(shell_text, manifest, lang, langs):
     """Render src/landing.html with the copy, the languages and the fonts."""
     if not os.path.exists(LANDING):
         die("src/landing.html is missing — there would be no entry page")
@@ -594,39 +625,50 @@ def build_landing(shell_text, manifest):
     # language may leave unset — the picker then uses the key in capitals.
     NO_FALLBACK = ("code",)
     subset, order = {}, []
-    for lang in strings:
-        t = strings[lang]
+    # `each`, not `lang`: the parameter of this function is the language the
+    # page is being built for, and a loop over every language would shadow it.
+    for each in strings:
+        src = strings[each]
         base = strings.get("he", {})
         picked = {}
         for k in KEEP:
-            v = t.get(k) or ("" if k in NO_FALLBACK else base.get(k)) or ""
-            if not v and lang == "he" and k not in NO_FALLBACK:
+            v = src.get(k) or ("" if k in NO_FALLBACK else base.get(k)) or ""
+            if not v and each == "he" and k not in NO_FALLBACK:
                 die("src/i18n.json: he.%s is empty — the entry page needs it" % k)
             picked[k] = v
-        subset[lang] = picked
-        order.append(lang)
+        subset[each] = picked
+        order.append(each)
     # Hebrew first, then the rest in file order: the picker reads left to
     # right whatever the page direction is.
     order = ["he"] + [k for k in order if k != "he"]
 
     css, files = landing_fonts(shell_text, manifest)
     he = subset["he"]
+    t = subset.get(lang) or he
     page = read(LANDING)
+    # The document shell is written for Hebrew; every other language flips it.
+    page = page.replace('<html lang="he" dir="rtl">',
+                        '<html lang="%s" dir="%s">' % (lang, t.get("dir") or "rtl"), 1)
     for token, value in (
         ("__FONT_CSS__", css),
         ("__STRINGS__", json_for_script(subset)),
         ("__LANGS__", json_for_script(order)),
-        ("__TITLE__", he["landTitle"]),
-        ("__META__", head_meta(he["landTitle"], he["landLead"], "/")),
+        ("__TITLE__", t["landTitle"]),
+        ("__META__", head_meta(t["landTitle"], t["landLead"],
+                               lang_path(lang), lang, langs)),
+        ("__LANG__", lang),
         ("__GTM_BODY__", gtm_body()),
     ):
-        if token not in page:
-            die("src/landing.html has no %s placeholder" % token)
+        n = page.count(token)
+        if n != 1:
+            die("src/landing.html has %d %s placeholders, expected exactly one"
+                % (n, token))
         page = page.replace(token, value)
-    return prerender(page, he), files
+    return prerender(page, t), files
 
 
-def build_template(shell_template, design_body, design_script, design_css, transcript, portraits):
+def build_template(shell_template, design_body, design_script, design_css,
+                   transcript, portraits, lang="he", langs=("he",)):
     """Graft the current design onto the export shell, then inline the data.
 
     The shell contributes its <helmet> — which is where the export resolved
@@ -666,17 +708,20 @@ def build_template(shell_template, design_body, design_script, design_css, trans
         '<script type="application/json" id="dc-transcript">%s</script>\n'
         '<script type="application/json" id="dc-portraits">%s</script>\n'
         '<script type="application/json" id="dc-i18n">%s</script>\n'
+        '<script>window.__lang=%s;</script>\n'
         % (json_for_script(transcript or {}), json_for_script(portraits),
-           json_for_script(strings))
+           json_for_script(strings), json.dumps(lang))
     )
-    # The published <title> comes from the shell's helmet, so editing the one
-    # in the src design would change nothing. TITLE is the single source.
+    t = strings.get(lang) or strings["he"]
+    title = ("%s %s: %s" % (t.get("t1", ""), t.get("t2", ""),
+                            t.get("subtitle", ""))).strip()
+    description = t.get("heroLead") or DESCRIPTION
     head, n = re.subn(r"<title>.*?</title>",
-                      lambda m: "<title>" + TITLE + "</title>", head, count=1, flags=re.S)
+                      lambda m: "<title>" + title + "</title>", head, count=1, flags=re.S)
     if not n:
         die("no <title> in the shell helmet to set")
-
-    out = (head + head_meta(TITLE, DESCRIPTION, "/doc/") + "\n" + design_css + "\n</helmet>"
+    out = (head + head_meta(title, description, lang_path(lang, True), lang, langs)
+           + "\n" + design_css + "\n</helmet>"
            + gtm_body() + design_body + "</x-dc>"
            + payload + design_script + tail)
 
@@ -725,18 +770,20 @@ def main():
     # sees, so a broken placeholder or a missing string should fail the
     # workflow, not the deploy.
     shell_text = read(SHELL)
-    landing, fonts = build_landing(shell_text, load_manifest(shell_text))
-    print("  entry page : %d languages, %d fonts" % (len(json.loads(read(I18N))), len(fonts)))
+    manifest = load_manifest(shell_text)
+    # Hebrew first: it holds the bare paths, and the others are checked
+    # against it.
+    order = json.loads(read(I18N)).keys()
+    LANGS = ["he"] + [k for k in order if k != "he"]
+    pages = {}
+    for lang in LANGS:
+        pages[lang], fonts = build_landing(shell_text, manifest, lang, LANGS)
+    print("  entry page : %d languages, %d fonts" % (len(LANGS), len(fonts)))
+    print("  urls       : / and /doc/ for he, /<lang>/ and /<lang>/doc/ for the rest")
 
     if check_only:
         print("\n--check: nothing written")
         return 0 if transcript and not t_note else 1
-
-    template = build_template(shell_template, body, script, css, transcript, portraits)
-    # The template rides inside a <script type="__bundler/template"> tag, so
-    # every "</" has to be escaped or the HTML parser closes that tag early
-    # and truncates the payload. The export does the same.
-    lines[idx] = json.dumps(template, ensure_ascii=False).replace("</", "<\\u002F")
 
     # Rebuild the generated trees from scratch so a renamed or deleted
     # speaker cannot leave an orphan behind for the next deploy to publish.
@@ -747,24 +794,45 @@ def main():
     # sat in dist/portraits/. Left behind, they are 4 MB of dead weight in
     # every deploy from a working tree that predates the split.
     shutil.rmtree(os.path.join(DIST, "portraits"), ignore_errors=True)
-    # The loader page carries its own <title>: it is what the tab shows while
-    # the bundle unpacks, and what a crawler that does not run JS reads.
-    for i, line in enumerate(lines[:idx]):
-        if "<title>" in line:
-            lines[i] = re.sub(r"<title>.*?</title>",
-                              lambda m: "<title>" + TITLE + "</title>", line, count=1)
-            break
-    else:
-        die("no <title> in the loader page to set")
-
+    for lang in LANGS:
+        if lang != "he":
+            shutil.rmtree(os.path.join(DIST, lang), ignore_errors=True)
     os.makedirs(DIST, exist_ok=True)
-    os.makedirs(DOC, exist_ok=True)
-    out = os.path.join(DOC, "index.html")
-    with open(out, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines))
+    # Every language, both pages. The bare paths stay Hebrew so no link that
+    # has already been shared stops working.
+    strings = json.loads(read(I18N))
+    titles = {}
+    for lang in LANGS:
+        t = strings.get(lang) or strings["he"]
+        titles[lang] = ("%s %s: %s" % (t.get("t1", ""), t.get("t2", ""),
+                                       t.get("subtitle", ""))).strip()
+        template = build_template(shell_template, body, script, css,
+                                  transcript, portraits, lang, LANGS)
+        # The template rides inside a <script type="__bundler/template"> tag,
+        # so every "</" has to be escaped or the HTML parser closes that tag
+        # early and truncates the payload. The export does the same.
+        page = list(lines)
+        page[idx] = json.dumps(template, ensure_ascii=False).replace("</", "<\\u002F")
+        # The loader page carries its own <title>: it is what the tab shows
+        # while the bundle unpacks, and what a crawler that runs no script
+        # reads.
+        for i, line in enumerate(page[:idx]):
+            if "<title>" in line:
+                page[i] = re.sub(r"<title>.*?</title>",
+                                 lambda m: "<title>" + titles[lang] + "</title>",
+                                 line, count=1)
+                break
+        else:
+            die("no <title> in the loader page to set")
 
-    with open(os.path.join(DIST, "index.html"), "w", encoding="utf-8") as f:
-        f.write(landing)
+        docdir = os.path.join(DIST, *( ["doc"] if lang == "he" else [lang, "doc"] ))
+        os.makedirs(docdir, exist_ok=True)
+        write_text(os.path.join(docdir, "index.html"), "\n".join(page))
+
+        landdir = DIST if lang == "he" else os.path.join(DIST, lang)
+        os.makedirs(landdir, exist_ok=True)
+        write_text(os.path.join(landdir, "index.html"), pages[lang])
+    out = os.path.join(DOC, "index.html")
     if os.path.exists(OG_IMAGE):
         shutil.copyfile(OG_IMAGE, os.path.join(DIST, "og.png"))
     elif SITE_URL:
@@ -787,16 +855,24 @@ def main():
         write_text(os.path.join(DIST, "robots.txt"),
                    "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE_URL)
         today = datetime.date.today().isoformat()
-        urls = "".join(
-            "  <url><loc>%s%s</loc><lastmod>%s</lastmod>"
-            "<changefreq>%s</changefreq><priority>%s</priority></url>\n"
-            % (SITE_URL, p, today, f, pr)
-            for p, f, pr in (("/", "weekly", "1.0"), ("/doc/", "monthly", "0.9")))
+        rows = []
+        for doc, freq, pri in ((False, "weekly", "1.0"), (True, "monthly", "0.9")):
+            for lang in LANGS:
+                alts = "".join(
+                    '<xhtml:link rel="alternate" hreflang="%s" href="%s%s"/>'
+                    % (o, SITE_URL, lang_path(o, doc)) for o in LANGS)
+                alts += ('<xhtml:link rel="alternate" hreflang="x-default" '
+                         'href="%s%s"/>' % (SITE_URL, lang_path("he", doc)))
+                rows.append("  <url><loc>%s%s</loc><lastmod>%s</lastmod>"
+                            "<changefreq>%s</changefreq><priority>%s</priority>%s"
+                            "</url>\n"
+                            % (SITE_URL, lang_path(lang, doc), today, freq, pri, alts))
         write_text(os.path.join(DIST, "sitemap.xml"),
                    '<?xml version="1.0" encoding="UTF-8"?>\n'
-                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                   + urls + "</urlset>\n")
-        print("  crawling   : robots.txt + sitemap.xml")
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+                   '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+                   + "".join(rows) + "</urlset>\n")
+        print("  crawling   : robots.txt + sitemap.xml (%d urls)" % len(rows))
 
     # GitHub Pages reads the custom domain from a CNAME file at the root of
     # the published artifact. Without it in dist/, every deploy drops the
@@ -813,10 +889,11 @@ def main():
         shutil.copyfile(srcfile, dest)
         total += os.path.getsize(dest)
 
-    print("\nwrote dist/index.html (%.0f KB entry page, %d fonts)"
-          % ((len(landing.encode("utf-8")) + sum(len(b) for b in fonts.values())) / 1024.0,
-             len(fonts)))
-    print("wrote dist/doc/index.html (%.1f MB)%s"
+    print("\nwrote %d entry pages (%.0f KB each, %d shared fonts)"
+          % (len(LANGS),
+             len(pages["he"].encode("utf-8")) / 1024.0, len(fonts)))
+    print("wrote %d documents, one per language" % len(LANGS))
+    print("largest: dist/doc/index.html (%.1f MB)%s"
           % (os.path.getsize(out) / 1048576.0,
              "" if not copies else " + %d portraits, %.1f MB total"
              % (len(copies), total / 1048576.0)))
