@@ -1222,7 +1222,7 @@ class Component extends DCLogic {
               isRedacted: it.kind === 'redacted',
               tagBg: isPm ? '#c8102e' : '#3d4f8f',
               name: sp ? nameFor(speakerKey) : '',
-              role: eraRole || (sp ? roleFor(speakerKey, 'role') : '') || t.tr(it.role) || '',
+              role: t.tr(eraRole) || (sp ? roleFor(speakerKey, 'role') : '') || t.tr(it.role) || '',
               text: t.tr(raw),
               // Only set when the string was actually translated, so the
               // Hebrew reading shows no redundant tooltip.
@@ -1264,7 +1264,7 @@ class Component extends DCLogic {
       const red = 0.05 + near * 0.30;
       return {
         who: t.tr(p.who),
-        quote: p.quote,
+        quote: t.tr(p.quote),
         src: t.tr(p.src),
         date: di ? di.label : '',
         days: p.hours ? '05:15' : (di ? String(di.days) : ''),
