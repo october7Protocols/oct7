@@ -105,7 +105,10 @@
   "landBennettPull": "לא מכיר שיחה שכזאת",
   "landBennettAttr": "נפתלי בנט, בריאיון לגלי צה״ל, 8 בספטמבר 2026",
   "landBennettLink": "להאזנה לריאיון המלא",
-  "code": "עב"
+  "code": "עב",
+  "consentText": "אנחנו מודדים כמה אנשים קוראים ואילו פרקים, בעזרת Google Analytics. אין באתר פרסומות ואין מכירת מידע.",
+  "consentYes": "אישור",
+  "consentNo": "בלי מדידה"
  },
  "en": {
   "label": "English",
@@ -798,7 +801,10 @@
   "landBennettLabel": "The former Prime Minister",
   "landBennettPull": "I am not aware of any such conversation",
   "landBennettAttr": "Naftali Bennett, in an interview on Galei Tzahal, 8 September 2026",
-  "landBennettLink": "Listen to the full interview"
+  "landBennettLink": "Listen to the full interview",
+  "consentText": "We measure how many people read this and which chapters, using Google Analytics. There is no advertising here and nothing is sold.",
+  "consentYes": "Accept",
+  "consentNo": "No measurement"
  },
  "fr": {
   "label": "Français",
@@ -1491,7 +1497,10 @@
   "landBennettLabel": "L’ancien Premier ministre",
   "landBennettPull": "Je n’ai connaissance d’aucune conversation de ce genre",
   "landBennettAttr": "Naftali Bennett, dans un entretien sur Galei Tsahal, 8 septembre 2026",
-  "landBennettLink": "Écouter l’entretien intégral"
+  "landBennettLink": "Écouter l’entretien intégral",
+  "consentText": "Nous mesurons combien de personnes lisent ce site et quels chapitres, à l'aide de Google Analytics. Aucune publicité ici, et rien n'est vendu.",
+  "consentYes": "Accepter",
+  "consentNo": "Sans mesure"
  },
  "ar": {
   "label": "العربية",
@@ -2185,7 +2194,10 @@
   "landBennettPull": "لا أعرف بأي محادثة كهذه",
   "landBennettAttr": "نفتالي بينيت، في مقابلة مع إذاعة الجيش، 8 أيلول/سبتمبر 2026",
   "landBennettLink": "للاستماع إلى المقابلة كاملة",
-  "code": "عر"
+  "code": "عر",
+  "consentText": "نقيس كم شخصًا يقرأ الموقع وأي فصول، بواسطة Google Analytics. لا إعلانات هنا ولا بيع للبيانات.",
+  "consentYes": "موافقة",
+  "consentNo": "بدون قياس"
  },
  "de": {
   "label": "Deutsch",
@@ -2878,7 +2890,10 @@
   "landBennettLabel": "Der frühere Ministerpräsident",
   "landBennettPull": "Mir ist kein solches Gespräch bekannt",
   "landBennettAttr": "Naftali Bennett, im Interview bei Galei Zahal, 8. September 2026",
-  "landBennettLink": "Das ganze Interview anhören"
+  "landBennettLink": "Das ganze Interview anhören",
+  "consentText": "Wir messen mit Google Analytics, wie viele Menschen hier lesen und welche Kapitel. Es gibt hier keine Werbung, und nichts wird verkauft.",
+  "consentYes": "Einverstanden",
+  "consentNo": "Ohne Messung"
  },
  "es": {
   "label": "Español",
@@ -3571,7 +3586,10 @@
   "landBennettLabel": "El ex primer ministro",
   "landBennettPull": "No tengo conocimiento de ninguna conversación así",
   "landBennettAttr": "Naftali Bennett, en una entrevista en Galei Tzahal, 8 de septiembre de 2026",
-  "landBennettLink": "Escuchar la entrevista completa"
+  "landBennettLink": "Escuchar la entrevista completa",
+  "consentText": "Medimos cuántas personas leen esto y qué capítulos, con Google Analytics. Aquí no hay publicidad y no se vende nada.",
+  "consentYes": "Aceptar",
+  "consentNo": "Sin medición"
  },
  "ru": {
   "label": "Русский",
@@ -4265,6 +4283,9 @@
    "חידוש ההבנות בין ישראל לחמאס... מגלם פוטנציאל לשימור היציבות ברצועה — ייתכן אף לאורך זמן.": "Возобновление договорённостей между Израилем и ХАМАСом… несёт потенциал сохранения стабильности в секторе — возможно, и надолго.",
    "השבת השקט במרחב הגדר במסגרת ההבנות עם חמאס... הוא הישג שניתן למנפו לקידום הסדרה עמוקה יותר בזירה.": "Восстановление спокойствия в районе заграждения в рамках договорённостей с ХАМАСом… есть достижение, которое можно использовать для продвижения более глубокого урегулирования.",
    "יציאה למערכה רחבה — סבור כי הסיכוי לכך נמוך לאור היעדר אינדיקציה מודיעינית.": "Выход на широкую кампанию — считает, что вероятность этого низка ввиду отсутствия разведывательных признаков."
-  }
+  },
+  "consentText": "Мы измеряем, сколько людей читает сайт и какие главы, с помощью Google Analytics. Здесь нет рекламы и ничего не продаётся.",
+  "consentYes": "Принять",
+  "consentNo": "Без измерения"
  }
 }

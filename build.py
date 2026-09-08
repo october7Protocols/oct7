@@ -58,6 +58,7 @@ LANDING_ASSETS = os.path.join(SRC, "assets", "landing")
 # means a renamed portrait fails the build instead of leaving a broken image
 # on the front page.
 LANDING_PORTRAITS = ("bennett",)
+CONSENT = os.path.join(SRC, "consent.js")
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -345,24 +346,39 @@ def load_portraits(transcript):
 
 
 def gtm_head():
-    """The container snippet, plus the dataLayer this site actually feeds.
+    """The consent gate, and the container it gates.
 
-    A long scroll and a language picker produce almost no page views, so
-    page views alone would say nothing about whether anyone reads. The
-    events below are what carry the meaning; the container decides what,
-    if anything, listens to them.
+    Outside Israel nothing of Google's is fetched until the reader accepts.
+    A banner that lets the container load and then asks is decoration, and
+    under the GDPR it is not consent either. Inside Israel the container
+    loads on sight, which is what was asked for.
+
+    The gate runs before the page's own script and so cannot reach the
+    page's i18n; build.py hands it the three strings it needs per language.
     """
     if not GTM_ID:
         return ""
-    return (
-        "<script>window.dataLayer=window.dataLayer||[];"
-        "function gtag(){dataLayer.push(arguments)}"
-        "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
-        "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
-        "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
-        "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;"
-        "f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','%s');"
-        "</script>" % GTM_ID)
+    if not os.path.exists(CONSENT):
+        die("src/consent.js is missing — GTM_ID is set but nothing would gate it")
+    keys = ("consentText", "consentYes", "consentNo")
+    strings = json.loads(read(I18N))
+    subset = {}
+    for lang, t in strings.items():
+        picked = {}
+        for k in keys:
+            v = t.get(k) or strings.get("he", {}).get(k) or ""
+            if not v:
+                die("src/i18n.json: %s.%s is empty — the consent banner needs it"
+                    % (lang, k))
+            picked[k] = v
+        subset[lang] = picked
+    js = read(CONSENT)
+    for token, value in (("__GTM_ID__", GTM_ID),
+                         ("__CONSENT_STRINGS__", json_for_script(subset))):
+        if token not in js:
+            die("src/consent.js has no %s placeholder" % token)
+        js = js.replace(token, value)
+    return "<script>" + js + "</script>"
 
 
 def gtm_body():
