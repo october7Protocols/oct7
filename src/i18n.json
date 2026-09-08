@@ -92,7 +92,12 @@
   "landSoonLabel": "בקרוב",
   "landSoon": "פרוטוקולים נוספים ייחשפו כאן",
   "landSoonNote": "שווה לחזור. כל פרסום חדש עולה לדף הזה.",
-  "landFoot": "הדברים לקוחים מפרוטוקולים אמיתיים שנחשפו, ואחרים ייחשפו בהמשך. מוגש כשירות לציבור."
+  "landFoot": "הדברים לקוחים מפרוטוקולים אמיתיים שנחשפו, ואחרים ייחשפו בהמשך. מוגש כשירות לציבור.",
+  "landNewsLabel": "תגובת ראש הממשלה",
+  "landNewsPull": "לא הייתה שום שיחה, ולא הייתה שום התראה.",
+  "landNewsQuote": "אין דבר כזה שיש שיחה כזאת בלי נציג של המל״ל או מישהו נוסף בחדר. אין מצב שאין לשיחה כזאת הקלטה.",
+  "landNewsAttr": "בנימין נתניהו, בתגובה לפרסום שלפיו קיבל התראה ממוחמד בן זאיד לפני 7 באוקטובר",
+  "landNewsNote": "לשיחה כזאת יש רישום, פרוטוקול והקלטה."
  },
  "en": {
   "label": "English",
@@ -702,7 +707,12 @@
   "landSoonLabel": "Coming soon",
   "landSoon": "Further protocols will be revealed here",
   "landSoonNote": "Worth returning. Every new release appears on this page.",
-  "landFoot": "What appears here is taken from real protocols that have been revealed. Others will follow. Offered as a public service."
+  "landFoot": "What appears here is taken from real protocols that have been revealed. Others will follow. Offered as a public service.",
+  "landNewsLabel": "The Prime Minister's response",
+  "landNewsPull": "There was no conversation, and there was no warning.",
+  "landNewsQuote": "There is no such thing as a conversation like that without a representative of the National Security Council or someone else in the room. There is no situation in which a conversation like that is not recorded.",
+  "landNewsAttr": "Benjamin Netanyahu, responding to a report that he had received a warning from Mohamed bin Zayed before 7 October",
+  "landNewsNote": "A conversation like that leaves a record, a protocol and a recording."
  },
  "fr": {
   "label": "Français",
@@ -1312,7 +1322,12 @@
   "landSoonLabel": "Prochainement",
   "landSoon": "D'autres protocoles seront révélés ici",
   "landSoonNote": "Cela vaut la peine de revenir. Chaque nouvelle publication paraît sur cette page.",
-  "landFoot": "Ce qui figure ici est tiré de protocoles authentiques qui ont été révélés. D'autres suivront. Offert comme un service au public."
+  "landFoot": "Ce qui figure ici est tiré de protocoles authentiques qui ont été révélés. D'autres suivront. Offert comme un service au public.",
+  "landNewsLabel": "La réponse du Premier ministre",
+  "landNewsPull": "Il n'y a eu aucune conversation, et il n'y a eu aucun avertissement.",
+  "landNewsQuote": "Une telle conversation n'existe pas sans un représentant du Conseil de sécurité nationale ou quelqu'un d'autre dans la pièce. Il est impossible qu'une telle conversation ne soit pas enregistrée.",
+  "landNewsAttr": "Benjamin Netanyahou, en réponse à une information selon laquelle il aurait reçu un avertissement de Mohammed ben Zayed avant le 7 octobre",
+  "landNewsNote": "Une telle conversation laisse un compte rendu, un protocole et un enregistrement."
  },
  "ar": {
   "label": "العربية",
@@ -1922,7 +1937,12 @@
   "landSoonLabel": "قريبًا",
   "landSoon": "ستُكشف هنا محاضر إضافية",
   "landSoonNote": "يستحق العودة. كل نشر جديد يظهر في هذه الصفحة.",
-  "landFoot": "ما يَرِد هنا مأخوذ من محاضر حقيقية كُشف عنها، وستتبعها محاضر أخرى. يُقدَّم خدمةً للجمهور."
+  "landFoot": "ما يَرِد هنا مأخوذ من محاضر حقيقية كُشف عنها، وستتبعها محاضر أخرى. يُقدَّم خدمةً للجمهور.",
+  "landNewsLabel": "ردّ رئيس الوزراء",
+  "landNewsPull": "لم تكن هناك أي محادثة، ولم يكن هناك أي تحذير.",
+  "landNewsQuote": "لا وجود لمحادثة كهذه من دون ممثل عن مجلس الأمن القومي أو شخص آخر في الغرفة. من المستحيل ألّا تكون محادثة كهذه مسجَّلة.",
+  "landNewsAttr": "بنيامين نتنياهو، ردًّا على تقرير يفيد بأنه تلقّى تحذيرًا من محمد بن زايد قبل السابع من أكتوبر",
+  "landNewsNote": "محادثة كهذه تترك محضرًا وتسجيلًا."
  },
  "de": {
   "label": "Deutsch",
@@ -2532,7 +2552,12 @@
   "landSoonLabel": "Demnächst",
   "landSoon": "Weitere Protokolle werden hier offengelegt",
   "landSoonNote": "Es lohnt sich wiederzukommen. Jede neue Veröffentlichung erscheint auf dieser Seite.",
-  "landFoot": "Was hier steht, stammt aus echten Protokollen, die offengelegt wurden. Weitere folgen. Als Dienst an der Öffentlichkeit."
+  "landFoot": "Was hier steht, stammt aus echten Protokollen, die offengelegt wurden. Weitere folgen. Als Dienst an der Öffentlichkeit.",
+  "landNewsLabel": "Die Antwort des Ministerpräsidenten",
+  "landNewsPull": "Es gab kein Gespräch, und es gab keine Warnung.",
+  "landNewsQuote": "Ein solches Gespräch gibt es nicht ohne einen Vertreter des Nationalen Sicherheitsrats oder jemand anderen im Raum. Es ist ausgeschlossen, dass ein solches Gespräch nicht aufgezeichnet wird.",
+  "landNewsAttr": "Benjamin Netanjahu, auf einen Bericht, er habe vor dem 7. Oktober eine Warnung von Mohammed bin Zayed erhalten",
+  "landNewsNote": "Ein solches Gespräch hinterlässt ein Protokoll und eine Aufzeichnung."
  },
  "es": {
   "label": "Español",
@@ -3142,6 +3167,11 @@
   "landSoonLabel": "Próximamente",
   "landSoon": "Aquí se revelarán más protocolos",
   "landSoonNote": "Vale la pena volver. Cada nueva publicación aparece en esta página.",
-  "landFoot": "Lo que aquí figura procede de protocolos auténticos que han sido revelados. Seguirán otros. Ofrecido como servicio público."
+  "landFoot": "Lo que aquí figura procede de protocolos auténticos que han sido revelados. Seguirán otros. Ofrecido como servicio público.",
+  "landNewsLabel": "La respuesta del primer ministro",
+  "landNewsPull": "No hubo ninguna conversación, y no hubo ninguna advertencia.",
+  "landNewsQuote": "No existe una conversación así sin un representante del Consejo de Seguridad Nacional u otra persona en la sala. Es imposible que una conversación así no quede grabada.",
+  "landNewsAttr": "Benjamin Netanyahu, en respuesta a una información según la cual habría recibido una advertencia de Mohamed bin Zayed antes del 7 de octubre",
+  "landNewsNote": "Una conversación así deja un acta, un protocolo y una grabación."
  }
 }

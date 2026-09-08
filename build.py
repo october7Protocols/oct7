@@ -51,6 +51,8 @@ DIST = os.path.join(HERE, "dist")
 # one level down so the root can be a page that is on screen at once.
 DOC = os.path.join(DIST, "doc")
 LANDING = os.path.join(SRC, "landing.html")
+# Anything the entry page shows. Copied to dist/assets/ wholesale.
+LANDING_ASSETS = os.path.join(SRC, "assets", "landing")
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -441,7 +443,9 @@ def build_landing(shell_text, manifest):
     # strings have no business being downloaded before anyone has opened it.
     KEEP = ("label", "dir", "issued", "t1", "t2", "subtitle",
             "landTitle", "landLead", "landNowLabel", "landEnter",
-            "landSoonLabel", "landSoon", "landSoonNote", "landFoot")
+            "landSoonLabel", "landSoon", "landSoonNote", "landFoot",
+            "landNewsLabel", "landNewsPull", "landNewsQuote", "landNewsAttr",
+            "landNewsNote")
     subset, order = {}, []
     for lang in strings:
         t = strings[lang]
@@ -588,6 +592,7 @@ def main():
     # speaker cannot leave an orphan behind for the next deploy to publish.
     shutil.rmtree(os.path.join(DOC, "portraits"), ignore_errors=True)
     shutil.rmtree(os.path.join(DIST, "fonts"), ignore_errors=True)
+    shutil.rmtree(os.path.join(DIST, "assets"), ignore_errors=True)
     # Before the entry page existed the document was the root and its photos
     # sat in dist/portraits/. Left behind, they are 4 MB of dead weight in
     # every deploy from a working tree that predates the split.
@@ -609,6 +614,8 @@ def main():
 
     with open(os.path.join(DIST, "index.html"), "w", encoding="utf-8") as f:
         f.write(landing)
+    if os.path.isdir(LANDING_ASSETS):
+        shutil.copytree(LANDING_ASSETS, os.path.join(DIST, "assets"))
     for rel, blob in sorted(fonts.items()):
         dest = os.path.join(DIST, rel)
         os.makedirs(os.path.dirname(dest), exist_ok=True)

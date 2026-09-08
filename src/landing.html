@@ -121,6 +121,58 @@ h1 .hl { color: #ff5a6e; }
 /* The arrow points into the page, which is leftwards in Hebrew and Arabic. */
 [dir="rtl"] .enter .arw { transform: scaleX(-1); }
 
+/* ── The response block ───────────────────────────────────────────────────
+   A quoted denial, given as a denial: the words, who said them, and what
+   they were answering. The cut-out portraits are the same treatment the
+   document gives every speaker. */
+.news {
+  margin-top: clamp(16px, 3vh, 22px);
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.03);
+  display: grid; grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+  align-items: end; gap: clamp(14px, 3vw, 26px);
+  padding: clamp(18px, 4.4vw, 28px);
+}
+.news-art { margin: 0; align-self: end; }
+.news-art img {
+  display: block; width: 100%; height: auto;
+  filter: grayscale(1) contrast(1.06);
+  /* The photo is a cut-out on transparency, so it sits straight on the
+     page rather than on a plate. */
+}
+.news-label {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: .16em;
+  color: #ff5a6e; text-transform: uppercase;
+}
+.news-pull {
+  margin: 10px 0 0; font-size: clamp(19px, 5vw, 27px); font-weight: 800;
+  line-height: 1.22; letter-spacing: -0.02em;
+}
+.news-pull::before { content: "\201D"; }
+.news-pull::after { content: "\201C"; }
+[dir="ltr"] .news-pull::before { content: "\201C"; }
+[dir="ltr"] .news-pull::after { content: "\201D"; }
+.news-quote {
+  margin: 12px 0 0; font-size: clamp(13.5px, 3.6vw, 16px); font-weight: 300;
+  line-height: 1.65; color: #c3cbe6;
+}
+.news-attr {
+  margin: 12px 0 0; font-size: clamp(11.5px, 3.1vw, 13px); font-weight: 400;
+  line-height: 1.5; color: #7a86b4;
+}
+.news-note {
+  margin: 16px 0 0; padding-inline-start: 12px;
+  border-inline-start: 3px solid #c8102e;
+  font-size: clamp(13.5px, 3.6vw, 16px); font-weight: 500; line-height: 1.5;
+}
+@media (max-width: 620px) {
+  /* Two columns leave the portraits too small to read a face in. */
+  .news { grid-template-columns: 1fr; align-items: start; }
+  .news-art { max-width: 260px; margin-inline: auto; }
+}
+
 .soon {
   margin-top: clamp(16px, 3vh, 22px);
   border: 1px dashed rgba(255,255,255,0.2);
@@ -180,6 +232,19 @@ footer {
     <span class="enter"><span id="k-enter"></span><span class="arw">&#8594;</span></span>
   </a>
 
+  <section class="news">
+    <figure class="news-art">
+      <img src="assets/mbz-netanyahu.png" alt="" width="1200" height="864" decoding="async">
+    </figure>
+    <div class="news-text">
+      <span class="news-label" id="k-newslabel"></span>
+      <blockquote class="news-pull" id="k-newspull"></blockquote>
+      <p class="news-quote" id="k-newsquote"></p>
+      <p class="news-attr" id="k-newsattr"></p>
+      <p class="news-note" id="k-newsnote"></p>
+    </div>
+  </section>
+
   <div class="soon">
     <span class="soon-label" id="k-soonlabel"></span>
     <div class="soon-head" id="k-soon"></div>
@@ -221,6 +286,16 @@ function apply(k) {
   set('k-doctitle', (t.t1 + ' ' + t.t2).trim());
   set('k-docsub', t.subtitle + ' \u00b7 ' + t.issued);
   set('k-enter', t.landEnter);
+  set('k-newslabel', t.landNewsLabel);
+  set('k-newspull', t.landNewsPull);
+  set('k-newsquote', t.landNewsQuote);
+  set('k-newsattr', t.landNewsAttr);
+  set('k-newsnote', t.landNewsNote);
+  // A translated quotation is not the quotation. The Hebrew the man
+  // actually said stays one hover away in every other language.
+  var he = S.he;
+  document.getElementById('k-newspull').title = k === 'he' ? '' : he.landNewsPull;
+  document.getElementById('k-newsquote').title = k === 'he' ? '' : he.landNewsQuote;
   set('k-soonlabel', t.landSoonLabel);
   set('k-soon', t.landSoon);
   set('k-soonnote', t.landSoonNote);
