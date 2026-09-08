@@ -53,9 +53,12 @@ body {
 /* The globe says what the two-letter codes are for. */
 .lang .globe { display: flex; align-items: center; padding: 0 5px 0 3px; color: #8b97c4; flex: none; }
 .lang button {
-  cursor: pointer; border: 0; padding: 6px 9px; background: transparent; color: #c3cbe6;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 12.5px; font-weight: 500; letter-spacing: .06em; line-height: 1;
+  cursor: pointer; border: 0; padding: 6px 10px; background: transparent; color: #c3cbe6;
+  /* Heebo, not the mono face: the mono has no Hebrew, so עב fell back to a
+     different font at a different weight from the codes beside it, and the
+     mono's own capitals are thin at this size. */
+  font-family: Heebo, system-ui, sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: .03em; line-height: 1;
   transition: background .2s ease, color .2s ease;
 }
 .lang button:hover { background: #c8102e; color: #fff; }
@@ -225,7 +228,7 @@ footer {
 
 @media (max-width: 560px) {
   .lang { top: 8px; left: 6px; }
-  .lang button { padding: 5px 7px; font-size: 11px; }
+  .lang button { padding: 6px 8px; font-size: 12.5px; }
   .lang .globe { display: none; }
   .now { align-items: stretch; }
   .enter { width: 100%; justify-content: center; }
@@ -298,19 +301,26 @@ function initial() {
     var saved = window.localStorage.getItem('oct7.lang');
     if (saved && S[saved]) return saved;
   } catch (e) { /* private mode */ }
-  // A visitor arriving in a language we publish gets it without asking.
+  // Israel reads this in Hebrew. The timezone answers "where" without a
+  // geo-IP lookup, which would be a third-party request carrying the
+  // reader's address.
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if ((tz === 'Asia/Jerusalem' || tz === 'Asia/Tel_Aviv') && S.he) return 'he';
+  } catch (e) { /* no Intl, fall through */ }
+  // Abroad: the reader's own language when we publish it, English otherwise.
   var nav = (navigator.languages || [navigator.language || '']);
   for (var i = 0; i < nav.length; i++) {
     var c = String(nav[i]).slice(0, 2).toLowerCase();
-    if (c === 'iw') c = 'he';
+    if (c === 'iw') c = 'he';           // the old ISO code for Hebrew
     if (S[c]) return c;
   }
-  return 'he';
+  return S.en ? 'en' : 'he';
 }
 
 function set(id, text) { document.getElementById(id).textContent = text || ''; }
 
-function apply(k) {
+function apply(k, remember) {
   var t = S[k] || S.he;
   document.documentElement.lang = k;
   document.documentElement.dir = t.dir || 'rtl';
@@ -340,9 +350,13 @@ function apply(k) {
   set('k-soon', t.landSoon);
   set('k-soonnote', t.landSoonNote);
   set('k-foot', t.landFoot);
-  // The document reads the same key on load, so a choice made here is the
-  // language it opens in.
-  try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
+  // Only a click is remembered. The document detects the same way this page
+  // does, so storing a guess would freeze it — and a reader who travels
+  // would keep the language of wherever they first opened the site.
+  // A choice, though, is the language the document then opens in.
+  if (remember) {
+    try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
+  }
   var b = document.querySelectorAll('#lang button');
   for (var i = 0; i < b.length; i++) b[i].setAttribute('aria-current', b[i].dataset.k === k ? 'true' : 'false');
 }
@@ -360,8 +374,8 @@ function apply(k) {
     b.lang = k;
     b.title = (S[k] || {}).label || k;
     b.setAttribute('aria-label', (S[k] || {}).label || k);
-    b.textContent = k.toUpperCase();
-    b.onclick = function () { apply(k); };
+    b.textContent = (S[k] || {}).code || k.toUpperCase();
+    b.onclick = function () { apply(k, true); };
     nav.appendChild(b);
   });
   apply(initial());

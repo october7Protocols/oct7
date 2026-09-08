@@ -446,20 +446,24 @@ def build_landing(shell_text, manifest):
 
     # Only the keys the entry page shows. The document's 411 translated
     # strings have no business being downloaded before anyone has opened it.
-    KEEP = ("label", "dir", "issued", "t1", "t2", "subtitle",
+    KEEP = ("label", "code", "dir", "issued", "t1", "t2", "subtitle",
             "landTitle", "landLead", "landNowLabel", "landEnter",
             "landSoonLabel", "landSoon", "landSoonNote", "landFoot",
             "landNewsLabel", "landNewsPull", "landNewsQuote", "landNewsAttr",
             "landNewsNote", "landBennettLabel", "landBennettPull",
             "landBennettAttr", "landBennettLink")
+    # `code` is the picker's own label for a language. Falling it back to
+    # Hebrew would put עב on all six buttons, so it is the one key a
+    # language may leave unset — the picker then uses the key in capitals.
+    NO_FALLBACK = ("code",)
     subset, order = {}, []
     for lang in strings:
         t = strings[lang]
         base = strings.get("he", {})
         picked = {}
         for k in KEEP:
-            v = t.get(k) or base.get(k) or ""
-            if not v and lang == "he":
+            v = t.get(k) or ("" if k in NO_FALLBACK else base.get(k)) or ""
+            if not v and lang == "he" and k not in NO_FALLBACK:
                 die("src/i18n.json: he.%s is empty — the entry page needs it" % k)
             picked[k] = v
         subset[lang] = picked
