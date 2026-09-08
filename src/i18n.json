@@ -91,7 +91,8 @@
   "landEnter": "כניסה לפרוטוקולים",
   "landSoonLabel": "בקרוב",
   "landSoon": "פרוטוקולים נוספים ייחשפו כאן",
-  "landSoonNote": "שווה לחזור. כל פרסום חדש עולה לדף הזה."
+  "landSoonNote": "שווה לחזור. כל פרסום חדש עולה לדף הזה.",
+  "landFoot": "הדברים לקוחים מפרוטוקולים אמיתיים שנחשפו, ואחרים ייחשפו בהמשך. מוגש כשירות לציבור."
  },
  "en": {
   "label": "English",
@@ -700,7 +701,8 @@
   "landEnter": "Enter the protocols",
   "landSoonLabel": "Coming soon",
   "landSoon": "Further protocols will be revealed here",
-  "landSoonNote": "Worth returning. Every new release appears on this page."
+  "landSoonNote": "Worth returning. Every new release appears on this page.",
+  "landFoot": "What appears here is taken from real protocols that have been revealed. Others will follow. Offered as a public service."
  },
  "fr": {
   "label": "Français",
@@ -1309,7 +1311,8 @@
   "landEnter": "Entrer dans les protocoles",
   "landSoonLabel": "Prochainement",
   "landSoon": "D'autres protocoles seront révélés ici",
-  "landSoonNote": "Cela vaut la peine de revenir. Chaque nouvelle publication paraît sur cette page."
+  "landSoonNote": "Cela vaut la peine de revenir. Chaque nouvelle publication paraît sur cette page.",
+  "landFoot": "Ce qui figure ici est tiré de protocoles authentiques qui ont été révélés. D'autres suivront. Offert comme un service au public."
  },
  "ar": {
   "label": "العربية",
@@ -1918,7 +1921,8 @@
   "landEnter": "الدخول إلى المحاضر",
   "landSoonLabel": "قريبًا",
   "landSoon": "ستُكشف هنا محاضر إضافية",
-  "landSoonNote": "يستحق العودة. كل نشر جديد يظهر في هذه الصفحة."
+  "landSoonNote": "يستحق العودة. كل نشر جديد يظهر في هذه الصفحة.",
+  "landFoot": "ما يَرِد هنا مأخوذ من محاضر حقيقية كُشف عنها، وستتبعها محاضر أخرى. يُقدَّم خدمةً للجمهور."
  },
  "de": {
   "label": "Deutsch",
@@ -2527,7 +2531,8 @@
   "landEnter": "Zu den Protokollen",
   "landSoonLabel": "Demnächst",
   "landSoon": "Weitere Protokolle werden hier offengelegt",
-  "landSoonNote": "Es lohnt sich wiederzukommen. Jede neue Veröffentlichung erscheint auf dieser Seite."
+  "landSoonNote": "Es lohnt sich wiederzukommen. Jede neue Veröffentlichung erscheint auf dieser Seite.",
+  "landFoot": "Was hier steht, stammt aus echten Protokollen, die offengelegt wurden. Weitere folgen. Als Dienst an der Öffentlichkeit."
  },
  "es": {
   "label": "Español",
@@ -3136,6 +3141,7 @@
   "landEnter": "Entrar en los protocolos",
   "landSoonLabel": "Próximamente",
   "landSoon": "Aquí se revelarán más protocolos",
-  "landSoonNote": "Vale la pena volver. Cada nueva publicación aparece en esta página."
+  "landSoonNote": "Vale la pena volver. Cada nueva publicación aparece en esta página.",
+  "landFoot": "Lo que aquí figura procede de protocolos auténticos que han sido revelados. Seguirán otros. Ofrecido como servicio público."
  }
 }

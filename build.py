@@ -439,9 +439,9 @@ def build_landing(shell_text, manifest):
 
     # Only the keys the entry page shows. The document's 411 translated
     # strings have no business being downloaded before anyone has opened it.
-    KEEP = ("label", "dir", "issued", "t1", "t2", "subtitle", "footer2",
+    KEEP = ("label", "dir", "issued", "t1", "t2", "subtitle",
             "landTitle", "landLead", "landNowLabel", "landEnter",
-            "landSoonLabel", "landSoon", "landSoonNote")
+            "landSoonLabel", "landSoon", "landSoonNote", "landFoot")
     subset, order = {}, []
     for lang in strings:
         t = strings[lang]
