@@ -170,10 +170,25 @@ h1 .hl { color: #ff5a6e; }
   border-inline-start: 3px solid #c8102e;
   font-size: clamp(13.5px, 3.6vw, 16px); font-weight: 500; line-height: 1.5;
 }
+/* The second voice: one line, a face and the recording it came from. */
+.news-sm { grid-template-columns: minmax(0, 29%) minmax(0, 1fr); align-items: end; }
+.news-sm .news-pull { font-size: clamp(17px, 4.4vw, 23px); }
+.news-listen {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 12px;
+  color: #ff5a6e; text-decoration: none;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: clamp(10.5px, 2.9vw, 12px); font-weight: 500; letter-spacing: .04em;
+  border-bottom: 1px solid rgba(255,90,110,0.4); padding-bottom: 2px;
+  transition: color .2s ease, border-color .2s ease;
+}
+.news-listen:hover { color: #fff; border-color: #fff; }
+.news-listen svg { flex: none; }
+
 @media (max-width: 620px) {
   /* Two columns leave the portraits too small to read a face in. */
   .news { grid-template-columns: 1fr; align-items: start; }
   .news-art { max-width: 260px; margin-inline: auto; }
+  .news-sm .news-art { max-width: 150px; margin-inline: 0; }
 }
 
 .soon {
@@ -249,6 +264,22 @@ footer {
     </div>
   </section>
 
+  <section class="news news-sm">
+    <figure class="news-art">
+      <img src="assets/bennett.png" alt="" width="760" height="615" decoding="async" loading="lazy">
+    </figure>
+    <div class="news-text">
+      <span class="news-label" id="k-benlabel"></span>
+      <blockquote class="news-pull" id="k-benpull"></blockquote>
+      <p class="news-attr" id="k-benattr"></p>
+      <a class="news-listen" id="k-benlink" target="_blank" rel="noopener"
+         href="https://glz.co.il/%D7%92%D7%9C%D7%A6/%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%95%D7%AA/%D7%91%D7%95%D7%A7%D7%A8-%D7%98%D7%95%D7%91-%D7%99%D7%A9%D7%A8%D7%90%D7%9C/%D7%91%D7%95%D7%A7%D7%A8-%D7%98%D7%95%D7%91-%D7%99%D7%A9%D7%A8%D7%90%D7%9C-08-09-2026-0600/">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6.2v3.6M6 3.6v8.8M9 5v6M12 7v2"/></svg>
+        <span></span>
+      </a>
+    </div>
+  </section>
+
   <div class="soon">
     <span class="soon-label" id="k-soonlabel"></span>
     <div class="soon-head" id="k-soon"></div>
@@ -300,6 +331,11 @@ function apply(k) {
   var he = S.he;
   document.getElementById('k-newspull').title = k === 'he' ? '' : he.landNewsPull;
   document.getElementById('k-newsquote').title = k === 'he' ? '' : he.landNewsQuote;
+  set('k-benlabel', t.landBennettLabel);
+  set('k-benpull', t.landBennettPull);
+  set('k-benattr', t.landBennettAttr);
+  document.querySelector('#k-benlink span').textContent = t.landBennettLink;
+  document.getElementById('k-benpull').title = k === 'he' ? '' : he.landBennettPull;
   set('k-soonlabel', t.landSoonLabel);
   set('k-soon', t.landSoon);
   set('k-soonnote', t.landSoonNote);

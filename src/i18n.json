@@ -100,7 +100,11 @@
   "landNewsNote": "לשיחה כזאת יש רישום, פרוטוקול והקלטה.",
   "backHome": "חזרה",
   "backHomeTitle": "חזרה לדף הראשי",
-  "langLabel": "שפה"
+  "langLabel": "שפה",
+  "landBennettLabel": "ראש הממשלה לשעבר",
+  "landBennettPull": "לא מכיר את המידע הזה",
+  "landBennettAttr": "נפתלי בנט, בריאיון לגלי צה״ל, 8 בספטמבר 2026",
+  "landBennettLink": "להאזנה · דקה 83"
  },
  "en": {
   "label": "English",
@@ -718,7 +722,11 @@
   "landNewsNote": "A conversation like that leaves a record, a protocol and a recording.",
   "backHome": "Back",
   "backHomeTitle": "Back to the main page",
-  "langLabel": "Language"
+  "langLabel": "Language",
+  "landBennettLabel": "The former Prime Minister",
+  "landBennettPull": "I am not familiar with this information",
+  "landBennettAttr": "Naftali Bennett, in an interview on Galei Tzahal, 8 September 2026",
+  "landBennettLink": "Listen · minute 83"
  },
  "fr": {
   "label": "Français",
@@ -1336,7 +1344,11 @@
   "landNewsNote": "Une telle conversation laisse un compte rendu, un protocole et un enregistrement.",
   "backHome": "Retour",
   "backHomeTitle": "Retour à la page principale",
-  "langLabel": "Langue"
+  "langLabel": "Langue",
+  "landBennettLabel": "L’ancien Premier ministre",
+  "landBennettPull": "Je ne connais pas cette information",
+  "landBennettAttr": "Naftali Bennett, dans un entretien sur Galei Tsahal, 8 septembre 2026",
+  "landBennettLink": "Écouter · minute 83"
  },
  "ar": {
   "label": "العربية",
@@ -1954,7 +1966,11 @@
   "landNewsNote": "محادثة كهذه تترك محضرًا وتسجيلًا.",
   "backHome": "رجوع",
   "backHomeTitle": "العودة إلى الصفحة الرئيسية",
-  "langLabel": "اللغة"
+  "langLabel": "اللغة",
+  "landBennettLabel": "رئيس الوزراء السابق",
+  "landBennettPull": "لا أعرف هذه المعلومة",
+  "landBennettAttr": "نفتالي بينيت، في مقابلة مع إذاعة الجيش، 8 أيلول/سبتمبر 2026",
+  "landBennettLink": "للاستماع · الدقيقة 83"
  },
  "de": {
   "label": "Deutsch",
@@ -2572,7 +2588,11 @@
   "landNewsNote": "Ein solches Gespräch hinterlässt ein Protokoll und eine Aufzeichnung.",
   "backHome": "Zurück",
   "backHomeTitle": "Zurück zur Startseite",
-  "langLabel": "Sprache"
+  "langLabel": "Sprache",
+  "landBennettLabel": "Der frühere Ministerpräsident",
+  "landBennettPull": "Diese Information ist mir nicht bekannt",
+  "landBennettAttr": "Naftali Bennett, im Interview bei Galei Zahal, 8. September 2026",
+  "landBennettLink": "Anhören · Minute 83"
  },
  "es": {
   "label": "Español",
@@ -3190,6 +3210,10 @@
   "landNewsNote": "Una conversación así deja un acta, un protocolo y una grabación.",
   "backHome": "Volver",
   "backHomeTitle": "Volver a la página principal",
-  "langLabel": "Idioma"
+  "langLabel": "Idioma",
+  "landBennettLabel": "El ex primer ministro",
+  "landBennettPull": "No conozco esa información",
+  "landBennettAttr": "Naftali Bennett, en una entrevista en Galei Tzahal, 8 de septiembre de 2026",
+  "landBennettLink": "Escuchar · minuto 83"
  }
 }

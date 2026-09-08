@@ -53,6 +53,11 @@ DOC = os.path.join(DIST, "doc")
 LANDING = os.path.join(SRC, "landing.html")
 # Anything the entry page shows. Copied to dist/assets/ wholesale.
 LANDING_ASSETS = os.path.join(SRC, "assets", "landing")
+# Portraits the entry page shows. They are the document's own cut-outs, kept
+# in one place rather than duplicated into assets/landing/; naming them here
+# means a renamed portrait fails the build instead of leaving a broken image
+# on the front page.
+LANDING_PORTRAITS = ("bennett",)
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -445,7 +450,8 @@ def build_landing(shell_text, manifest):
             "landTitle", "landLead", "landNowLabel", "landEnter",
             "landSoonLabel", "landSoon", "landSoonNote", "landFoot",
             "landNewsLabel", "landNewsPull", "landNewsQuote", "landNewsAttr",
-            "landNewsNote")
+            "landNewsNote", "landBennettLabel", "landBennettPull",
+            "landBennettAttr", "landBennettLink")
     subset, order = {}, []
     for lang in strings:
         t = strings[lang]
@@ -616,6 +622,12 @@ def main():
         f.write(landing)
     if os.path.isdir(LANDING_ASSETS):
         shutil.copytree(LANDING_ASSETS, os.path.join(DIST, "assets"))
+    os.makedirs(os.path.join(DIST, "assets"), exist_ok=True)
+    for key in LANDING_PORTRAITS:
+        srcfile = os.path.join(PORTRAIT_DIR, key + ".png")
+        if not os.path.exists(srcfile):
+            die("the entry page shows %s.png, which is not in assets/portraits/" % key)
+        shutil.copyfile(srcfile, os.path.join(DIST, "assets", key + ".png"))
     for rel, blob in sorted(fonts.items()):
         dest = os.path.join(DIST, rel)
         os.makedirs(os.path.dirname(dest), exist_ok=True)
