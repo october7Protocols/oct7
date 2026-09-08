@@ -236,6 +236,7 @@ footer {
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; transition-duration: .001s !important; } }
 </style>
 
+__GTM_BODY__
 <div class="bg"></div>
 
 <nav class="lang" id="lang" aria-label="Language"></nav>
@@ -320,6 +321,15 @@ function initial() {
 
 function set(id, text) { document.getElementById(id).textContent = text || ''; }
 
+// Whatever the site measures reads these. Pushing them costs nothing when
+// no container is installed: dataLayer is then just an array nobody reads.
+function track(name, data) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  } catch (e) { /* never let measurement break the page */ }
+}
+
 function apply(k, remember) {
   var t = S[k] || S.he;
   document.documentElement.lang = k;
@@ -375,9 +385,19 @@ function apply(k, remember) {
     b.title = (S[k] || {}).label || k;
     b.setAttribute('aria-label', (S[k] || {}).label || k);
     b.textContent = (S[k] || {}).code || k.toUpperCase();
-    b.onclick = function () { apply(k, true); };
+    b.onclick = function () { apply(k, true); track('language_pick', { language: k }); };
     nav.appendChild(b);
   });
-  apply(initial());
+  var first = initial();
+  apply(first);
+  track('landing_view', { language: first });
+
+  document.getElementById('enter-card').addEventListener('click', function () {
+    track('enter_document', { language: document.documentElement.lang });
+  });
+  var listen = document.getElementById('k-benlink');
+  if (listen) listen.addEventListener('click', function () {
+    track('listen_interview', { language: document.documentElement.lang });
+  });
 })();
 </script>

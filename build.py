@@ -66,6 +66,15 @@ SIDECAR = os.path.join(SRC, ".image-slots.state.json")
 
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
+# Google Tag Manager container, e.g. GTM-ABC1234. Empty by default, and an
+# empty value ships no third-party script at all — the page keeps its
+# zero-external-request property until someone deliberately sets this.
+# Whatever measurement actually happens is configured inside the container,
+# not here, so adding or removing a pixel never needs a rebuild.
+GTM_ID = os.environ.get("GTM_ID", "").strip()
+if GTM_ID and not re.match(r"^GTM-[A-Z0-9]{4,10}$", GTM_ID):
+    sys.exit("GTM_ID must look like GTM-ABC1234, got %r" % GTM_ID)
+
 # The site's name, as it identifies itself to a reader, a search engine and
 # a link preview. The document is one publication inside it, so the document
 # keeps its own title and the site name sits alongside it.
@@ -335,6 +344,35 @@ def load_portraits(transcript):
     return out, copies, "; ".join(notes) if notes else None
 
 
+def gtm_head():
+    """The container snippet, plus the dataLayer this site actually feeds.
+
+    A long scroll and a language picker produce almost no page views, so
+    page views alone would say nothing about whether anyone reads. The
+    events below are what carry the meaning; the container decides what,
+    if anything, listens to them.
+    """
+    if not GTM_ID:
+        return ""
+    return (
+        "<script>window.dataLayer=window.dataLayer||[];"
+        "function gtag(){dataLayer.push(arguments)}"
+        "(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':"
+        "new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],"
+        "j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;"
+        "j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;"
+        "f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer','%s');"
+        "</script>" % GTM_ID)
+
+
+def gtm_body():
+    if not GTM_ID:
+        return ""
+    return ('<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=%s"'
+            ' height="0" width="0" style="display:none;visibility:hidden"></iframe>'
+            "</noscript>" % GTM_ID)
+
+
 def head_meta(title, description, path="/", locale="he_IL"):
     def esc(s):
         return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
@@ -363,7 +401,8 @@ def head_meta(title, description, path="/", locale="he_IL"):
         for t in ('<meta property="og:image" content="%s/og.png">',
                   '<meta name="twitter:image" content="%s/og.png">'):
             tags.append(t % esc(SITE_URL))
-    return "\n".join(tags)
+    tags.append(gtm_head())
+    return "\n".join(t for t in tags if t)
 
 
 # ── The entry page ──────────────────────────────────────────────────────────
@@ -481,6 +520,7 @@ def build_landing(shell_text, manifest):
         ("__LANGS__", json_for_script(order)),
         ("__TITLE__", he["landTitle"]),
         ("__META__", head_meta(he["landTitle"], he["landLead"], "/")),
+        ("__GTM_BODY__", gtm_body()),
     ):
         if token not in page:
             die("src/landing.html has no %s placeholder" % token)
@@ -538,7 +578,8 @@ def build_template(shell_template, design_body, design_script, design_css, trans
     if not n:
         die("no <title> in the shell helmet to set")
 
-    out = (head + head_meta(TITLE, DESCRIPTION, "/doc/") + "\n" + design_css + "\n</helmet>" + design_body + "</x-dc>"
+    out = (head + head_meta(TITLE, DESCRIPTION, "/doc/") + "\n" + design_css + "\n</helmet>"
+           + gtm_body() + design_body + "</x-dc>"
            + payload + design_script + tail)
 
     # The editor's Google Fonts preconnects are dead weight once the woff2
@@ -580,6 +621,7 @@ def main():
     if p_note:
         print("  ! " + p_note)
     print("  site url   : " + (SITE_URL or "(unset — no canonical/og:url)"))
+    print("  analytics  : " + (GTM_ID or "none (no third-party request)"))
 
     # Render the entry page even in --check: it is the first thing a visitor
     # sees, so a broken placeholder or a missing string should fail the

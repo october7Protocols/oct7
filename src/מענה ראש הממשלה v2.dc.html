@@ -531,6 +531,15 @@ function strings(lang) {
 
 // A remembered language must still exist in the table; a stale one from an
 // older build falls back rather than emptying the page.
+// Whatever the site measures reads these. With no container installed
+// dataLayer is just an array nobody reads, so this costs nothing.
+function track(name, data) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  } catch (e) { /* never let measurement break the page */ }
+}
+
 function initialLang() {
   try {
     const saved = window.localStorage.getItem('oct7.lang');
@@ -604,7 +613,30 @@ class Component extends DCLogic {
     // 24 במאי 2021 while the reader sat on 21 בדצמבר 2016. A trailing pass
     // settles them, and re-measures first when content-visibility has grown
     // the document since the last measure, which moves every mark below.
+    // Reading depth. The whole document is one page view, so page views say
+    // nothing about whether anyone read it. Which chapter the reader reached
+    // is the signal, and it is derived from the scroll pass the rail already
+    // runs rather than from an IntersectionObserver — the observer never
+    // reports while a tab is hidden, and this has to be right in a
+    // background tab too.
+    this._seenChapters = new Set();
+    this._trackDepth = () => {
+      const mid = window.scrollY + window.innerHeight / 2;
+      const els = document.querySelectorAll('[id^="ch-"]');
+      for (const el of els) {
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        if (mid < top || mid > top + el.offsetHeight) continue;
+        const id = el.id.slice(3);
+        if (this._seenChapters.has(id)) return;
+        this._seenChapters.add(id);
+        track('chapter_read', { chapter: id, depth: this._seenChapters.size,
+                                language: this.state.lang });
+        return;
+      }
+    };
+
     this._onSettle = () => {
+      if (this._trackDepth) this._trackDepth();
       const h = document.documentElement.scrollHeight;
       if (Math.abs(h - (this._measuredH || 0)) > 4) this.measureStages();
       this.railTrack();
@@ -669,6 +701,7 @@ class Component extends DCLogic {
   setLang(k) {
     if (!I18N[k] || k === this.state.lang) return;
     try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
+    track('language_pick', { language: k });
     this.setState({ lang: k }, () => {
       this.applyLang(k);
       // Month names and every label change length, so every measurement the
@@ -696,6 +729,11 @@ class Component extends DCLogic {
   }
 
   applyFilter() {
+    track('filter_apply', {
+      speakers: (this.state.draftSpeakers || []).join(',') || '(none)',
+      period: this.state.draftPeriod || '(none)',
+      language: this.state.lang
+    });
     this.setState(
       { fSpeakers: this.state.draftSpeakers, fPeriod: this.state.draftPeriod },
       () => this.afterFilter(true)
