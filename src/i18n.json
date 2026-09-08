@@ -84,7 +84,14 @@
     "castRole": "מבקר המדינה"
    }
   },
-  "doc": {}
+  "doc": {},
+  "landTitle": "חשיפת הפרוטוקולים",
+  "landLead": "כאן נחשפים פרוטוקולים אמיתיים מן הדיונים שקדמו ל־7 באוקטובר ומאלה שבאו אחריו. האתר מוגש כשירות לציבור, שזכותו לדעת את האמת.",
+  "landNowLabel": "הפרסום הראשון",
+  "landEnter": "כניסה לפרוטוקולים",
+  "landSoonLabel": "בקרוב",
+  "landSoon": "פרוטוקולים נוספים ייחשפו כאן",
+  "landSoonNote": "שווה לחזור. כל פרסום חדש עולה לדף הזה."
  },
  "en": {
   "label": "English",
@@ -686,7 +693,14 @@
    "בה בעת, גופי המודיעין והביטחון לא העבירו לראש הממשלה מידעים שהיו עשויים להצביע על מציאות שונה מזו שהוצגה. זאת, על אף שהסתבר בדיעבד כי נקלטו מידע ואינדיקציות שהצביעו על אימונים ובניין כוח שחמאס מבצעת לקראת פשיטה רחבה לישראל.": "At the same time, the intelligence and security bodies did not pass on to the Prime Minister information that might have pointed to a reality different from the one presented — even though it emerged in hindsight that information and indications had been received pointing to training and force build-up that Hamas was conducting toward a broad raid into Israel.",
    "יתר על כן, הוצג בפני ראש הממשלה מידע כי לחמאס יכולות לפשיטה מצומצמת בלבד ובאמצעות מנהרות, שתכלול לכל היותר פיגוע בודד או שניים בסמוך לגדר.": "Moreover, information was presented to the Prime Minister that Hamas had capabilities for a limited raid only, by means of tunnels, that would comprise at most one or two attacks close to the fence.",
    "האופן בו תפסה מערכת הביטחון את המצב מול חמאס הוא שהוביל בסופו של דבר, בזמן אמת, וגם תחת סימנים חריגים, לכך שבהערכת מצב בראשות ר' השב\"כ ניתנת הנחייה להימנע מפעילות רחבה בכל הנוגע למוכנות לתגובה, בשל חשש ממיס-קלקולציה.": "It was the way the defence establishment perceived the situation with Hamas that ultimately led, in real time and even in the face of unusual signs, to an instruction being given at a situation assessment chaired by the Head of the Shin Bet to refrain from broad activity as regards readiness to respond, out of fear of a miscalculation."
-  }
+  },
+  "landTitle": "The Protocols Revealed",
+  "landLead": "Here we publish the real protocols of the deliberations that preceded 7 October, and of those that followed it. The site is offered as a public service, to a public entitled to know the truth.",
+  "landNowLabel": "First publication",
+  "landEnter": "Enter the protocols",
+  "landSoonLabel": "Coming soon",
+  "landSoon": "Further protocols will be revealed here",
+  "landSoonNote": "Worth returning. Every new release appears on this page."
  },
  "fr": {
   "label": "Français",
@@ -1288,7 +1302,14 @@
    "בה בעת, גופי המודיעין והביטחון לא העבירו לראש הממשלה מידעים שהיו עשויים להצביע על מציאות שונה מזו שהוצגה. זאת, על אף שהסתבר בדיעבד כי נקלטו מידע ואינדיקציות שהצביעו על אימונים ובניין כוח שחמאס מבצעת לקראת פשיטה רחבה לישראל.": "Dans le même temps, les organes de renseignement et de sécurité n'ont pas transmis au Premier ministre des informations susceptibles d'indiquer une réalité différente de celle présentée — alors qu'il est apparu a posteriori que des informations et des indices avaient été recueillis, signalant des entraînements et une constitution de forces menés par le Hamas en vue d'un vaste raid en Israël.",
    "יתר על כן, הוצג בפני ראש הממשלה מידע כי לחמאס יכולות לפשיטה מצומצמת בלבד ובאמצעות מנהרות, שתכלול לכל היותר פיגוע בודד או שניים בסמוך לגדר.": "De plus, il a été présenté au Premier ministre que le Hamas ne disposait de capacités que pour un raid limité, au moyen de tunnels, comportant tout au plus un ou deux attentats à proximité de la barrière.",
    "האופן בו תפסה מערכת הביטחון את המצב מול חמאס הוא שהוביל בסופו של דבר, בזמן אמת, וגם תחת סימנים חריגים, לכך שבהערכת מצב בראשות ר' השב\"כ ניתנת הנחייה להימנע מפעילות רחבה בכל הנוגע למוכנות לתגובה, בשל חשש ממיס-קלקולציה.": "C'est la façon dont l'appareil de sécurité percevait la situation face au Hamas qui a finalement conduit, en temps réel et même face à des signes inhabituels, à ce qu'une instruction soit donnée, lors d'une évaluation de situation présidée par le chef du Shin Bet, de s'abstenir d'une activité étendue s'agissant de la disponibilité à riposter, par crainte d'une erreur d'appréciation."
-  }
+  },
+  "landTitle": "Les protocoles révélés",
+  "landLead": "Nous publions ici les protocoles authentiques des délibérations qui ont précédé le 7 octobre, et de celles qui l'ont suivi. Le site est offert comme un service au public, à un public en droit de connaître la vérité.",
+  "landNowLabel": "Première publication",
+  "landEnter": "Entrer dans les protocoles",
+  "landSoonLabel": "Prochainement",
+  "landSoon": "D'autres protocoles seront révélés ici",
+  "landSoonNote": "Cela vaut la peine de revenir. Chaque nouvelle publication paraît sur cette page."
  },
  "ar": {
   "label": "العربية",
@@ -1890,7 +1911,14 @@
    "בה בעת, גופי המודיעין והביטחון לא העבירו לראש הממשלה מידעים שהיו עשויים להצביע על מציאות שונה מזו שהוצגה. זאת, על אף שהסתבר בדיעבד כי נקלטו מידע ואינדיקציות שהצביעו על אימונים ובניין כוח שחמאס מבצעת לקראת פשיטה רחבה לישראל.": "وفي الوقت نفسه، لم تنقل أجهزة الاستخبارات والأمن إلى رئيس الوزراء معلومات كان يمكن أن تشير إلى واقع مختلف عمّا عُرض. وذلك رغم أنه تبيّن لاحقًا أنه وردت معلومات ومؤشرات تدل على تدريبات وبناء قوة تنفّذها حماس تمهيدًا لاقتحام واسع إلى إسرائيل.",
    "יתר על כן, הוצג בפני ראש הממשלה מידע כי לחמאס יכולות לפשיטה מצומצמת בלבד ובאמצעות מנהרות, שתכלול לכל היותר פיגוע בודד או שניים בסמוך לגדר.": "علاوة على ذلك، عُرضت على رئيس الوزراء معلومات مفادها أن لحماس قدرات على اقتحام محدود فقط، عبر الأنفاق، يشمل على الأكثر عملية أو عمليتين قرب السياج.",
    "האופן בו תפסה מערכת הביטחון את המצב מול חמאס הוא שהוביל בסופו של דבר, בזמן אמת, וגם תחת סימנים חריגים, לכך שבהערכת מצב בראשות ר' השב\"כ ניתנת הנחייה להימנע מפעילות רחבה בכל הנוגע למוכנות לתגובה, בשל חשש ממיס-קלקולציה.": "إن الطريقة التي تصوّرت بها المؤسسة الأمنية الوضع أمام حماس هي التي أدّت في نهاية المطاف، في الزمن الحقيقي، وحتى في ظل علامات غير اعتيادية، إلى إعطاء توجيه في تقدير موقف برئاسة رئيس الشاباك بالامتناع عن نشاط واسع فيما يتعلق بالجاهزية للردّ، خشية سوء التقدير."
-  }
+  },
+  "landTitle": "كشف المحاضر",
+  "landLead": "تُنشر هنا محاضر حقيقية للمشاورات التي سبقت السابع من أكتوبر ولتلك التي تلته. يُقدَّم هذا الموقع خدمةً للجمهور، الذي من حقه أن يعرف الحقيقة.",
+  "landNowLabel": "النشر الأول",
+  "landEnter": "الدخول إلى المحاضر",
+  "landSoonLabel": "قريبًا",
+  "landSoon": "ستُكشف هنا محاضر إضافية",
+  "landSoonNote": "يستحق العودة. كل نشر جديد يظهر في هذه الصفحة."
  },
  "de": {
   "label": "Deutsch",
@@ -2492,7 +2520,14 @@
    "בה בעת, גופי המודיעין והביטחון לא העבירו לראש הממשלה מידעים שהיו עשויים להצביע על מציאות שונה מזו שהוצגה. זאת, על אף שהסתבר בדיעבד כי נקלטו מידע ואינדיקציות שהצביעו על אימונים ובניין כוח שחמאס מבצעת לקראת פשיטה רחבה לישראל.": "Zugleich übermittelten die Nachrichten- und Sicherheitsorgane dem Ministerpräsidenten keine Informationen, die auf eine andere als die dargestellte Wirklichkeit hätten hindeuten können — obwohl sich im Nachhinein herausstellte, dass Informationen und Hinweise eingegangen waren, die auf Übungen und Kräfteaufbau der Hamas im Hinblick auf einen breiten Überfall auf Israel hindeuteten.",
    "יתר על כן, הוצג בפני ראש הממשלה מידע כי לחמאס יכולות לפשיטה מצומצמת בלבד ובאמצעות מנהרות, שתכלול לכל היותר פיגוע בודד או שניים בסמוך לגדר.": "Überdies wurden dem Ministerpräsidenten Informationen vorgelegt, wonach die Hamas nur Fähigkeiten für einen begrenzten Überfall mittels Tunneln habe, der höchstens einen oder zwei Anschläge in Zaunnähe umfassen würde.",
    "האופן בו תפסה מערכת הביטחון את המצב מול חמאס הוא שהוביל בסופו של דבר, בזמן אמת, וגם תחת סימנים חריגים, לכך שבהערכת מצב בראשות ר' השב\"כ ניתנת הנחייה להימנע מפעילות רחבה בכל הנוגע למוכנות לתגובה, בשל חשש ממיס-קלקולציה.": "Es war die Art, wie der Sicherheitsapparat die Lage gegenüber der Hamas auffasste, die letztlich in Echtzeit und selbst angesichts ungewöhnlicher Zeichen dazu führte, dass bei einer Lagebeurteilung unter Vorsitz des Leiters des Schin Bet die Weisung erging, hinsichtlich der Reaktionsbereitschaft von breiter Aktivität abzusehen, aus Furcht vor einer Fehlkalkulation."
-  }
+  },
+  "landTitle": "Die Protokolle offengelegt",
+  "landLead": "Hier werden echte Protokolle der Beratungen veröffentlicht, die dem 7. Oktober vorausgingen, und jener, die ihm folgten. Die Seite versteht sich als Dienst an einer Öffentlichkeit, die ein Recht darauf hat, die Wahrheit zu erfahren.",
+  "landNowLabel": "Erste Veröffentlichung",
+  "landEnter": "Zu den Protokollen",
+  "landSoonLabel": "Demnächst",
+  "landSoon": "Weitere Protokolle werden hier offengelegt",
+  "landSoonNote": "Es lohnt sich wiederzukommen. Jede neue Veröffentlichung erscheint auf dieser Seite."
  },
  "es": {
   "label": "Español",
@@ -3094,6 +3129,13 @@
    "בה בעת, גופי המודיעין והביטחון לא העבירו לראש הממשלה מידעים שהיו עשויים להצביע על מציאות שונה מזו שהוצגה. זאת, על אף שהסתבר בדיעבד כי נקלטו מידע ואינדיקציות שהצביעו על אימונים ובניין כוח שחמאס מבצעת לקראת פשיטה רחבה לישראל.": "Al mismo tiempo, los organismos de inteligencia y seguridad no trasladaron al Primer Ministro informaciones que podrían haber apuntado a una realidad distinta de la presentada. Ello, pese a que a posteriori resultó que se habían recibido informaciones e indicios que señalaban entrenamientos y construcción de fuerzas que Hamás llevaba a cabo de cara a un asalto amplio en Israel.",
    "יתר על כן, הוצג בפני ראש הממשלה מידע כי לחמאס יכולות לפשיטה מצומצמת בלבד ובאמצעות מנהרות, שתכלול לכל היותר פיגוע בודד או שניים בסמוך לגדר.": "Además, se presentó al Primer Ministro información de que Hamás tenía capacidades solo para un asalto limitado, mediante túneles, que comprendería a lo sumo uno o dos atentados cerca de la valla.",
    "האופן בו תפסה מערכת הביטחון את המצב מול חמאס הוא שהוביל בסופו של דבר, בזמן אמת, וגם תחת סימנים חריגים, לכך שבהערכת מצב בראשות ר' השב\"כ ניתנת הנחייה להימנע מפעילות רחבה בכל הנוגע למוכנות לתגובה, בשל חשש ממיס-קלקולציה.": "Fue la manera en que el aparato de seguridad percibía la situación frente a Hamás la que llevó en última instancia, en tiempo real e incluso ante señales inusuales, a que en una evaluación de situación presidida por el jefe del Shin Bet se diera la instrucción de abstenerse de una actividad amplia en lo relativo a la disposición a responder, por temor a un error de cálculo."
-  }
+  },
+  "landTitle": "Los protocolos al descubierto",
+  "landLead": "Aquí se publican protocolos auténticos de las deliberaciones que precedieron al 7 de octubre y de las que vinieron después. El sitio se ofrece como un servicio al público, que tiene derecho a conocer la verdad.",
+  "landNowLabel": "Primera publicación",
+  "landEnter": "Entrar en los protocolos",
+  "landSoonLabel": "Próximamente",
+  "landSoon": "Aquí se revelarán más protocolos",
+  "landSoonNote": "Vale la pena volver. Cada nueva publicación aparece en esta página."
  }
 }

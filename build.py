@@ -7,7 +7,10 @@ Build the publishable page from the editable source in src/.
     src/assets/portraits/<key>.png    one per speaker key
     src/assets/halevi-aman.png        the AMAN-era portrait
 
-    -> dist/index.html                one self-contained file, publish anywhere
+    src/landing.html                  the entry page — this too
+
+    -> dist/index.html                the entry page, light, loads instantly
+    -> dist/doc/index.html            the document, one self-contained file
 
 Why a build step
 ----------------
@@ -32,6 +35,7 @@ Usage
 """
 
 import base64
+import gzip
 import json
 import mimetypes
 import os
@@ -43,6 +47,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
 SHELL = os.path.join(HERE, "vendor", "export-shell.html")
 DIST = os.path.join(HERE, "dist")
+# The document is the heavy part: a 1.5 MB bundle plus the portraits. It sits
+# one level down so the root can be a page that is on screen at once.
+DOC = os.path.join(DIST, "doc")
+LANDING = os.path.join(SRC, "landing.html")
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -316,20 +324,20 @@ def load_portraits(transcript):
     return out, copies, "; ".join(notes) if notes else None
 
 
-def head_meta():
+def head_meta(title, description, path="/", locale="he_IL"):
     def esc(s):
         return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
 
     tags = [
-        '<meta name="description" content="%s">' % esc(DESCRIPTION),
+        '<meta name="description" content="%s">' % esc(description),
         '<meta name="robots" content="index,follow">',
         '<meta property="og:type" content="article">',
-        '<meta property="og:locale" content="he_IL">',
-        '<meta property="og:title" content="%s">' % esc(TITLE),
-        '<meta property="og:description" content="%s">' % esc(DESCRIPTION),
+        '<meta property="og:locale" content="%s">' % locale,
+        '<meta property="og:title" content="%s">' % esc(title),
+        '<meta property="og:description" content="%s">' % esc(description),
         '<meta name="twitter:card" content="summary_large_image">',
-        '<meta name="twitter:title" content="%s">' % esc(TITLE),
-        '<meta name="twitter:description" content="%s">' % esc(DESCRIPTION),
+        '<meta name="twitter:title" content="%s">' % esc(title),
+        '<meta name="twitter:description" content="%s">' % esc(description),
         '<meta name="theme-color" content="#04081a">',
         '<link rel="icon" href="data:image/svg+xml,'
         "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
@@ -337,12 +345,128 @@ def head_meta():
         "%3Crect x='6' y='14' width='20' height='4' fill='%23c8102e'/%3E%3C/svg%3E\">",
     ]
     if SITE_URL:
-        for t in ('<link rel="canonical" href="%s/">',
-                  '<meta property="og:url" content="%s/">',
-                  '<meta property="og:image" content="%s/og.png">',
+        here = esc(SITE_URL + path)
+        tags.append('<link rel="canonical" href="%s">' % here)
+        tags.append('<meta property="og:url" content="%s">' % here)
+        for t in ('<meta property="og:image" content="%s/og.png">',
                   '<meta name="twitter:image" content="%s/og.png">'):
             tags.append(t % esc(SITE_URL))
     return "\n".join(tags)
+
+
+# ── The entry page ──────────────────────────────────────────────────────────
+# It reuses the document's own faces rather than pulling Heebo from Google:
+# the fonts are already in the bundle, and a third-party request is exactly
+# what the rest of this build exists to remove.
+#
+# Only what the landing sets: Heebo covers the Hebrew and the Latin
+# languages, IBM Plex Mono the small caps-lock labels. Heebo has no Arabic,
+# so the Arabic reader falls to a system face (see landing.html).
+LANDING_FACES = [
+    ("Heebo", "hebrew"),
+    ("Heebo", "latin"),
+    ("IBM Plex Mono", "latin"),
+]
+
+FACE_RE = re.compile(r"@font-face \{\\n(.*?)\\n\}")
+
+
+def subset_of(unicode_range):
+    if "U+0590-05FF" in unicode_range:
+        return "hebrew"
+    if unicode_range.startswith("U+0000-00FF") or unicode_range.startswith("U+0100-02BA"):
+        return "latin"
+    return "other"
+
+
+def landing_fonts(shell_text, manifest):
+    """Pull the woff2 files the entry page needs out of the bundle.
+
+    Returns (css, {dist-relative path: bytes}). The faces are declared over a
+    weight *range*: these are variable fonts, which is why one file serves
+    every weight of a family in the export's own CSS.
+    """
+    want = set(LANDING_FACES)
+    seen, files, css = {}, {}, []
+    for block in FACE_RE.findall(shell_text):
+        fam = re.search(r"font-family: '([^']+)'", block)
+        url = re.search(r'url\(\\"([0-9a-f-]+)\\"', block)
+        rng = re.search(r"unicode-range: (.*?);", block)
+        if not (fam and url and rng):
+            continue
+        key = (fam.group(1), subset_of(rng.group(1)))
+        if key not in want or key in seen:
+            continue
+        entry = manifest.get(url.group(1))
+        if not entry:
+            die("font %s (%s) is not in the bundle manifest" % key)
+        raw = base64.b64decode(entry["data"])
+        if entry.get("compressed"):
+            raw = gzip.decompress(raw)
+        name = "%s-%s.woff2" % (key[0].lower().replace(" ", "-"), key[1])
+        files["fonts/" + name] = raw
+        seen[key] = True
+        css.append(
+            "@font-face {\n"
+            "  font-family: '%s';\n  font-style: normal;\n"
+            "  font-weight: 100 900;\n  font-display: swap;\n"
+            "  src: url('fonts/%s') format('woff2');\n"
+            "  unicode-range: %s;\n}" % (key[0], name, rng.group(1)))
+    missing = want - set(seen)
+    if missing:
+        die("could not find %s in the bundle's @font-face blocks"
+            % ", ".join("%s/%s" % m for m in sorted(missing)))
+    return "\n".join(css), files
+
+
+def load_manifest(shell_text):
+    m = re.search(r'<script type="__bundler/manifest">(.*?)</script>', shell_text, re.S)
+    if not m:
+        die("vendor/export-shell.html has no __bundler/manifest")
+    return json.loads(m.group(1))
+
+
+def build_landing(shell_text, manifest):
+    """Render src/landing.html with the copy, the languages and the fonts."""
+    if not os.path.exists(LANDING):
+        die("src/landing.html is missing — there would be no entry page")
+    strings = json.loads(read(I18N))
+
+    # Only the keys the entry page shows. The document's 411 translated
+    # strings have no business being downloaded before anyone has opened it.
+    KEEP = ("label", "dir", "issued", "t1", "t2", "subtitle", "footer2",
+            "landTitle", "landLead", "landNowLabel", "landEnter",
+            "landSoonLabel", "landSoon", "landSoonNote")
+    subset, order = {}, []
+    for lang in strings:
+        t = strings[lang]
+        base = strings.get("he", {})
+        picked = {}
+        for k in KEEP:
+            v = t.get(k) or base.get(k) or ""
+            if not v and lang == "he":
+                die("src/i18n.json: he.%s is empty — the entry page needs it" % k)
+            picked[k] = v
+        subset[lang] = picked
+        order.append(lang)
+    # Hebrew first, then the rest in file order: the picker reads left to
+    # right whatever the page direction is.
+    order = ["he"] + [k for k in order if k != "he"]
+
+    css, files = landing_fonts(shell_text, manifest)
+    he = subset["he"]
+    page = read(LANDING)
+    for token, value in (
+        ("__FONT_CSS__", css),
+        ("__STRINGS__", json_for_script(subset)),
+        ("__LANGS__", json_for_script(order)),
+        ("__TITLE__", he["landTitle"]),
+        ("__META__", head_meta(he["landTitle"], he["landLead"], "/")),
+    ):
+        if token not in page:
+            die("src/landing.html has no %s placeholder" % token)
+        page = page.replace(token, value)
+    return page, files
 
 
 def build_template(shell_template, design_body, design_script, design_css, transcript, portraits):
@@ -395,7 +519,7 @@ def build_template(shell_template, design_body, design_script, design_css, trans
     if not n:
         die("no <title> in the shell helmet to set")
 
-    out = (head + head_meta() + "\n" + design_css + "\n</helmet>" + design_body + "</x-dc>"
+    out = (head + head_meta(TITLE, DESCRIPTION, "/doc/") + "\n" + design_css + "\n</helmet>" + design_body + "</x-dc>"
            + payload + design_script + tail)
 
     # The editor's Google Fonts preconnects are dead weight once the woff2
@@ -438,6 +562,13 @@ def main():
         print("  ! " + p_note)
     print("  site url   : " + (SITE_URL or "(unset — no canonical/og:url)"))
 
+    # Render the entry page even in --check: it is the first thing a visitor
+    # sees, so a broken placeholder or a missing string should fail the
+    # workflow, not the deploy.
+    shell_text = read(SHELL)
+    landing, fonts = build_landing(shell_text, load_manifest(shell_text))
+    print("  entry page : %d languages, %d fonts" % (len(json.loads(read(I18N))), len(fonts)))
+
     if check_only:
         print("\n--check: nothing written")
         return 0 if transcript and not t_note else 1
@@ -448,8 +579,13 @@ def main():
     # and truncates the payload. The export does the same.
     lines[idx] = json.dumps(template, ensure_ascii=False).replace("</", "<\\u002F")
 
-    # Rebuild dist/portraits/ from scratch so a renamed or deleted speaker
-    # cannot leave an orphan behind for the next deploy to publish.
+    # Rebuild the generated trees from scratch so a renamed or deleted
+    # speaker cannot leave an orphan behind for the next deploy to publish.
+    shutil.rmtree(os.path.join(DOC, "portraits"), ignore_errors=True)
+    shutil.rmtree(os.path.join(DIST, "fonts"), ignore_errors=True)
+    # Before the entry page existed the document was the root and its photos
+    # sat in dist/portraits/. Left behind, they are 4 MB of dead weight in
+    # every deploy from a working tree that predates the split.
     shutil.rmtree(os.path.join(DIST, "portraits"), ignore_errors=True)
     # The loader page carries its own <title>: it is what the tab shows while
     # the bundle unpacks, and what a crawler that does not run JS reads.
@@ -461,10 +597,18 @@ def main():
     else:
         die("no <title> in the loader page to set")
 
-    os.makedirs(DIST, exist_ok=True)
-    out = os.path.join(DIST, "index.html")
+    os.makedirs(DOC, exist_ok=True)
+    out = os.path.join(DOC, "index.html")
     with open(out, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+
+    with open(os.path.join(DIST, "index.html"), "w", encoding="utf-8") as f:
+        f.write(landing)
+    for rel, blob in sorted(fonts.items()):
+        dest = os.path.join(DIST, rel)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(dest, "wb") as f:
+            f.write(blob)
 
     # GitHub Pages reads the custom domain from a CNAME file at the root of
     # the published artifact. Without it in dist/, every deploy drops the
@@ -476,12 +620,15 @@ def main():
 
     total = os.path.getsize(out)
     for rel, srcfile in sorted(copies.items()):
-        dest = os.path.join(DIST, rel)
+        dest = os.path.join(DOC, rel)
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         shutil.copyfile(srcfile, dest)
         total += os.path.getsize(dest)
 
-    print("\nwrote dist/index.html (%.1f MB)%s"
+    print("\nwrote dist/index.html (%.0f KB entry page, %d fonts)"
+          % ((len(landing.encode("utf-8")) + sum(len(b) for b in fonts.values())) / 1024.0,
+             len(fonts)))
+    print("wrote dist/doc/index.html (%.1f MB)%s"
           % (os.path.getsize(out) / 1048576.0,
              "" if not copies else " + %d portraits, %.1f MB total"
              % (len(copies), total / 1048576.0)))

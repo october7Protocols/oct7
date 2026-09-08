@@ -8,7 +8,9 @@ src/מענה ראש הממשלה v2.dc.html   the design — edit this
 src/transcript.json               the document data — see SCHEMA.md
 src/assets/portraits/<key>.png    one per speaker key
 src/.image-slots.state.json       (optional) the editor's portrait file
-build.py                          → dist/index.html
+src/landing.html                  the entry page — edit this too
+src/i18n.json                     every string, in six languages
+build.py                          → dist/
 vendor/export-shell.html          runtime + fonts, not edited by hand
 ```
 
@@ -36,16 +38,32 @@ runtime network dependencies. It works on any static host and from `file://`.
 ## Working on it
 
 ```bash
-python3 build.py                    # → dist/ (index.html + portraits/)
+python3 build.py                    # → dist/ (entry page + doc/ + fonts/)
 python3 build.py --check            # readiness report, writes nothing, exit 1 if broken
 python3 build.py --inline-portraits # everything in one file, slower first paint
 open dist/index.html
 ```
 
-By default the photos are copied to `dist/portraits/` and referenced as
-sibling files, so the browser fetches them lazily as the reader scrolls
-instead of making everyone download ~4 MB of base64 before the first paint.
-`dist/` is the whole site — `index.html` plus that folder.
+`dist/` is the whole site:
+
+```
+dist/index.html        the entry page   ~25 KB, on screen at once
+dist/fonts/            3 woff2 faces    ~55 KB, pulled out of the bundle
+dist/doc/index.html    the document     1.5 MB
+dist/doc/portraits/    24 photos        4.2 MB, fetched as the reader scrolls
+dist/CNAME             the custom domain
+```
+
+The split is the point: the document is a 1.5 MB bundle plus 4 MB of
+portraits, so the first thing a visitor meets is a separate light page. The
+photos are copied as sibling files rather than base64 so the browser fetches
+them lazily instead of making everyone download 4 MB before the first paint.
+
+The entry page is plain HTML and vanilla JS — no React, no build framework.
+Its copy lives in `src/i18n.json` (the `land*` keys) like everything else, and
+its fonts are the same faces the document uses, extracted from the bundle so
+it makes no third-party request either. The language a reader picks there is
+the language the document opens in: both read `localStorage['oct7.lang']`.
 
 To edit the design, open `src/מענה ראש הממשלה v2.dc.html` — in Claude Design
 for visual editing, or in any editor for the markup and the component script
@@ -54,7 +72,7 @@ at the bottom. To edit the content, edit `src/transcript.json` against
 
 `src/index.html` is a dev wrapper that frames the design directly; it needs a
 local server (`python3 -m http.server`) and the network for React and the
-fonts. It is for editing, not for publishing — publish `dist/index.html`.
+fonts. It is for editing, not for publishing — publish `dist/`.
 
 ## Deploying
 
@@ -104,12 +122,15 @@ The picker sits top-left; the choice is remembered per reader. Hebrew and
 Arabic render RTL, the rest LTR — `dir` follows the language, and the
 timeline gutter stays on the right in every language.
 
-**Only the frame is translated.** The quoted material — the 323 transcript
-items and the nine prologue quotations — stays in the Hebrew it was given in,
-and each non-Hebrew language carries a `srcNote` telling the reader so. That
-is deliberate: these are quotations attributed to named people from a real
-document, and a translated quotation is no longer the quotation. Translating
-them is a decision about the record, not about the interface.
+Everything is translated, the quotations included: 411 document strings per
+language on top of the interface copy. Because a translated quotation is no
+longer the quotation, every translated language carries a `srcNote` marking
+the quotations as an unofficial translation, and each quoted element keeps its
+Hebrew original on its `title` attribute — hover, and you get the words that
+were actually said.
+
+Translation is per-string with a Hebrew fallback, so a language that is
+missing a key shows the Hebrew rather than an empty screen.
 
 To add a language, add a key to `i18n.json` with the same fields as `he`;
 the picker and the build pick it up with no code change. `build.py` fails if
@@ -122,4 +143,5 @@ the file is missing or has no `he` entry to fall back to.
   the source. Have the quotes and citations verified before publishing.
 - Keep the footer's framing (*טענות ועמדות … לא קביעות של גוף בודק*) — it is
   what marks the material as the speakers' claims rather than findings.
-- Add a 1200×630 `og.png` if you want real link previews.
+- Add a 1200×630 `og.png` at `dist/` if you want real link previews. Both
+  pages already point at it.
