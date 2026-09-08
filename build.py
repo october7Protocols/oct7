@@ -59,6 +59,10 @@ SIDECAR = os.path.join(SRC, ".image-slots.state.json")
 
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
+# The site's name, as it identifies itself to a reader, a search engine and
+# a link preview. The document is one publication inside it, so the document
+# keeps its own title and the site name sits alongside it.
+SITE_NAME = "חשיפת הפרוטוקולים"
 TITLE = "תיק 7 באוקטובר: מענה ראש הממשלה לשאלות מבקר המדינה"
 DESCRIPTION = (
     "מה שאל מבקר המדינה ומה ענה ראש הממשלה על אירועי 7 באוקטובר 2023. "
@@ -332,6 +336,7 @@ def head_meta(title, description, path="/", locale="he_IL"):
         '<meta name="description" content="%s">' % esc(description),
         '<meta name="robots" content="index,follow">',
         '<meta property="og:type" content="article">',
+        '<meta property="og:site_name" content="%s">' % esc(SITE_NAME),
         '<meta property="og:locale" content="%s">' % locale,
         '<meta property="og:title" content="%s">' % esc(title),
         '<meta property="og:description" content="%s">' % esc(description),
