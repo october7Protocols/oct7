@@ -104,7 +104,7 @@
   "landBennettLabel": "ראש הממשלה לשעבר",
   "landBennettPull": "לא מכיר את המידע הזה",
   "landBennettAttr": "נפתלי בנט, בריאיון לגלי צה״ל, 8 בספטמבר 2026",
-  "landBennettLink": "להאזנה · דקה 83"
+  "landBennettLink": "להאזנה לריאיון המלא"
  },
  "en": {
   "label": "English",
@@ -726,7 +726,7 @@
   "landBennettLabel": "The former Prime Minister",
   "landBennettPull": "I am not familiar with this information",
   "landBennettAttr": "Naftali Bennett, in an interview on Galei Tzahal, 8 September 2026",
-  "landBennettLink": "Listen · minute 83"
+  "landBennettLink": "Listen to the full interview"
  },
  "fr": {
   "label": "Français",
@@ -1348,7 +1348,7 @@
   "landBennettLabel": "L’ancien Premier ministre",
   "landBennettPull": "Je ne connais pas cette information",
   "landBennettAttr": "Naftali Bennett, dans un entretien sur Galei Tsahal, 8 septembre 2026",
-  "landBennettLink": "Écouter · minute 83"
+  "landBennettLink": "Écouter l’entretien intégral"
  },
  "ar": {
   "label": "العربية",
@@ -1970,7 +1970,7 @@
   "landBennettLabel": "رئيس الوزراء السابق",
   "landBennettPull": "لا أعرف هذه المعلومة",
   "landBennettAttr": "نفتالي بينيت، في مقابلة مع إذاعة الجيش، 8 أيلول/سبتمبر 2026",
-  "landBennettLink": "للاستماع · الدقيقة 83"
+  "landBennettLink": "للاستماع إلى المقابلة كاملة"
  },
  "de": {
   "label": "Deutsch",
@@ -2592,7 +2592,7 @@
   "landBennettLabel": "Der frühere Ministerpräsident",
   "landBennettPull": "Diese Information ist mir nicht bekannt",
   "landBennettAttr": "Naftali Bennett, im Interview bei Galei Zahal, 8. September 2026",
-  "landBennettLink": "Anhören · Minute 83"
+  "landBennettLink": "Das ganze Interview anhören"
  },
  "es": {
   "label": "Español",
@@ -3214,6 +3214,6 @@
   "landBennettLabel": "El ex primer ministro",
   "landBennettPull": "No conozco esa información",
   "landBennettAttr": "Naftali Bennett, en una entrevista en Galei Tzahal, 8 de septiembre de 2026",
-  "landBennettLink": "Escuchar · minuto 83"
+  "landBennettLink": "Escuchar la entrevista completa"
  }
 }
