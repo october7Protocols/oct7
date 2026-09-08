@@ -518,20 +518,38 @@ def gtm_head():
     return "<script>" + js + "</script>"
 
 
-def draft_banner():
-    """A visible mark on the preview copy.
+def draft_banner(anchor=None):
+    """A visible mark on the preview copy, and a way to reach the draft.
 
     /preview/ is linked from nowhere and carries a noindex, but the URL is
-    still reachable by anyone who has it. A draft that looks published is
-    worse than no draft, so it says what it is on its face.
+    still reachable by anyone who has it, and a draft that looks published
+    is worse than no draft. The draft chapter is unnumbered, which keeps it
+    out of the document's own navigation, so the banner is also how a
+    reviewer finds it: the document renders after its script runs, and a
+    plain #hash would have been resolved before the chapter existed.
     """
+    jump = ""
+    if anchor:
+        jump = (
+            '<a href="#%s" style="color:#04081a;font-weight:800;'
+            'text-decoration:underline;text-underline-offset:3px">'
+            'לפרק הטיוטה ←</a>' % anchor)
     return (
         '<div dir="rtl" style="position:fixed;z-index:9998;inset-inline:0;bottom:0;'
         'background:#fbe94f;color:#04081a;font-family:Heebo,system-ui,sans-serif;'
         'font-size:13px;font-weight:700;line-height:1.5;padding:9px 16px;'
-        'text-align:center;box-shadow:0 -4px 18px rgba(0,0,0,.45)">'
-        'טיוטה שלא פורסמה · התמלול טרם אומת מול המסמכים · אינה מקושרת מהאתר'
-        '</div>')
+        'text-align:center;box-shadow:0 -4px 18px rgba(0,0,0,.45);'
+        'display:flex;gap:14px;align-items:center;justify-content:center;'
+        'flex-wrap:wrap">'
+        '<span>טיוטה שלא פורסמה · התמלול טרם אומת מול המסמכים · '
+        'אינה מקושרת מהאתר</span>' + jump + '</div>'
+        '<script>(function(){'
+        'function go(){var h=location.hash&&document.querySelector(location.hash);'
+        'if(h){h.scrollIntoView();return true}return false}'
+        # The chapters exist only once the document has rendered, so a
+        # hash in the address bar has nothing to find at load time.
+        'var n=0,t=setInterval(function(){if(go()||++n>40)clearInterval(t)},250);'
+        'addEventListener("hashchange",go);})();</script>')
 
 
 def gtm_body():
@@ -910,8 +928,9 @@ def main():
                 page[i] = re.sub(r"<title>.*?</title>",
                                  lambda m: "<title>" + title + "</title>", line, count=1)
                 break
-        page[idx] = template_line(template.replace("</x-dc>",
-                                                   "</x-dc>" + draft_banner(), 1))
+        page[idx] = template_line(template.replace(
+            "</x-dc>", "</x-dc>" + draft_banner(drafts[0]["id"] and
+                                                "ch-" + drafts[0]["id"]), 1))
         pdir = os.path.join(DIST, PREVIEW, "doc")
         os.makedirs(pdir, exist_ok=True)
         write_text(os.path.join(pdir, "index.html"), "\n".join(page))
