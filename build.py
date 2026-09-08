@@ -35,6 +35,7 @@ Usage
 """
 
 import base64
+import datetime
 import gzip
 import json
 import mimetypes
@@ -59,6 +60,9 @@ LANDING_ASSETS = os.path.join(SRC, "assets", "landing")
 # on the front page.
 LANDING_PORTRAITS = ("bennett",)
 CONSENT = os.path.join(SRC, "consent.js")
+# The share image the meta tags point at. Every link shared to WhatsApp,
+# Telegram, Facebook or X shows this or shows nothing.
+OG_IMAGE = os.path.join(SRC, "assets", "og.png")
 TRANSCRIPT = os.path.join(SRC, "transcript.json")
 I18N = os.path.join(SRC, "i18n.json")
 PORTRAIT_DIR = os.path.join(SRC, "assets", "portraits")
@@ -80,6 +84,9 @@ if GTM_ID and not re.match(r"^GTM-[A-Z0-9]{4,10}$", GTM_ID):
 # a link preview. The document is one publication inside it, so the document
 # keeps its own title and the site name sits alongside it.
 SITE_NAME = "חשיפת הפרוטוקולים"
+# The day the site went public. datePublished must not move when the site
+# is rebuilt; dateModified is what tracks a rebuild.
+PUBLISHED = "2026-09-08"
 TITLE = "תיק 7 באוקטובר: מענה ראש הממשלה לשאלות מבקר המדינה"
 DESCRIPTION = (
     "מה שאל מבקר המדינה ומה ענה ראש הממשלה על אירועי 7 באוקטובר 2023. "
@@ -220,6 +227,11 @@ IMAGE_SLOT_NEW = (
 )
 
 
+def write_text(path, body):
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(body)
+
+
 def json_for_script(obj):
     """Serialize for a <script type="application/json">. '<' is escaped so no
     payload can close the tag; the result is still valid JSON."""
@@ -345,6 +357,74 @@ def load_portraits(transcript):
     return out, copies, "; ".join(notes) if notes else None
 
 
+# Which element each string belongs in. The page's own script fills these
+# from the reader's language; this fills them with the Hebrew at build time
+# so the HTML that leaves the server is not an empty shell. Google runs
+# scripts, but WhatsApp, Telegram, Slack, Facebook and X do not, and a
+# shared link is how this site travels.
+PRERENDER = {
+    "k-title":      lambda t: t["landTitle"],
+    "k-lead":       lambda t: t["landLead"],
+    "k-nowlabel":   lambda t: t["landNowLabel"],
+    "k-doctitle":   lambda t: (t["t1"] + " " + t["t2"]).strip(),
+    "k-docsub":     lambda t: t["subtitle"] + " \u00b7 " + t["issued"],
+    "k-enter":      lambda t: t["landEnter"],
+    "k-newslabel":  lambda t: t["landNewsLabel"],
+    "k-newspull":   lambda t: t["landNewsPull"],
+    "k-newsquote":  lambda t: t["landNewsQuote"],
+    "k-newsattr":   lambda t: t["landNewsAttr"],
+    "k-newsnote":   lambda t: t["landNewsNote"],
+    "k-benlabel":   lambda t: t["landBennettLabel"],
+    "k-benpull":    lambda t: t["landBennettPull"],
+    "k-benattr":    lambda t: t["landBennettAttr"],
+    "k-soonlabel":  lambda t: t["landSoonLabel"],
+    "k-soon":       lambda t: t["landSoon"],
+    "k-soonnote":   lambda t: t["landSoonNote"],
+    "k-foot":       lambda t: t["landFoot"],
+}
+
+
+def prerender(page, he):
+    def esc(v):
+        return v.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    for el, pick in PRERENDER.items():
+        pat = re.compile(r'(id="%s"[^>]*>)(</)' % re.escape(el))
+        page, n = pat.subn(lambda m: m.group(1) + esc(pick(he)) + m.group(2), page, count=1)
+        if not n:
+            die("src/landing.html: nothing to prerender into #%s" % el)
+    # The listen link's label sits in a bare span inside the anchor.
+    pat = re.compile(r'(id="k-benlink"[\s\S]*?<span)(></span>)')
+    page, n = pat.subn(lambda m: m.group(1) + ">" + esc(he["landBennettLink"]) + "</span",
+                       page, count=1)
+    if not n:
+        die("src/landing.html: no span inside #k-benlink to prerender")
+    return page
+
+
+def json_ld(kind, title, description, path):
+    """Structured data. Without it a search engine has to infer what the page
+    is from prose; with it, the document is declared as an article with a
+    date, a language and a publisher."""
+    if not SITE_URL:
+        return ""
+    site = {"@type": "WebSite", "name": SITE_NAME, "url": SITE_URL + "/",
+            "inLanguage": "he"}
+    if kind == "site":
+        data = dict(site, description=description)
+    else:
+        data = {"@type": "Article", "headline": title, "description": description,
+                "inLanguage": "he", "datePublished": PUBLISHED,
+                "dateModified": datetime.date.today().isoformat(),
+                "mainEntityOfPage": SITE_URL + path,
+                "isPartOf": site,
+                "publisher": {"@type": "Organization", "name": SITE_NAME,
+                              "url": SITE_URL + "/"},
+                "image": SITE_URL + "/og.png"}
+    data["@context"] = "https://schema.org"
+    return ('<script type="application/ld+json">%s</script>'
+            % json_for_script(data))
+
+
 def gtm_head():
     """The consent gate, and the container it gates.
 
@@ -417,6 +497,8 @@ def head_meta(title, description, path="/", locale="he_IL"):
         for t in ('<meta property="og:image" content="%s/og.png">',
                   '<meta name="twitter:image" content="%s/og.png">'):
             tags.append(t % esc(SITE_URL))
+    tags.append(json_ld("site" if path == "/" else "article",
+                        title, description, path))
     tags.append(gtm_head())
     return "\n".join(t for t in tags if t)
 
@@ -541,7 +623,7 @@ def build_landing(shell_text, manifest):
         if token not in page:
             die("src/landing.html has no %s placeholder" % token)
         page = page.replace(token, value)
-    return page, files
+    return prerender(page, he), files
 
 
 def build_template(shell_template, design_body, design_script, design_css, transcript, portraits):
@@ -675,6 +757,7 @@ def main():
     else:
         die("no <title> in the loader page to set")
 
+    os.makedirs(DIST, exist_ok=True)
     os.makedirs(DOC, exist_ok=True)
     out = os.path.join(DOC, "index.html")
     with open(out, "w", encoding="utf-8") as f:
@@ -682,6 +765,10 @@ def main():
 
     with open(os.path.join(DIST, "index.html"), "w", encoding="utf-8") as f:
         f.write(landing)
+    if os.path.exists(OG_IMAGE):
+        shutil.copyfile(OG_IMAGE, os.path.join(DIST, "og.png"))
+    elif SITE_URL:
+        print("  ! no src/assets/og.png — shared links will preview bare")
     if os.path.isdir(LANDING_ASSETS):
         shutil.copytree(LANDING_ASSETS, os.path.join(DIST, "assets"))
     os.makedirs(os.path.join(DIST, "assets"), exist_ok=True)
@@ -695,6 +782,21 @@ def main():
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         with open(dest, "wb") as f:
             f.write(blob)
+
+    if SITE_URL:
+        write_text(os.path.join(DIST, "robots.txt"),
+                   "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE_URL)
+        today = datetime.date.today().isoformat()
+        urls = "".join(
+            "  <url><loc>%s%s</loc><lastmod>%s</lastmod>"
+            "<changefreq>%s</changefreq><priority>%s</priority></url>\n"
+            % (SITE_URL, p, today, f, pr)
+            for p, f, pr in (("/", "weekly", "1.0"), ("/doc/", "monthly", "0.9")))
+        write_text(os.path.join(DIST, "sitemap.xml"),
+                   '<?xml version="1.0" encoding="UTF-8"?>\n'
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+                   + urls + "</urlset>\n")
+        print("  crawling   : robots.txt + sitemap.xml")
 
     # GitHub Pages reads the custom domain from a CNAME file at the root of
     # the published artifact. Without it in dist/, every deploy drops the

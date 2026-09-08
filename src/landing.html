@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
 <!--
   The entry page. Rendered by build.py to dist/index.html; the document
   itself lives at dist/doc/.
@@ -11,6 +13,7 @@
   __FONT_CSS__, __STRINGS__, __TITLE__, __META__, __LANGS__ are filled in
   by build.py. Copy lives in src/i18n.json, not here.
 -->
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__</title>
@@ -236,6 +239,8 @@ footer {
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; transition-duration: .001s !important; } }
 </style>
 
+</head>
+<body>
 __GTM_BODY__
 <div class="bg"></div>
 
@@ -401,3 +406,6 @@ function apply(k, remember) {
   });
 })();
 </script>
+
+</body>
+</html>
