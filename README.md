@@ -62,14 +62,16 @@ fonts. It is for editing, not for publishing — publish `dist/index.html`.
 `dist/` to GitHub Pages. It runs `--check` first, so a commit that breaks the
 transcript fails the build instead of publishing a page with no chapters.
 
-Two things to set on the repo once:
+The site is published at **october7.co**. `src/CNAME` carries the domain and
+is copied into `dist/` on every build — GitHub Pages reads it from the
+published artifact, so removing it would drop the site back to the github.io
+address on the next deploy.
 
-1. **Settings → Pages → Source: GitHub Actions**
-2. **Settings → Variables → Actions → new variable `SITE_URL`**, e.g.
-   `https://<user>.github.io/<repo>` — without it the page ships no canonical
-   URL and no `og:image`, so link previews are bare.
+Already set on the repo: Pages source is GitHub Actions, the custom domain is
+`october7.co`, and the Actions variable `SITE_URL` is `https://october7.co`
+(it feeds the canonical URL and `og:image`).
 
-Any static host works just as well: `dist/index.html` is the whole site.
+Any static host works just as well: `dist/` is the whole site.
 
 ## State
 
