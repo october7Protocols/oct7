@@ -102,7 +102,7 @@
   "backHomeTitle": "חזרה לדף הראשי",
   "langLabel": "שפה",
   "landBennettLabel": "ראש הממשלה לשעבר",
-  "landBennettPull": "לא מכיר את המידע הזה",
+  "landBennettPull": "לא מכיר שיחה שכזאת",
   "landBennettAttr": "נפתלי בנט, בריאיון לגלי צה״ל, 8 בספטמבר 2026",
   "landBennettLink": "להאזנה לריאיון המלא"
  },
@@ -724,7 +724,7 @@
   "backHomeTitle": "Back to the main page",
   "langLabel": "Language",
   "landBennettLabel": "The former Prime Minister",
-  "landBennettPull": "I am not familiar with this information",
+  "landBennettPull": "I am not aware of any such conversation",
   "landBennettAttr": "Naftali Bennett, in an interview on Galei Tzahal, 8 September 2026",
   "landBennettLink": "Listen to the full interview"
  },
@@ -1346,7 +1346,7 @@
   "backHomeTitle": "Retour à la page principale",
   "langLabel": "Langue",
   "landBennettLabel": "L’ancien Premier ministre",
-  "landBennettPull": "Je ne connais pas cette information",
+  "landBennettPull": "Je n’ai connaissance d’aucune conversation de ce genre",
   "landBennettAttr": "Naftali Bennett, dans un entretien sur Galei Tsahal, 8 septembre 2026",
   "landBennettLink": "Écouter l’entretien intégral"
  },
@@ -1968,7 +1968,7 @@
   "backHomeTitle": "العودة إلى الصفحة الرئيسية",
   "langLabel": "اللغة",
   "landBennettLabel": "رئيس الوزراء السابق",
-  "landBennettPull": "لا أعرف هذه المعلومة",
+  "landBennettPull": "لا أعرف بأي محادثة كهذه",
   "landBennettAttr": "نفتالي بينيت، في مقابلة مع إذاعة الجيش، 8 أيلول/سبتمبر 2026",
   "landBennettLink": "للاستماع إلى المقابلة كاملة"
  },
@@ -2590,7 +2590,7 @@
   "backHomeTitle": "Zurück zur Startseite",
   "langLabel": "Sprache",
   "landBennettLabel": "Der frühere Ministerpräsident",
-  "landBennettPull": "Diese Information ist mir nicht bekannt",
+  "landBennettPull": "Mir ist kein solches Gespräch bekannt",
   "landBennettAttr": "Naftali Bennett, im Interview bei Galei Zahal, 8. September 2026",
   "landBennettLink": "Das ganze Interview anhören"
  },
@@ -3212,7 +3212,7 @@
   "backHomeTitle": "Volver a la página principal",
   "langLabel": "Idioma",
   "landBennettLabel": "El ex primer ministro",
-  "landBennettPull": "No conozco esa información",
+  "landBennettPull": "No tengo conocimiento de ninguna conversación así",
   "landBennettAttr": "Naftali Bennett, en una entrevista en Galei Tzahal, 8 de septiembre de 2026",
   "landBennettLink": "Escuchar la entrevista completa"
  }
