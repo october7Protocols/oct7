@@ -282,6 +282,7 @@ def template_line(html):
 
 
 def write_text(path, body):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         f.write(body)
 
@@ -1401,6 +1402,18 @@ def main():
                             "</url>\n"
                             % (SITE_URL, lang_path(lang, doc, sub), today, freq, pri, alts))
         write_text(os.path.join(DIST, "%s.txt" % INDEXNOW_KEY), INDEXNOW_KEY + "\n")
+        # RFC 9116. Somewhere for a researcher who finds something to write
+        # to, so that the first move is an email rather than a disclosure.
+        # Expires is required by the RFC and has to be in the future, so it
+        # is a year from whenever the build ran.
+        expires = (datetime.date.today()
+                   + datetime.timedelta(days=365)).isoformat() + "T00:00:00.000Z"
+        write_text(os.path.join(DIST, ".well-known", "security.txt"),
+                   "Contact: mailto:%s\n"
+                   "Expires: %s\n"
+                   "Preferred-Languages: he, en\n"
+                   "Canonical: %s/.well-known/security.txt\n"
+                   % (CONTACT_EMAIL, expires, SITE_URL))
         write_text(os.path.join(DIST, "sitemap.xml"),
                    '<?xml version="1.0" encoding="UTF-8"?>\n'
                    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
