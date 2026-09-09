@@ -127,12 +127,12 @@ a:hover { color: #ffffff; }
   <div style="width:100%;background:rgba(0,0,0,0.74);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.16)">
     <div class="om-hud-date" style="padding:5px 6px 6px;border-bottom:1px solid rgba(255,255,255,0.14)">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#8b97c4;line-height:1.3">{{ t.hudDate }}</div>
-      <div ref="{{ hudDateRef }}" class="om-hud-full" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">—</div>
-      <div ref="{{ hudShortRef }}" class="om-hud-short" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;color:#fff;letter-spacing:.02em;line-height:1.2">—</div>
+      <div ref="{{ hudDateRef }}" class="om-hud-full" style="font-family:'IBM Plex Mono',monospace;font-size:clamp(10px,1.1vw,13px);color:#fff;letter-spacing:.02em;line-height:1.25">, </div>
+      <div ref="{{ hudShortRef }}" class="om-hud-short" style="display:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;color:#fff;letter-spacing:.02em;line-height:1.2">, </div>
     </div>
     <div style="padding:5px 6px 6px;background:rgba(200,16,46,0.24)">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;color:#ffb3bd;line-height:1.3">{{ t.hudDays }}</div>
-      <div ref="{{ hudDaysRef }}" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(11px,1.3vw,15px);color:#ff5a6e;letter-spacing:.02em;line-height:1.2">—</div>
+      <div ref="{{ hudDaysRef }}" style="font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:clamp(11px,1.3vw,15px);color:#ff5a6e;letter-spacing:.02em;line-height:1.2">, </div>
     </div>
   </div>
 </div>
@@ -472,39 +472,39 @@ const HE_MONTHS = ['בינואר','בפברואר','במרץ','באפריל','ב
 
 // Every quote below appears in the document and was cleared for
 // publication by the Prime Minister. The countdown is arithmetic on the
-// date each one was written — no editorialising, just the calendar.
+// date each one was written, no editorialising, just the calendar.
 const PROLOGUE = [
   { d: '2023-02-12', who: 'ראש השב״כ, רונן בר', pm: false,
     quote: 'בחדר הזה עכשיו בעזה אצל סנואר אין שום סיבה לשנות משהו... יחיא סנואר מנהיג מפוכח, הוא לא מוכן לאותה מלחמת תקומה.',
-    src: '(דיון קבינט, 12.02.2023 — פרק 4 במסמך)' },
+    src: '(דיון קבינט, 12.02.2023, פרק 4 במסמך)' },
   { d: '2023-06-04', who: 'הרמטכ״ל, הרצל הלוי', pm: false,
     quote: 'ההרתעה של מדינת ישראל היא תקפה מאוד, חזקה מאוד, אנחנו רואים את הסימנים האלה בחומר.',
-    src: '(הערכת מצב בראשות ראש הממשלה, 04.06.2023 — פרק 4 במסמך)' },
+    src: '(הערכת מצב בראשות ראש הממשלה, 04.06.2023, פרק 4 במסמך)' },
   { d: '2023-09-14', who: 'תמונת מודיעין, אמ״ן', pm: false,
     quote: 'המצב הפנימי בישראל: מעצב מרכזי בהערכת המצב של חמאס; השפעה מרסנת ברצועת עזה.',
-    src: '(מסמך אמ״ן, 14.09.2023 — נספח יב׳)' },
+    src: '(מסמך אמ״ן, 14.09.2023, נספח יב׳)' },
   { d: '2023-09-20', who: 'אמ״ן ופיקוד הדרום', pm: false,
     quote: 'אסטרטגיית חמאס לשימור השקט ברצועה יציבה בטווח הנראה לעין... איננו מזהים אתגר לאסטרטגיה זו.',
-    src: '(מסמך אמ״ן ופד״ם, 20.09.2023 — נספח יג׳)' },
+    src: '(מסמך אמ״ן ופד״ם, 20.09.2023, נספח יג׳)' },
   { d: '2023-09-21', who: 'דו״ח מודיעין, שב״כ', pm: false,
     quote: 'המהלך הזה לא משקף שינוי באסטרטגיה הבסיסית של חמאס, וניכר שגם כעת אין לה עניין בהידרדרות לעימות צבאי נרחב.',
-    src: '(דו״ח שב״כ, 21.09.2023 — נספח כד׳)' },
+    src: '(דו״ח שב״כ, 21.09.2023, נספח כד׳)' },
   { d: '2023-10-03', who: 'סיכום שנתי, אמ״ן', pm: false,
     quote: 'הפלסטינים לא יהיו הכוח המניע מאחורי מערכה רב זירתית.',
-    src: '(סיכום הערכת המודיעין השנתית, 03.10.2023 — נספח כג׳)' },
+    src: '(סיכום הערכת המודיעין השנתית, 03.10.2023, נספח כג׳)' },
   { d: '2023-10-03', who: 'דו״ח מודיעין, שב״כ', pm: false,
-    quote: 'חידוש ההבנות בין ישראל לחמאס... מגלם פוטנציאל לשימור היציבות ברצועה — ייתכן אף לאורך זמן.',
-    src: '(דו״ח שב״כ, 03.10.2023 — נספח כז׳)' },
+    quote: 'חידוש ההבנות בין ישראל לחמאס... מגלם פוטנציאל לשימור היציבות ברצועה, ייתכן אף לאורך זמן.',
+    src: '(דו״ח שב״כ, 03.10.2023, נספח כז׳)' },
   { d: '2023-10-04', who: 'ראש השב״כ, רונן בר', pm: false,
     quote: 'השבת השקט במרחב הגדר במסגרת ההבנות עם חמאס... הוא הישג שניתן למנפו לקידום הסדרה עמוקה יותר בזירה.',
-    src: '(סיכום ר׳ השב״כ, 04.10.2023 — נספח כח׳)' },
-  { d: '2023-10-07', who: 'ראש השב״כ — 05:15', pm: false, hours: true,
-    quote: 'יציאה למערכה רחבה — סבור כי הסיכוי לכך נמוך לאור היעדר אינדיקציה מודיעינית.',
-    src: '(סיכום הערכת מצב ר׳ השב״כ, 07.10.2023, כשעה ורבע לפני הטבח — נספח כט׳)' }
+    src: '(סיכום ר׳ השב״כ, 04.10.2023, נספח כח׳)' },
+  { d: '2023-10-07', who: 'ראש השב״כ, 05:15', pm: false, hours: true,
+    quote: 'יציאה למערכה רחבה, סבור כי הסיכוי לכך נמוך לאור היעדר אינדיקציה מודיעינית.',
+    src: '(סיכום הערכת מצב ר׳ השב״כ, 07.10.2023, כשעה ורבע לפני הטבח, נספח כט׳)' }
 ];
 
 // Heads of AMAN, by term. The document never names the post-holder, so
-// these dates are the only thing that decides whose face goes on a quote —
+// these dates are the only thing that decides whose face goes on a quote...
 // a quote dated outside every term stays unattributed rather than guessing.
 const AMAN_CHIEFS = [
   // Halevi's cast-strip portrait is his Chief-of-Staff one, so his AMAN
@@ -554,7 +554,7 @@ function initialLang() {
   } catch (e) { /* private mode */ }
   // Israel reads this in Hebrew. The timezone answers "where" without a
   // geo-IP lookup, which would be a third-party request with the reader's
-  // address in it — the one thing this build exists to avoid.
+  // address in it, the one thing this build exists to avoid.
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
     if ((tz === 'Asia/Jerusalem' || tz === 'Asia/Tel_Aviv') && I18N.he) return 'he';
@@ -572,10 +572,10 @@ function initialLang() {
 class Component extends DCLogic {
   // Only `data` drives rendering. Scroll progress, chapter tint, stage
   // focus and the quote veils are mutated directly on the DOM so scrolling
-  // never triggers a React render — 325 items would otherwise tank fps.
+  // never triggers a React render, 325 items would otherwise tank fps.
   // The filter is a draft you build and then apply. Picking speakers is
-  // what selecting several requires — the document must not rearrange
-  // itself under you between the first pick and the last — so the cards
+  // what selecting several requires, the document must not rearrange
+  // itself under you between the first pick and the last, so the cards
   // write to draft* and only 'סנן' commits to f* and moves the page.
   state = {
     data: null, lang: initialLang(),
@@ -619,7 +619,7 @@ class Component extends DCLogic {
     // pushes it further down, and the first scroll clamps against a document
     // that is still short. So: hunt for the element, then keep re-centring
     // on it while the layout above it settles. The pass gives up the moment
-    // the reader scrolls somewhere themselves — being dragged back is worse
+    // the reader scrolls somewhere themselves, being dragged back is worse
     // than a missed anchor.
     this._openHash = () => {
       let id = '';
@@ -654,14 +654,14 @@ class Component extends DCLogic {
 
     // rAF throttling drops any scroll event that lands mid-frame. If
     // scrolling stops on one of those, nothing runs again and the marker and
-    // chip keep the position from a frame earlier — reproducibly showing
+    // chip keep the position from a frame earlier, reproducibly showing
     // 24 במאי 2021 while the reader sat on 21 בדצמבר 2016. A trailing pass
     // settles them, and re-measures first when content-visibility has grown
     // the document since the last measure, which moves every mark below.
     // Reading depth. The whole document is one page view, so page views say
     // nothing about whether anyone read it. Which chapter the reader reached
     // is the signal, and it is derived from the scroll pass the rail already
-    // runs rather than from an IntersectionObserver — the observer never
+    // runs rather than from an IntersectionObserver, the observer never
     // reports while a tab is hidden, and this has to be right in a
     // background tab too.
     this._seenChapters = new Set();
@@ -705,7 +705,7 @@ class Component extends DCLogic {
       });
     };
     // Photos can be replaced from outside this document (a drop on another
-    // page, an edit to the sidecar) — re-read whenever we regain focus.
+    // page, an edit to the sidecar), re-read whenever we regain focus.
     this._onWake = () => { if (!document.hidden) this.loadPortraits(); };
     window.addEventListener('focus', this._onWake);
     document.addEventListener('visibilitychange', this._onWake);
@@ -827,7 +827,7 @@ class Component extends DCLogic {
         const u = typeof v === 'string' ? v : (v && v.u);
         if (u && u.indexOf('data:image/') === 0) map[k.slice(5)] = u;
       }
-    } catch (e) { /* no sidecar yet — placeholders stay */ }
+    } catch (e) { /* no sidecar yet, placeholders stay */ }
     // Era-specific portrait shipped with the page, not user-dropped.
     map['halevi-aman'] = './halevi-aman.png';
     this._portraits = map;
@@ -863,7 +863,7 @@ class Component extends DCLogic {
       // The cut-outs are transparent, so the fallback name behind them reads
       // straight through the photo once it is there. But hiding it the moment
       // the URL is assigned leaves an empty tile for as long as the download
-      // takes — which on a phone is long enough to photograph. Hold the name
+      // takes, which on a phone is long enough to photograph. Hold the name
       // until the image has actually decoded.
       const ph = n.parentElement && n.parentElement.querySelector('.om-ph');
       if (!ph) return;
@@ -954,9 +954,9 @@ class Component extends DCLogic {
 
     this.paintPortraits();
 
-    // Measure once the tree exists, then again after webfonts settle —
+    // Measure once the tree exists, then again after webfonts settle...
     // Heebo swapping in reflows every stage.
-    // Re-measure until the mark table matches the built data — the first
+    // Re-measure until the mark table matches the built data, the first
     // update can land before the transcript has been folded in.
     const want = (this._markPcts || []).length;
     if (!this._measured || (this._marks || []).length !== want) {
@@ -967,11 +967,11 @@ class Component extends DCLogic {
     }
   }
 
-  // Fire a stage's entrance once. Idempotent — the scroll sweep and the
+  // Fire a stage's entrance once. Idempotent, the scroll sweep and the
   // observer both call it; whoever gets there first wins.
   // Entrance animations only. This used to push the cued stage's date into
   // the chip as well, and because the IntersectionObserver fires after the
-  // scroll frame it landed last and won — leaving the chip on a stage that
+  // scroll frame it landed last and won, leaving the chip on a stage that
   // had just animated in rather than on the reader's position. railTrack()
   // owns the chip.
   cue(el) {
@@ -987,7 +987,7 @@ class Component extends DCLogic {
   }
 
   // IntersectionObserver deliveries can be coalesced away when a stage
-  // transits the band inside a single tick — at flick speed most stages
+  // transits the band inside a single tick, at flick speed most stages
   // were never reported. The authoritative pass is this monotonic sweep
   // over pre-measured midpoints: a forward-only cursor, so it is O(1) per
   // frame and physically cannot skip a stage.
@@ -1039,7 +1039,7 @@ class Component extends DCLogic {
     // it shows instrument values; the full date rides the rail tooltips.
     if (this.hudDateRef.current) this.hudDateRef.current.textContent = node.getAttribute('data-date') || date;
     if (this.hudShortRef.current) this.hudShortRef.current.textContent = node.getAttribute('data-short') || '';
-    if (this.hudDaysRef.current) this.hudDaysRef.current.textContent = node.getAttribute('data-daysnum') || (days || '—');
+    if (this.hudDaysRef.current) this.hudDaysRef.current.textContent = node.getAttribute('data-daysnum') || (days || '...');
 
     // Slide the timeline marker to this document's place on the rail.
     if (this.railRef.current) this.railRef.current.style.opacity = '1';
@@ -1063,7 +1063,7 @@ class Component extends DCLogic {
   }
 
   // The single place that decides where the reader is: the marker and the
-  // chip both read it, so they cannot disagree. They used to — the marker
+  // chip both read it, so they cannot disagree. They used to, the marker
   // interpolated its way between two marks while the chip snapped to the
   // nearest, which put the dot on מאי while the chip read 12 בפברואר.
   // Smoothness now comes from a CSS transition on the marker, so it glides
@@ -1084,7 +1084,7 @@ class Component extends DCLogic {
     if (dated) this.showHud(dated);
     // The chip is the rail's readout. Over the masthead it has nothing to
     // report and, at the width it needs to stay legible on a phone, it only
-    // crowds the title — so it arrives with the document.
+    // crowds the title, so it arrives with the document.
     const hud = this.hudRef.current;
     if (hud) {
       const inDoc = (window.scrollY || document.documentElement.scrollTop) > window.innerHeight * 0.75;
@@ -1151,7 +1151,7 @@ class Component extends DCLogic {
 
   // The document writes most of its dates as "12 בפברואר 2023" rather than
   // 12.02.2023. A numeric-only parser left 22 items off the timeline and,
-  // through the chapter's carry-forward, every quote that followed them —
+  // through the chapter's carry-forward, every quote that followed them...
   // unplaced on the rail and unattributed. The one idiom to skip is
   // "לפני ה-7 באוקטובר 2023", which points at the attack instead of dating
   // the document it sits in.
@@ -1226,8 +1226,8 @@ class Component extends DCLogic {
         const anchor = 'ch-' + ch.id;
         const num = String(ch.n).padStart(2, '0');
         // A chapter that is not part of the document being answered has no
-        // number in it. Rather than renumber the real ones — their numbers
-        // are the source document's — such a chapter carries a badge, and
+        // number in it. Rather than renumber the real ones, their numbers
+        // are the source document's, such a chapter carries a badge, and
         // that is what the navigation shows.
         const badge = ch.badge ? t.tr(ch.badge) : '';
         if (ch.n > 0 || badge) {
@@ -1247,8 +1247,8 @@ class Component extends DCLogic {
 
             // The document quotes "ראש אמ״ן" without naming him, so a quote
             // is attributed only when its date falls inside a known chief's
-            // term. Anything outside every window — and the separate
-            // "נציג אמ״ן" speaker, who is not the chief — stays unnamed
+            // term. Anything outside every window, and the separate
+            // "נציג אמ״ן" speaker, who is not the chief, stays unnamed
             // behind the corps emblem.
             const di = Component.findDate(it, ch.id, t.months);
             if (di) ctxIso = di.iso;
