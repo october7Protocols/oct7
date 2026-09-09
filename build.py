@@ -641,8 +641,12 @@ def subset_of(unicode_range):
     return "other"
 
 
-def landing_fonts(shell_text, manifest):
+def landing_fonts(shell_text, manifest, prefix=""):
     """Pull the woff2 files the entry page needs out of the bundle.
+
+    `prefix` is what gets the page back to the site root: "" for the Hebrew
+    page at /, "../" for /en/ and the other language pages, which sit one
+    directory down but share the one fonts/ tree.
 
     Returns (css, {dist-relative path: bytes}). The faces are declared over a
     weight *range*: these are variable fonts, which is why one file serves
@@ -672,8 +676,8 @@ def landing_fonts(shell_text, manifest):
             "@font-face {\n"
             "  font-family: '%s';\n  font-style: normal;\n"
             "  font-weight: 100 900;\n  font-display: swap;\n"
-            "  src: url('fonts/%s') format('woff2');\n"
-            "  unicode-range: %s;\n}" % (key[0], name, rng.group(1)))
+            "  src: url('%sfonts/%s') format('woff2');\n"
+            "  unicode-range: %s;\n}" % (key[0], prefix, name, rng.group(1)))
     missing = want - set(seen)
     if missing:
         die("could not find %s in the bundle's @font-face blocks"
@@ -726,10 +730,18 @@ def build_landing(shell_text, manifest, lang, langs):
     # right whatever the page direction is.
     order = ["he"] + [k for k in order if k != "he"]
 
-    css, files = landing_fonts(shell_text, manifest)
+    # Every language but Hebrew lives one directory down (/en/, /fr/ ...)
+    # while assets/ and fonts/ exist only at the root. Left relative, each
+    # translated page asks for /en/assets/... and /en/fonts/..., which do not
+    # exist: broken portraits and fallback fonts on six of the seven pages.
+    prefix = "" if lang == "he" else "../"
+    css, files = landing_fonts(shell_text, manifest, prefix)
     he = subset["he"]
     t = subset.get(lang) or he
     page = read(LANDING)
+    page, n_img = re.subn(r'(<img\b[^>]*\bsrc=")assets/', r'\1%sassets/' % prefix, page)
+    if n_img == 0:
+        die("src/landing.html has no <img src=\"assets/...\"> to re-root")
     # The document shell is written for Hebrew; every other language flips it.
     page = page.replace('<html lang="he" dir="rtl">',
                         '<html lang="%s" dir="%s">' % (lang, t.get("dir") or "rtl"), 1)
