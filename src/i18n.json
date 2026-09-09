@@ -132,9 +132,11 @@
   "contactBack": "חזרה לדף הראשי",
   "contactFoot": "אין באתר טופס. הכתובת היא הערוץ היחיד, ואינה נשמרת בקוד המקור של העמוד. אנחנו קוראים הכול; לא לכל פנייה יש מענה.",
   "landContact": "צור קשר",
-  "nfTitle": "הדף הזה לא קיים",
+  "nfTitle": "כנראה שטעית. כמו שהוא טעה.",
   "nfLead": "ייתכן שהקישור שגוי, או שהעמוד הוסר. הכול נמצא מהדף הראשי.",
-  "nfGo": "לדף הראשי"
+  "nfGo": "לדף הראשי",
+  "nfQuote": "אציין כי מדרג ההתרעה היה שגוי ומהווה כשל של שב\"כ.",
+  "nfAttr": "רונן בר, ראש השב״כ, תצהיר בשבועה לבג״ץ 54321-03-25"
  },
  "en": {
   "label": "English",
@@ -893,9 +895,11 @@
   "contactBack": "Back to the front page",
   "contactFoot": "There is no form on this site. The address is the only channel, and it is not present in the page's source. We read everything; not every message gets a reply.",
   "landContact": "Contact",
-  "nfTitle": "This page does not exist",
+  "nfTitle": "You got it wrong. So did he.",
   "nfLead": "The link may be wrong, or the page was removed. Everything is reachable from the front page.",
-  "nfGo": "To the front page"
+  "nfGo": "To the front page",
+  "nfQuote": "I will note that the alert tier was mistaken and constitutes a failure of the Shin Bet.",
+  "nfAttr": "Ronen Bar, Head of the Shin Bet, sworn affidavit, HCJ 54321-03-25"
  },
  "fr": {
   "label": "Français",

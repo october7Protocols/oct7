@@ -58,7 +58,8 @@ LANDING_ASSETS = os.path.join(SRC, "assets", "landing")
 # in one place rather than duplicated into assets/landing/; naming them here
 # means a renamed portrait fails the build instead of leaving a broken image
 # on the front page.
-LANDING_PORTRAITS = ("bennett",)
+# bennett is on the entry page; bar is on the 404.
+LANDING_PORTRAITS = ("bennett", "bar")
 CONSENT = os.path.join(SRC, "consent.js")
 # The contact page. Hebrew and English only: the document is published in
 # seven languages, but the person who reads the mail is not.
@@ -854,11 +855,15 @@ def prerender_contact(page, t):
 
 
 def build_404(css):
-    """GitHub Pages' own 404 is a grey page that says "GitHub Pages".
+    """GitHub Pages\' own 404 is a grey page that says "GitHub Pages".
 
-    A reader who mistypes a URL, or follows a link to a chapter that has been
-    renamed, should land somewhere that looks like the site and offers the way
-    back. Served from dist/404.html for every path that misses.
+    This one has a joke in it, and the joke is carried by a real quotation:
+    the man whose photograph is on the page wrote, in a sworn affidavit this
+    site publishes, that his own alert tier had been mistaken. The line above
+    the photo is the page speaking about him, in the third person and without
+    quotation marks — not words put in his mouth. Nothing on this site,
+    including its error page, attributes a sentence to a person who did not
+    say it.
     """
     strings = json.loads(read(I18N))
     he, en = strings["he"], strings.get("en") or strings["he"]
@@ -871,32 +876,52 @@ def build_404(css):
         '<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="robots" content="noindex">\n'
-        '<title>%s — %s</title>\n<style>\n%s\n'
+        '<title>404 — %s</title>\n<style>\n%s\n'
         '*{box-sizing:border-box}html{background:#04081a}'
         'body{margin:0;min-height:100svh;background:#04081a;color:#fff;'
         'font-family:Heebo,system-ui,sans-serif;-webkit-font-smoothing:antialiased;'
         'display:flex;align-items:center;justify-content:center;'
-        'padding:clamp(24px,7vw,64px);text-align:center}'
-        '.n{max-width:34em}'
+        'padding:clamp(24px,6vw,56px)}'
+        '.w{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);'
+        'align-items:end;gap:clamp(18px,4vw,40px);max-width:820px;width:100%%}'
+        # The portrait is not a clean cut-out — it carries its own dark
+        # backdrop, which reads as a grey box dropped on the page unless it
+        # is framed. The document gives every speaker the same frame.
+        '.p{margin:0;align-self:end;border:1px solid rgba(255,255,255,0.16);'
+        'background:rgba(255,255,255,0.03);overflow:hidden;line-height:0}'
+        '.p img{display:block;width:100%%;height:auto;filter:grayscale(1) contrast(1.06)}'
         '.k{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;'
         'font-weight:500;letter-spacing:.22em;color:#ff5a6e}'
-        'h1{margin:16px 0 0;font-size:clamp(28px,7vw,46px);font-weight:900;'
-        'line-height:1.08;letter-spacing:-0.03em}'
-        'p{margin:16px 0 0;font-weight:300;color:#c3cbe6;line-height:1.65;'
-        'font-size:clamp(14px,3.8vw,17px)}'
-        '.e{margin:14px 0 0;color:#7a86b4;font-size:clamp(13px,3.4vw,15px)}'
-        'a{display:inline-block;margin-top:26px;background:#c8102e;color:#fff;'
+        'h1{margin:14px 0 0;font-size:clamp(26px,5.6vw,44px);font-weight:900;'
+        'line-height:1.1;letter-spacing:-0.03em;text-wrap:balance}'
+        'blockquote{margin:22px 0 0;padding-inline-start:14px;'
+        'border-inline-start:3px solid #c8102e;font-weight:300;color:#c3cbe6;'
+        'font-size:clamp(14px,3.4vw,17px);line-height:1.6}'
+        'blockquote::before{content:"\\201D"}blockquote::after{content:"\\201C"}'
+        '.a{margin:9px 0 0;font-size:clamp(11.5px,2.9vw,13px);color:#7a86b4;'
+        'padding-inline-start:17px}'
+        'p.l{margin:24px 0 0;font-weight:300;color:#c3cbe6;line-height:1.65;'
+        'font-size:clamp(13.5px,3.4vw,16px)}'
+        '.e{margin:10px 0 0;color:#5d6890;font-size:clamp(12px,3vw,14px);'
+        'font-weight:300;line-height:1.6}'
+        'a.g{display:inline-block;margin-top:24px;background:#c8102e;color:#fff;'
         'text-decoration:none;padding:14px 26px;font-weight:700;'
         'font-size:clamp(14px,3.8vw,16px)}'
-        'a:hover{background:#ff5a6e}'
-        '</style>\n</head>\n<body>\n<div class="n">\n'
-        '<div class="k">404 &middot; october7.co</div>\n'
-        '<h1>%s</h1>\n<p>%s</p>\n'
+        'a.g:hover{background:#ff5a6e}'
+        '@media(max-width:620px){.w{grid-template-columns:1fr;align-items:start}'
+        '.p{max-width:180px}}'
+        '</style>\n</head>\n<body>\n<div class="w">\n'
+        '<figure class="p"><img src="/assets/bar.png" alt="" '
+        'width="760" height="744" decoding="async"></figure>\n'
+        '<div>\n<div class="k">404 &middot; october7.co</div>\n'
+        '<h1>%s</h1>\n'
+        '<blockquote>%s</blockquote>\n<div class="a">%s</div>\n'
+        '<p class="l">%s</p>\n'
         '<p class="e" lang="en" dir="ltr">%s</p>\n'
-        '<a href="/">%s</a>\n</div>\n</body>\n</html>\n'
-        % (esc(he["nfTitle"]), esc(he["landTitle"]), css,
-           esc(he["nfTitle"]), esc(he["nfLead"]),
-           esc(en["nfLead"]), esc(he["nfGo"])))
+        '<a class="g" href="/">%s</a>\n</div>\n</div>\n</body>\n</html>\n'
+        % (esc(he["landTitle"]), css,
+           esc(he["nfTitle"]), esc(he["nfQuote"]), esc(he["nfAttr"]),
+           esc(he["nfLead"]), esc(en["nfLead"]), esc(he["nfGo"])))
 
 
 def build_contact(shell_text, manifest, lang, langs):
