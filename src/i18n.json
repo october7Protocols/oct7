@@ -131,7 +131,10 @@
   "contactCorr": "<b>מצאתם טעות?</b> כתבו לנו, וציינו את הפרק ואת המשפט. תיקון עובדתי מתוקן ומצוין באתר.",
   "contactBack": "חזרה לדף הראשי",
   "contactFoot": "אין באתר טופס. הכתובת היא הערוץ היחיד, ואינה נשמרת בקוד המקור של העמוד. אנחנו קוראים הכול; לא לכל פנייה יש מענה.",
-  "landContact": "צור קשר"
+  "landContact": "צור קשר",
+  "nfTitle": "הדף הזה לא קיים",
+  "nfLead": "ייתכן שהקישור שגוי, או שהעמוד הוסר. הכול נמצא מהדף הראשי.",
+  "nfGo": "לדף הראשי"
  },
  "en": {
   "label": "English",
@@ -889,7 +892,10 @@
   "contactCorr": "<b>Found an error?</b> Write, naming the chapter and the sentence. A factual correction is made and marked on the site.",
   "contactBack": "Back to the front page",
   "contactFoot": "There is no form on this site. The address is the only channel, and it is not present in the page's source. We read everything; not every message gets a reply.",
-  "landContact": "Contact"
+  "landContact": "Contact",
+  "nfTitle": "This page does not exist",
+  "nfLead": "The link may be wrong, or the page was removed. Everything is reachable from the front page.",
+  "nfGo": "To the front page"
  },
  "fr": {
   "label": "Français",

@@ -476,7 +476,7 @@ def prerender(page, he):
     return page
 
 
-def json_ld(kind, title, description, path):
+def json_ld(kind, title, description, path, lang="he"):
     """Structured data. Without it a search engine has to infer what the page
     is from prose; with it, the document is declared as an article with a
     date, a language and a publisher."""
@@ -485,10 +485,13 @@ def json_ld(kind, title, description, path):
     site = {"@type": "WebSite", "name": SITE_NAME, "url": SITE_URL + "/",
             "inLanguage": "he"}
     if kind == "site":
-        data = dict(site, description=description)
+        data = dict(site, description=description, inLanguage=lang)
     else:
+        # inLanguage has to be this page's language, not the site's: the
+        # translated documents were all declaring themselves Hebrew.
         data = {"@type": "Article", "headline": title, "description": description,
-                "inLanguage": "he", "datePublished": PUBLISHED,
+                "url": SITE_URL + path,
+                "inLanguage": lang, "datePublished": PUBLISHED,
                 "dateModified": datetime.date.today().isoformat(),
                 "mainEntityOfPage": SITE_URL + path,
                 "isPartOf": site,
@@ -581,7 +584,13 @@ def gtm_body():
 ROBOTS = "index,follow"
 
 
-def head_meta(title, description, path="/", lang="he", langs=("he",)):
+def head_meta(title, description, path="/", lang="he", langs=("he",), gtm=True):
+    """Everything a crawler reads before it reads the page.
+
+    `gtm` is off for the document's loader page: the loader's whole
+    <html> is replaced by the unpacked template, which carries its own
+    container snippet, and two of them would load the container twice.
+    """
     def esc(s):
         return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
 
@@ -622,8 +631,9 @@ def head_meta(title, description, path="/", lang="he", langs=("he",)):
                   '<meta name="twitter:image" content="%s/og.png">'):
             tags.append(t % esc(SITE_URL))
     tags.append(json_ld("site" if path == "/" else "article",
-                        title, description, path))
-    tags.append(gtm_head())
+                        title, description, path, lang))
+    if gtm:
+        tags.append(gtm_head())
     return "\n".join(t for t in tags if t)
 
 
@@ -843,6 +853,52 @@ def prerender_contact(page, t):
     return page
 
 
+def build_404(css):
+    """GitHub Pages' own 404 is a grey page that says "GitHub Pages".
+
+    A reader who mistypes a URL, or follows a link to a chapter that has been
+    renamed, should land somewhere that looks like the site and offers the way
+    back. Served from dist/404.html for every path that misses.
+    """
+    strings = json.loads(read(I18N))
+    he, en = strings["he"], strings.get("en") or strings["he"]
+
+    def esc(v):
+        return (v or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+    return (
+        '<!DOCTYPE html>\n<html lang="he" dir="rtl">\n<head>\n'
+        '<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<meta name="robots" content="noindex">\n'
+        '<title>%s — %s</title>\n<style>\n%s\n'
+        '*{box-sizing:border-box}html{background:#04081a}'
+        'body{margin:0;min-height:100svh;background:#04081a;color:#fff;'
+        'font-family:Heebo,system-ui,sans-serif;-webkit-font-smoothing:antialiased;'
+        'display:flex;align-items:center;justify-content:center;'
+        'padding:clamp(24px,7vw,64px);text-align:center}'
+        '.n{max-width:34em}'
+        '.k{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;'
+        'font-weight:500;letter-spacing:.22em;color:#ff5a6e}'
+        'h1{margin:16px 0 0;font-size:clamp(28px,7vw,46px);font-weight:900;'
+        'line-height:1.08;letter-spacing:-0.03em}'
+        'p{margin:16px 0 0;font-weight:300;color:#c3cbe6;line-height:1.65;'
+        'font-size:clamp(14px,3.8vw,17px)}'
+        '.e{margin:14px 0 0;color:#7a86b4;font-size:clamp(13px,3.4vw,15px)}'
+        'a{display:inline-block;margin-top:26px;background:#c8102e;color:#fff;'
+        'text-decoration:none;padding:14px 26px;font-weight:700;'
+        'font-size:clamp(14px,3.8vw,16px)}'
+        'a:hover{background:#ff5a6e}'
+        '</style>\n</head>\n<body>\n<div class="n">\n'
+        '<div class="k">404 &middot; october7.co</div>\n'
+        '<h1>%s</h1>\n<p>%s</p>\n'
+        '<p class="e" lang="en" dir="ltr">%s</p>\n'
+        '<a href="/">%s</a>\n</div>\n</body>\n</html>\n'
+        % (esc(he["nfTitle"]), esc(he["landTitle"]), css,
+           esc(he["nfTitle"]), esc(he["nfLead"]),
+           esc(en["nfLead"]), esc(he["nfGo"])))
+
+
 def build_contact(shell_text, manifest, lang, langs):
     """Render src/contact.html. No form, and no address in the markup."""
     if not os.path.exists(CONTACT):
@@ -1051,11 +1107,22 @@ def main():
         # The loader page carries its own <title>: it is what the tab shows
         # while the bundle unpacks, and what a crawler that runs no script
         # reads.
+        # The loader page is what is actually served. Everything else — the
+        # description, canonical, hreflang, og: tags and the JSON-LD — used
+        # to live only inside the compressed template, which exists after
+        # the script has run. WhatsApp, Telegram, Slack, Facebook and X run
+        # no script, so every link ever shared to a document previewed bare;
+        # and a crawler saw a title and nothing else until it got round to
+        # rendering. The loader's <html> is replaced wholesale once the
+        # bundle unpacks, so these are never present twice.
+        desc = (strings.get(lang) or strings["he"]).get("heroLead") or DESCRIPTION
+        loader_meta = head_meta(titles[lang], desc, lang_path(lang, True),
+                                lang, LANGS, gtm=False)
         for i, line in enumerate(page[:idx]):
             if "<title>" in line:
                 page[i] = re.sub(r"<title>.*?</title>",
                                  lambda m: "<title>" + titles[lang] + "</title>",
-                                 line, count=1)
+                                 line, count=1) + "\n" + loader_meta
                 break
         else:
             die("no <title> in the loader page to set")
@@ -1112,6 +1179,9 @@ def main():
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         with open(dest, "wb") as f:
             f.write(blob)
+
+    write_text(os.path.join(DIST, "404.html"), build_404(landing_fonts(
+        shell_text, manifest)[0]))
 
     if SITE_URL:
         write_text(os.path.join(DIST, "robots.txt"),
