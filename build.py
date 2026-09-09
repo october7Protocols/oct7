@@ -2,12 +2,12 @@
 """
 Build the publishable page from the editable source in src/.
 
-    src/מענה ראש הממשלה v2.dc.html   the design — this is what you edit
+    src/מענה ראש הממשלה v2.dc.html   the design, this is what you edit
     src/transcript.json               the document data      (see SCHEMA.md)
     src/assets/portraits/<key>.png    one per speaker key
     src/assets/halevi-aman.png        the AMAN-era portrait
 
-    src/landing.html                  the entry page — this too
+    src/landing.html                  the entry page, this too
 
     -> dist/index.html                the entry page, light, loads instantly
     -> dist/doc/index.html            the document, one self-contained file
@@ -15,14 +15,14 @@ Build the publishable page from the editable source in src/.
 Why a build step
 ----------------
 Opened directly, the design fetches five things that do not exist on a live
-URL: ./transcript.json (all 11 chapters — the entire body), the editor's
+URL: ./transcript.json (all 11 chapters, the entire body), the editor's
 ./.image-slots.state.json portrait sidecar, ./halevi-aman.png, React from
 unpkg, and Heebo + IBM Plex Mono from Google Fonts. This build inlines every
 one of them, so the output has zero runtime network dependencies and works
 from file:// as well as from a web server.
 
 The runtime plumbing (the DC runtime, React, and the fifteen subsetted woff2
-faces) is carried in vendor/export-shell.html — a Claude Design export whose
+faces) is carried in vendor/export-shell.html, a Claude Design export whose
 self-extracting loader is reused verbatim. Only the design itself is taken
 from src/, so editing the .dc.html is all a contributor has to do.
 
@@ -67,8 +67,8 @@ CONSENT = os.path.join(SRC, "consent.js")
 # seven languages, but the person who reads the mail is not.
 CONTACT = os.path.join(SRC, "contact.html")
 CONTACT_LANGS = ("he", "en")
-# The address the page hands out. It is never written into the HTML — see
-# mail_parts() — so this is the only place it lives.
+# The address the page hands out. It is never written into the HTML, see
+# mail_parts(), so this is the only place it lives.
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "contact@october7.co")
 # The about page. Same two languages, same reason.
 ABOUT = os.path.join(SRC, "about.html")
@@ -76,7 +76,7 @@ ABOUT = os.path.join(SRC, "about.html")
 # IndexNow. Bing, Yandex, Seznam and Naver take a push instead of waiting to
 # crawl; the protocol's only requirement is that this key is also readable at
 # https://october7.co/<key>.txt, which the build writes. Google does not
-# participate — its side is Search Console, which needs an account.
+# participate, its side is Search Console, which needs an account.
 INDEXNOW_KEY = "e2279691b68b63fd8e8e9f2c4b8e9d14"
 # The share image the meta tags point at. Every link shared to WhatsApp,
 # Telegram, Facebook or X shows this or shows nothing.
@@ -96,7 +96,7 @@ SIDECAR = os.path.join(SRC, ".image-slots.state.json")
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
 # Google Tag Manager container, e.g. GTM-ABC1234. Empty by default, and an
-# empty value ships no third-party script at all — the page keeps its
+# empty value ships no third-party script at all, the page keeps its
 # zero-external-request property until someone deliberately sets this.
 # Whatever measurement actually happens is configured inside the container,
 # not here, so adding or removing a pixel never needs a rebuild.
@@ -113,7 +113,7 @@ SITE_NAME = "חשיפת הפרוטוקולים"
 PUBLISHED = "2026-09-08"
 
 # One URL per language, so a search engine can index all seven. Hebrew keeps
-# the bare paths — october7.co is already shared and must not break — and the
+# the bare paths, october7.co is already shared and must not break, and the
 # rest sit under a prefix.
 #
 #     /            /doc/            he
@@ -194,7 +194,7 @@ def slice_design(design_html):
         die("no <script type=\"text/x-dc\"> component script in the src design")
     css = re.search(r'<style data-om-responsive>.*?</style>', design_html, re.S)
     if not css:
-        die("no <style data-om-responsive> block in the src design — the "
+        die("no <style data-om-responsive> block in the src design, the "
             "breakpoints would be silently dropped from the published page")
     return normalise_camel_attrs(body), m.group(0), css.group(0)
 
@@ -236,7 +236,7 @@ FETCH_SIDECAR_OLD = """    const map = {};
         const u = typeof v === 'string' ? v : (v && v.u);
         if (u && u.indexOf('data:image/') === 0) map[k.slice(5)] = u;
       }
-    } catch (e) { /* no sidecar yet — placeholders stay */ }
+    } catch (e) { /* no sidecar yet, placeholders stay */ }
     // Era-specific portrait shipped with the page, not user-dropped.
     map['halevi-aman'] = './halevi-aman.png';"""
 
@@ -274,7 +274,7 @@ def template_line(html):
     """Serialise the page into the <script type="__bundler/template"> tag.
 
     Every "</" must be escaped or the HTML parser closes that tag at the
-    first one and truncates the payload — which shows up as a page that
+    first one and truncates the payload, which shows up as a page that
     renders 186 bytes and nothing else. This has been got wrong twice by
     hand; it lives in one place now.
     """
@@ -322,7 +322,7 @@ def split_drafts(transcript):
 
 def load_transcript():
     if not os.path.exists(TRANSCRIPT):
-        return None, "missing src/transcript.json — the page would have no chapters"
+        return None, "missing src/transcript.json, the page would have no chapters"
     try:
         data = json.loads(read(TRANSCRIPT))
     except Exception as e:
@@ -429,7 +429,7 @@ def load_portraits(transcript):
                      % (len(missing), len(speech_speakers(transcript)),
                         ", ".join(missing)))
         if not os.path.exists(SIDECAR):
-            notes.append("src/.image-slots.state.json is absent — that hidden "
+            notes.append("src/.image-slots.state.json is absent, that hidden "
                          "file in the editor project holds every photo already "
                          "placed on the canvas")
     return out, copies, "; ".join(notes) if notes else None
@@ -487,7 +487,7 @@ def prerender(page, he):
         page, count=1)
     if not n:
         die("src/landing.html: no span inside #k-benlink to prerender")
-    # An unclosed tag here does not look broken — it silently swallows
+    # An unclosed tag here does not look broken, it silently swallows
     # everything after it into the link, which is how the "coming soon" block
     # ended up opening a radio programme.
     if page.count("</span>") != page.count("<span"):
@@ -536,7 +536,7 @@ def gtm_head():
     if not GTM_ID:
         return ""
     if not os.path.exists(CONSENT):
-        die("src/consent.js is missing — GTM_ID is set but nothing would gate it")
+        die("src/consent.js is missing, GTM_ID is set but nothing would gate it")
     keys = ("consentText", "consentYes", "consentNo")
     strings = json.loads(read(I18N))
     subset = {}
@@ -545,7 +545,7 @@ def gtm_head():
         for k in keys:
             v = t.get(k) or strings.get("he", {}).get(k) or ""
             if not v:
-                die("src/i18n.json: %s.%s is empty — the consent banner needs it"
+                die("src/i18n.json: %s.%s is empty, the consent banner needs it"
                     % (lang, k))
             picked[k] = v
         subset[lang] = picked
@@ -742,7 +742,7 @@ def load_manifest(shell_text):
 def build_landing(shell_text, manifest, lang, langs):
     """Render src/landing.html with the copy, the languages and the fonts."""
     if not os.path.exists(LANDING):
-        die("src/landing.html is missing — there would be no entry page")
+        die("src/landing.html is missing, there would be no entry page")
     strings = json.loads(read(I18N))
 
     # Only the keys the entry page shows. The document's 411 translated
@@ -758,7 +758,7 @@ def build_landing(shell_text, manifest, lang, langs):
             "landContact", "landAbout")
     # `code` is the picker's own label for a language. Falling it back to
     # Hebrew would put עב on all six buttons, so it is the one key a
-    # language may leave unset — the picker then uses the key in capitals.
+    # language may leave unset, the picker then uses the key in capitals.
     NO_FALLBACK = ("code",)
     subset, order = {}, []
     # `each`, not `lang`: the parameter of this function is the language the
@@ -770,7 +770,7 @@ def build_landing(shell_text, manifest, lang, langs):
         for k in KEEP:
             v = src.get(k) or ("" if k in NO_FALLBACK else base.get(k)) or ""
             if not v and each == "he" and k not in NO_FALLBACK:
-                die("src/i18n.json: he.%s is empty — the entry page needs it" % k)
+                die("src/i18n.json: he.%s is empty, the entry page needs it" % k)
             picked[k] = v
         subset[each] = picked
         order.append(each)
@@ -895,7 +895,7 @@ def png_bytes(size, bg, fg, bar=(0.1875, 0.4375, 0.625, 0.125)):
     """A flat two-colour PNG, written without an imaging library.
 
     `bar` is (x, y, w, h) as fractions of the side, so the mark keeps its
-    proportions at every size. Rows are filter-type 0 (none) — the image is
+    proportions at every size. Rows are filter-type 0 (none), the image is
     small and flat enough that the compressor does the work.
     """
     x0 = int(round(bar[0] * size))
@@ -918,7 +918,7 @@ def png_bytes(size, bg, fg, bar=(0.1875, 0.4375, 0.625, 0.125)):
 
 
 def ico_bytes(pngs):
-    """An .ico container holding PNG images — every browser since IE11.
+    """An .ico container holding PNG images, every browser since IE11.
 
     Windows and the bookmark bar still ask for /favicon.ico by name, whatever
     <link rel="icon"> says.
@@ -966,7 +966,7 @@ def build_404(css):
     the man whose photograph is on the page wrote, in a sworn affidavit this
     site publishes, that his own alert tier had been mistaken. The line above
     the photo is the page speaking about him, in the third person and without
-    quotation marks — not words put in his mouth. Nothing on this site,
+    quotation marks, not words put in his mouth. Nothing on this site,
     including its error page, attributes a sentence to a person who did not
     say it.
     """
@@ -981,7 +981,7 @@ def build_404(css):
         '<meta charset="utf-8">\n'
         '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
         '<meta name="robots" content="noindex">\n'
-        '<title>404 — %s</title>\n<style>\n%s\n'
+        '<title>404, %s</title>\n<style>\n%s\n'
         '*{box-sizing:border-box}html{background:#04081a}'
         'body{margin:0;min-height:100svh;background:#04081a;color:#fff;'
         'font-family:Heebo,system-ui,sans-serif;-webkit-font-smoothing:antialiased;'
@@ -989,7 +989,7 @@ def build_404(css):
         'padding:clamp(24px,6vw,56px)}'
         '.w{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);'
         'align-items:end;gap:clamp(18px,4vw,40px);max-width:820px;width:100%%}'
-        # The portrait is not a clean cut-out — it carries its own dark
+        # The portrait is not a clean cut-out, it carries its own dark
         # backdrop, which reads as a grey box dropped on the page unless it
         # is framed. The document gives every speaker the same frame.
         '.p{margin:0;align-self:end;border:1px solid rgba(255,255,255,0.16);'
@@ -1061,7 +1061,7 @@ ABOUT_KEEP = ("label", "code", "dir") + tuple(
 
 
 def build_about(shell_text, manifest, lang, langs):
-    """Render src/about.html — who publishes this, and where it came from."""
+    """Render src/about.html, who publishes this, and where it came from."""
     updated = datetime.date.today().strftime("%d.%m.%Y")
     return build_side_page(ABOUT, "about", ABOUT_PRERENDER, ABOUT_KEEP,
                            shell_text, manifest, lang, langs,
@@ -1081,7 +1081,7 @@ def build_side_page(path, sub, table, keep, shell_text, manifest, lang, langs,
                     extra=None, keep_extra=(), fill=None):
     """The pages beside the document: /contact/ and /about/.
 
-    They share everything but their copy — the same chrome, the same
+    They share everything but their copy, the same chrome, the same
     two-language picker, the same server-side fill so that what leaves the
     build is a finished page rather than a shell of empty elements.
     """
@@ -1096,7 +1096,7 @@ def build_side_page(path, sub, table, keep, shell_text, manifest, lang, langs,
         for k in tuple(keep) + tuple(keep_extra):
             v = src.get(k) or ("" if k == "code" else base.get(k)) or ""
             if not v and each == "he" and k != "code":
-                die("src/i18n.json: he.%s is empty — /%s/ needs it" % (k, sub))
+                die("src/i18n.json: he.%s is empty, /%s/ needs it" % (k, sub))
             picked[k] = fill(v) if (fill and v) else v
         subset[each] = picked
         order.append(each)
@@ -1138,8 +1138,8 @@ def build_template(shell_template, design_body, design_script, design_css,
                    transcript, portraits, lang="he", langs=("he",), path=None):
     """Graft the current design onto the export shell, then inline the data.
 
-    The shell contributes its <helmet> — which is where the export resolved
-    Google Fonts into fifteen bundled woff2 faces — and its loader. The design
+    The shell contributes its <helmet>, which is where the export resolved
+    Google Fonts into fifteen bundled woff2 faces, and its loader. The design
     contributes everything a contributor actually edits.
     """
     head, rest = shell_template.split("</helmet>", 1)
@@ -1150,7 +1150,7 @@ def build_template(shell_template, design_body, design_script, design_css,
     design_body = IMAGE_SLOT_OLD_RE.sub(
         lambda m: IMAGE_SLOT_NEW, design_body, count=1)
     if "<image-slot" in design_body:
-        die("an <image-slot> survived the swap — it would 404 on a live URL")
+        die("an <image-slot> survived the swap, it would 404 on a live URL")
 
     for old, new, label in (
         (FETCH_TRANSCRIPT_OLD, FETCH_TRANSCRIPT_NEW, "transcript fetch"),
@@ -1158,12 +1158,12 @@ def build_template(shell_template, design_body, design_script, design_css,
     ):
         if design_script.count(old) != 1:
             die("could not find the %s to patch (%d matches). The design's "
-                "code changed — update build.py's anchors."
+                "code changed, update build.py's anchors."
                 % (label, design_script.count(old)))
         design_script = design_script.replace(old, new)
 
     if not os.path.exists(I18N):
-        die("src/i18n.json is missing — the page would have no interface copy")
+        die("src/i18n.json is missing, the page would have no interface copy")
     try:
         strings = json.loads(read(I18N))
     except Exception as e:
@@ -1200,7 +1200,7 @@ def build_template(shell_template, design_body, design_script, design_css,
         r'<link rel="preconnect" href="https://fonts\.(googleapis|gstatic)\.com"[^>]*>\n?',
         "", out)
     if "fonts.googleapis.com/css2" in out:
-        die("a Google Fonts stylesheet link survived — fonts must come from the bundle")
+        die("a Google Fonts stylesheet link survived, fonts must come from the bundle")
     return out
 
 
@@ -1234,9 +1234,9 @@ def main():
         print("  ! " + t_note)
     if p_note:
         print("  ! " + p_note)
-    print("  site url   : " + (SITE_URL or "(unset — no canonical/og:url)"))
+    print("  site url   : " + (SITE_URL or "(unset, no canonical/og:url)"))
     if drafts:
-        print("  drafts     : %s — /%s/ only, noindex, not in the sitemap"
+        print("  drafts     : %s, /%s/ only, noindex, not in the sitemap"
               % (", ".join(c["id"] for c in drafts), PREVIEW))
     print("  analytics  : " + (GTM_ID or "none (no third-party request)"))
 
@@ -1299,8 +1299,8 @@ def main():
         # The loader page carries its own <title>: it is what the tab shows
         # while the bundle unpacks, and what a crawler that runs no script
         # reads.
-        # The loader page is what is actually served. Everything else — the
-        # description, canonical, hreflang, og: tags and the JSON-LD — used
+        # The loader page is what is actually served. Everything else, the
+        # description, canonical, hreflang, og: tags and the JSON-LD, used
         # to live only inside the compressed template, which exists after
         # the script has run. WhatsApp, Telegram, Slack, Facebook and X run
         # no script, so every link ever shared to a document previewed bare;
@@ -1341,7 +1341,7 @@ def main():
                                   path="/%s/doc/" % PREVIEW)
         page = list(lines)
         page[idx] = template_line(template)
-        title = titles["he"] + " — טיוטה"
+        title = titles["he"] + ", טיוטה"
         for i, line in enumerate(page[:idx]):
             if "<title>" in line:
                 page[i] = re.sub(r"<title>.*?</title>",
@@ -1359,7 +1359,7 @@ def main():
     if os.path.exists(OG_IMAGE):
         shutil.copyfile(OG_IMAGE, os.path.join(DIST, "og.png"))
     elif SITE_URL:
-        print("  ! no src/assets/og.png — shared links will preview bare")
+        print("  ! no src/assets/og.png, shared links will preview bare")
     if os.path.isdir(LANDING_ASSETS):
         shutil.copytree(LANDING_ASSETS, os.path.join(DIST, "assets"))
     os.makedirs(os.path.join(DIST, "assets"), exist_ok=True)
@@ -1446,7 +1446,7 @@ def main():
              "" if not copies else " + %d portraits, %.1f MB total"
              % (len(copies), total / 1048576.0)))
     if not transcript:
-        print("NOTE: no transcript — the page will show hero, prologue and footer only.")
+        print("NOTE: no transcript, the page will show hero, prologue and footer only.")
     return 0
 
 

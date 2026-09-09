@@ -2,12 +2,12 @@
 <html lang="he" dir="rtl">
 <!--
   The contact page. Rendered by build.py to dist/contact/ and dist/en/contact/.
-  Hebrew and English only — the document is published in seven languages, but
+  Hebrew and English only, the document is published in seven languages, but
   the person reading the mail is not.
 
   There is no form on this page, and that is the whole anti-spam design: a
   bot cannot submit what does not exist. The address is not in the HTML
-  either — it is assembled in script only when a reader asks for it, so a
+  either, it is assembled in script only when a reader asks for it, so a
   harvester that does not run JavaScript leaves with nothing.
 
   The placeholders build.py fills in are named FONT CSS, STRINGS, LANGS,
@@ -41,7 +41,7 @@ body {
     #04081a;
 }
 
-/* The same corner, the same chrome as the picker on the other two pages —
+/* The same corner, the same chrome as the picker on the other two pages...
    with two entries instead of seven, because this page has two. */
 .lang {
   position: fixed; z-index: 9; top: 14px; left: 10px;

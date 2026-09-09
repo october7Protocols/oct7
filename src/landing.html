@@ -454,7 +454,7 @@ function apply(k, remember) {
   set('k-uaepull', t.landUaePull);
   set('k-uaequote', t.landUaeQuote);
   set('k-uaeattr', t.landUaeAttr);
-  // This statement was issued in English, so English — not Hebrew — is the
+  // This statement was issued in English, so English, not Hebrew, is the
   // original a reader should be able to check the translation against.
   var en = S.en || {};
   document.getElementById('k-uaepull').title = k === 'en' ? '' : (en.landUaePull || '');
@@ -466,7 +466,7 @@ function apply(k, remember) {
   set('k-landabout', t.landAbout);
   set('k-landcontact', t.landContact);
   // Only a click is remembered. The document detects the same way this page
-  // does, so storing a guess would freeze it — and a reader who travels
+  // does, so storing a guess would freeze it, and a reader who travels
   // would keep the language of wherever they first opened the site.
   // A choice, though, is the language the document then opens in.
   if (remember) {

@@ -7,7 +7,7 @@
 # What it takes, and why each piece:
 #
 #   repo.bundle   every commit, branch and tag in one file. `git clone` it
-#                 and you have the project back — history, workflow and all —
+#                 and you have the project back, history, workflow and all...
 #                 with no GitHub account involved.
 #   sources/      the PDFs and recordings the transcript was made from. These
 #                 are the only things here that cannot be rebuilt: the site is
