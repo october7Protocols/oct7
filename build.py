@@ -68,6 +68,8 @@ CONTACT_LANGS = ("he", "en")
 # The address the page hands out. It is never written into the HTML — see
 # mail_parts() — so this is the only place it lives.
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "contact@october7.co")
+# The about page. Same two languages, same reason.
+ABOUT = os.path.join(SRC, "about.html")
 # The share image the meta tags point at. Every link shared to WhatsApp,
 # Telegram, Facebook or X shows this or shows nothing.
 OG_IMAGE = os.path.join(SRC, "assets", "og.png")
@@ -450,6 +452,7 @@ PRERENDER = {
     "k-soon":       lambda t: t["landSoon"],
     "k-soonnote":   lambda t: t["landSoonNote"],
     "k-foot":       lambda t: t["landFoot"],
+    "k-landabout":  lambda t: t["landAbout"],
     "k-landcontact": lambda t: t["landContact"],
 }
 
@@ -622,7 +625,8 @@ def head_meta(title, description, path="/", lang="he", langs=("he",), gtm=True):
         # Every translation points at every other, and at itself. Without
         # this a search engine treats them as duplicates and keeps one.
         doc = path.endswith("/doc/")
-        sub = "contact" if path.endswith("/contact/") else None
+        sub = next((p for p in ("contact", "about")
+                    if path.endswith("/%s/" % p)), None)
         for other in langs:
             tags.append('<link rel="alternate" hreflang="%s" href="%s">'
                         % (other, esc(SITE_URL + lang_path(other, doc, sub))))
@@ -730,7 +734,7 @@ def build_landing(shell_text, manifest, lang, langs):
             "landNewsNote", "landBennettLabel", "landBennettPull",
             "landBennettAttr", "landBennettLink",
             "landUaeLabel", "landUaePull", "landUaeQuote", "landUaeAttr",
-            "landContact")
+            "landContact", "landAbout")
     # `code` is the picker's own label for a language. Falling it back to
     # Hebrew would put עב on all six buttons, so it is the one key a
     # language may leave unset — the picker then uses the key in capitals.
@@ -761,18 +765,21 @@ def build_landing(shell_text, manifest, lang, langs):
     # The contact page exists in Hebrew and English only. Left as authored,
     # the footer link resolves to /ru/contact/ and every language but those
     # two serves a 404 to anyone who does not run the script that fixes it.
-    contact_href = ("contact/" if lang == "he"
-                    else "../contact/" if lang == "en"
-                    else "../en/contact/")
+    def side_href(sub):
+        return (sub + "/" if lang == "he"
+                else "../%s/" % sub if lang == "en"
+                else "../en/%s/" % sub)
     css, files = landing_fonts(shell_text, manifest, prefix)
     he = subset["he"]
     t = subset.get(lang) or he
     page = read(LANDING)
     page, n_img = re.subn(r'(<img\b[^>]*\bsrc=")assets/', r'\1%sassets/' % prefix, page)
-    page, n_c = re.subn(r'(\bdata-contact\b[^>]*\bhref=")contact/',
-                        lambda m: m.group(1) + contact_href, page)
-    if n_c != 1:
-        die("src/landing.html: expected one data-contact href to re-root, found %d" % n_c)
+    for sub in ("contact", "about"):
+        page, n_c = re.subn(r'(\bdata-%s\b[^>]*\bhref=")%s/' % (sub, sub),
+                            lambda m, s=sub: m.group(1) + side_href(s), page)
+        if n_c != 1:
+            die("src/landing.html: expected one data-%s href to re-root, found %d"
+                % (sub, n_c))
     if n_img == 0:
         die("src/landing.html has no <img src=\"assets/...\"> to re-root")
     # The document shell is written for Hebrew; every other language flips it.
@@ -833,24 +840,24 @@ def mail_parts(address):
             for part in (local, host)]
 
 
-def prerender_contact(page, t):
-    """Fill the k-c* elements server-side, the way the entry page is filled."""
+def prerender_side(page, t, table, label):
+    """Fill a side page's elements server-side, as the entry page is filled."""
     def esc(v):
         return v.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
     def rich(v):
         return esc(v).replace("&lt;b&gt;", "<b>").replace("&lt;/b&gt;", "</b>")
 
-    for el, (key, is_rich) in CONTACT_PRERENDER.items():
+    for el, (key, is_rich) in table.items():
         value = t.get(key) or ""
         pat = re.compile(r'(id="%s"[^>]*>)(</)' % re.escape(el))
         page, n = pat.subn(
             lambda m: m.group(1) + (rich(value) if is_rich else esc(value)) + m.group(2),
             page, count=1)
         if not n:
-            die("src/contact.html: nothing to prerender into #%s" % el)
+            die("%s: nothing to prerender into #%s" % (label, el))
     if page.count("<b>") != page.count("</b>"):
-        die("prerender left an unbalanced <b> in the contact page")
+        die("prerender left an unbalanced <b> in %s" % label)
     return page
 
 
@@ -924,21 +931,75 @@ def build_404(css):
            esc(he["nfLead"]), esc(en["nfLead"]), esc(he["nfGo"])))
 
 
+ABOUT_PRERENDER = {
+    "k-atitle":      ("aboutTitle", False),
+    "k-alead":       ("aboutLead", False),
+    "k-awhatlabel":  ("aboutWhatLabel", False),
+    "k-awhat":       ("aboutWhat", True),
+    "k-asrclabel":   ("aboutSrcLabel", False),
+    "k-asrc1":       ("aboutSrc1", True),
+    "k-asrc2":       ("aboutSrc2", True),
+    "k-asrc3":       ("aboutSrc3", True),
+    "k-aleaklabel":  ("aboutLeakLabel", False),
+    "k-aleak":       ("aboutLeak", True),
+    "k-arulelabel":  ("aboutRuleLabel", False),
+    "k-arule1":      ("aboutRule1", True),
+    "k-arule2":      ("aboutRule2", True),
+    "k-arule3":      ("aboutRule3", True),
+    "k-anotlabel":   ("aboutNotLabel", False),
+    "k-anot":        ("aboutNot", True),
+    "k-awholabel":   ("aboutWhoLabel", False),
+    "k-awho":        ("aboutWho", True),
+    "k-acorrlabel":  ("aboutCorrLabel", False),
+    "k-acorr":       ("aboutCorr", True),
+    "k-acontact":    ("aboutContactLink", False),
+    "k-adates":      ("aboutDates", False),
+    "k-aback":       ("aboutBack", False),
+    "k-afoot":       ("aboutFoot", False),
+}
+
+ABOUT_KEEP = ("label", "code", "dir") + tuple(
+    k for _, (k, _) in sorted(ABOUT_PRERENDER.items()))
+
+
+def build_about(shell_text, manifest, lang, langs):
+    """Render src/about.html — who publishes this, and where it came from."""
+    updated = datetime.date.today().strftime("%d.%m.%Y")
+    return build_side_page(ABOUT, "about", ABOUT_PRERENDER, ABOUT_KEEP,
+                           shell_text, manifest, lang, langs,
+                           fill=lambda v: v.replace("{d}", updated))
+
+
 def build_contact(shell_text, manifest, lang, langs):
     """Render src/contact.html. No form, and no address in the markup."""
-    if not os.path.exists(CONTACT):
-        die("src/contact.html is missing")
+    return build_side_page(CONTACT, "contact", CONTACT_PRERENDER, CONTACT_KEEP,
+                           shell_text, manifest, lang, langs,
+                           extra={"__MAIL__": json_for_script(
+                               mail_parts(CONTACT_EMAIL))},
+                           keep_extra=("contactCopy", "contactCopied"))
+
+
+def build_side_page(path, sub, table, keep, shell_text, manifest, lang, langs,
+                    extra=None, keep_extra=(), fill=None):
+    """The pages beside the document: /contact/ and /about/.
+
+    They share everything but their copy — the same chrome, the same
+    two-language picker, the same server-side fill so that what leaves the
+    build is a finished page rather than a shell of empty elements.
+    """
+    if not os.path.exists(path):
+        die("%s is missing" % os.path.relpath(path, HERE))
     strings = json.loads(read(I18N))
     base = strings.get("he", {})
     subset, order = {}, []
     for each in langs:
         src = strings.get(each) or {}
         picked = {}
-        for k in CONTACT_KEEP:
+        for k in tuple(keep) + tuple(keep_extra):
             v = src.get(k) or ("" if k == "code" else base.get(k)) or ""
             if not v and each == "he" and k != "code":
-                die("src/i18n.json: he.%s is empty — the contact page needs it" % k)
-            picked[k] = v
+                die("src/i18n.json: he.%s is empty — /%s/ needs it" % (k, sub))
+            picked[k] = fill(v) if (fill and v) else v
         subset[each] = picked
         order.append(each)
 
@@ -947,26 +1008,32 @@ def build_contact(shell_text, manifest, lang, langs):
     css, files = landing_fonts(shell_text, manifest,
                                "../" if lang == "he" else "../../")
     t = subset.get(lang) or subset["he"]
-    page = read(CONTACT)
+    page = read(path)
     page = page.replace('<html lang="he" dir="rtl">',
                         '<html lang="%s" dir="%s">' % (lang, t.get("dir") or "rtl"), 1)
-    for token, value in (
-        ("__FONT_CSS__", css),
-        ("__STRINGS__", json_for_script(subset)),
-        ("__LANGS__", json_for_script(order)),
-        ("__MAIL__", json_for_script(mail_parts(CONTACT_EMAIL))),
-        ("__TITLE__", t["contactTitle"]),
-        ("__META__", head_meta(t["contactTitle"], t["contactLead"],
-                               lang_path(lang, sub="contact"), lang, langs)),
-        ("__LANG__", lang),
-        ("__GTM_BODY__", gtm_body()),
-    ):
+    # The first two entries of the table are the page's own title and lead;
+    # they are what the head is built from.
+    order_keys = [k for _, (k, _) in sorted(table.items())]
+    title_key = next(k for k in order_keys if k.endswith("Title"))
+    lead_key = next(k for k in order_keys if k.endswith("Lead"))
+    tokens = {
+        "__FONT_CSS__": css,
+        "__STRINGS__": json_for_script(subset),
+        "__LANGS__": json_for_script(order),
+        "__TITLE__": t[title_key],
+        "__META__": head_meta(t[title_key], t[lead_key],
+                              lang_path(lang, sub=sub), lang, langs),
+        "__LANG__": lang,
+        "__GTM_BODY__": gtm_body(),
+    }
+    tokens.update(extra or {})
+    for token, value in tokens.items():
         n = page.count(token)
         if n != 1:
-            die("src/contact.html has %d %s placeholders, expected exactly one"
-                % (n, token))
+            die("%s has %d %s placeholders, expected exactly one"
+                % (os.path.relpath(path, HERE), n, token))
         page = page.replace(token, value)
-    return prerender_contact(page, t), files
+    return prerender_side(page, t, table, os.path.relpath(path, HERE)), files
 
 
 def build_template(shell_template, design_body, design_script, design_css,
@@ -1088,11 +1155,12 @@ def main():
     for lang in LANGS:
         pages[lang], fonts = build_landing(shell_text, manifest, lang, LANGS)
     print("  entry page : %d languages, %d fonts" % (len(LANGS), len(fonts)))
-    contact = {}
+    contact, about = {}, {}
     for lang in CONTACT_LANGS:
         contact[lang], fonts = build_contact(shell_text, manifest, lang, CONTACT_LANGS)
-    print("  contact    : %s, address %s"
-          % ("/".join(CONTACT_LANGS), CONTACT_EMAIL))
+        about[lang], fonts = build_about(shell_text, manifest, lang, CONTACT_LANGS)
+    print("  side pages : /contact/ and /about/ in %s" % "/".join(CONTACT_LANGS))
+    print("  contact    : %s" % CONTACT_EMAIL)
     print("  urls       : / and /doc/ for he, /<lang>/ and /<lang>/doc/ for the rest")
 
     if check_only:
@@ -1106,6 +1174,7 @@ def main():
     shutil.rmtree(os.path.join(DIST, "assets"), ignore_errors=True)
     shutil.rmtree(os.path.join(DIST, PREVIEW), ignore_errors=True)
     shutil.rmtree(os.path.join(DIST, "contact"), ignore_errors=True)
+    shutil.rmtree(os.path.join(DIST, "about"), ignore_errors=True)
     # Before the entry page existed the document was the root and its photos
     # sat in dist/portraits/. Left behind, they are 4 MB of dead weight in
     # every deploy from a working tree that predates the split.
@@ -1160,10 +1229,12 @@ def main():
         os.makedirs(landdir, exist_ok=True)
         write_text(os.path.join(landdir, "index.html"), pages[lang])
 
-        if lang in contact:
-            cdir = os.path.join(landdir, "contact")
-            os.makedirs(cdir, exist_ok=True)
-            write_text(os.path.join(cdir, "index.html"), contact[lang])
+        for sub, built in (("contact", contact), ("about", about)):
+            if lang not in built:
+                continue
+            sdir = os.path.join(landdir, sub)
+            os.makedirs(sdir, exist_ok=True)
+            write_text(os.path.join(sdir, "index.html"), built[lang])
     if drafts:
         global ROBOTS
         ROBOTS = "noindex,nofollow"
@@ -1217,6 +1288,7 @@ def main():
         for doc, sub, group, freq, pri in (
                 (False, None, LANGS, "weekly", "1.0"),
                 (True, None, LANGS, "monthly", "0.9"),
+                (False, "about", list(CONTACT_LANGS), "yearly", "0.4"),
                 (False, "contact", list(CONTACT_LANGS), "yearly", "0.3")):
             for lang in group:
                 alts = "".join(

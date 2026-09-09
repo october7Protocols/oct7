@@ -136,7 +136,32 @@
   "nfLead": "ייתכן שהקישור שגוי, או שהעמוד הוסר. הכול נמצא מהדף הראשי.",
   "nfGo": "לדף הראשי",
   "nfQuote": "אציין כי מדרג ההתרעה היה שגוי ומהווה כשל של שב\"כ.",
-  "nfAttr": "רונן בר, ראש השב״כ, תצהיר בשבועה לבג״ץ 54321-03-25"
+  "nfAttr": "רונן בר, ראש השב״כ, תצהיר בשבועה לבג״ץ 54321-03-25",
+  "aboutTitle": "אודות",
+  "aboutLead": "october7.co מפרסם מסמכי מקור של מערכת הביטחון הישראלית, בשלמותם, עם התאריך והמקור של כל משפט.",
+  "aboutWhatLabel": "מה יש כאן",
+  "aboutWhat": "מסמכים שלמים, לא תקצירים. מה שנכתב, מי כתב, מתי, ובאיזה הקשר — כפי שזה מופיע במסמך עצמו. הקורא רואה את החומר ומסיק בעצמו.",
+  "aboutSrcLabel": "מאיפה החומר",
+  "aboutSrc1": "<b>מענה ראש הממשלה לשאלות מבקר המדינה</b>, דצמבר 2025. הציטוטים מתוך הדיונים הביטחוניים שבתוכו הם אלה שראש הממשלה אישר לפרסום, וכך הם מסומנים בגוף המסמך.",
+  "aboutSrc2": "<b>תצהירים בשבועה שהוגשו לבית המשפט העליון</b> בבג\"ץ 54321-03-25 ובעתירות שאוחדו איתו — תצהיר ראש השב\"כ מ-21.04.2025 ותצהיר ראש הממשלה מ-27.04.2025. תיק פתוח לעיון.",
+  "aboutSrc3": "<b>ראיונות ושידורים פומביים</b>, עם קישור ישיר לשידור המלא כדי שאפשר יהיה לשמוע את הדברים במקומם.",
+  "aboutLeakLabel": "אין כאן חומר שהודלף",
+  "aboutLeak": "אף מסמך באתר לא הודלף ואף מסמך אינו מסווג. כל מקור כאן ניתן להשגה בעצמו — מתיק בית המשפט, מחלקי המסמך שאושרו לפרסום, או מהשידור עצמו. חלקים שלא אושרו לפרסום מוצגים כמושחרים, בדיוק כפי שהם במקור, ולא הושלמו ולא שוחזרו.",
+  "aboutRuleLabel": "כלל העבודה",
+  "aboutRule1": "<b>כל משפט מיוחס לדובר, לתאריך ולמקום.</b> חומר שאי אפשר להצביע על מקורו לא מתפרסם כאן, גם כשהוא נכון וגם כשהוא מעניין.",
+  "aboutRule2": "<b>האתר פורש ולא טוען.</b> הוא מציג את המסמכים ואת מה שנאמר בהם, ולא בונה מהם טענה. אם צריך לשכנע, זה לא שייך לכאן.",
+  "aboutRule3": "<b>תרגום אינו המקור.</b> האתר מתפרסם בשבע שפות, וכל ציטוט מתורגם מסומן כתרגום לא רשמי ושומר את המקור העברי — ריחוף מעל הציטוט מציג את המילים שנאמרו בפועל.",
+  "aboutNotLabel": "מה האתר לא",
+  "aboutNot": "האתר אינו ועדת חקירה, אינו בית משפט ואינו גוף בודק. הדברים המובאים בו הם טענות ועמדות של הדוברים, ולא קביעות עובדתיות של אף גורם. כשצד אחד מכחיש את דברי משנהו, שתי הגרסאות מובאות זו לצד זו.",
+  "aboutWhoLabel": "מי מפרסם",
+  "aboutWho": "מערכת october7.co. האתר מוגש כשירות לציבור, ללא פרסומות וללא תוכן ממומן.",
+  "aboutCorrLabel": "תיקונים",
+  "aboutCorr": "מצאתם טעות עובדתית, ציטוט שאינו מדויק או ייחוס שגוי? כתבו לנו וציינו את הפרק ואת המשפט. תיקון עובדתי מתוקן ומצוין באתר.",
+  "aboutContactLink": "לעמוד צור קשר",
+  "aboutDates": "פורסם 8 בספטמבר 2026 · עודכן {d}",
+  "aboutBack": "חזרה לדף הראשי",
+  "aboutFoot": "הדברים לקוחים מפרוטוקולים אמיתיים שנחשפו, ואחרים ייחשפו בהמשך. מוגש כשירות לציבור.",
+  "landAbout": "אודות"
  },
  "en": {
   "label": "English",
@@ -899,7 +924,32 @@
   "nfLead": "The link may be wrong, or the page was removed. Everything is reachable from the front page.",
   "nfGo": "To the front page",
   "nfQuote": "I will note that the alert tier was mistaken and constitutes a failure of the Shin Bet.",
-  "nfAttr": "Ronen Bar, Head of the Shin Bet, sworn affidavit, HCJ 54321-03-25"
+  "nfAttr": "Ronen Bar, Head of the Shin Bet, sworn affidavit, HCJ 54321-03-25",
+  "aboutTitle": "About",
+  "aboutLead": "october7.co publishes source documents of the Israeli security establishment in full, with the date and the source of every sentence.",
+  "aboutWhatLabel": "What is here",
+  "aboutWhat": "Whole documents, not summaries. What was written, by whom, when, and in what context — as it appears in the document itself. The reader sees the material and draws their own conclusions.",
+  "aboutSrcLabel": "Where the material comes from",
+  "aboutSrc1": "<b>The Prime Minister's response to the State Comptroller's questions</b>, December 2025. The quotations from the security discussions inside it are those the Prime Minister cleared for publication, and are marked as such in the document.",
+  "aboutSrc2": "<b>Sworn affidavits filed with the Supreme Court</b> in HCJ 54321-03-25 and the petitions consolidated with it — the Head of the Shin Bet's of 21.04.2025 and the Prime Minister's of 27.04.2025. The file is open to inspection.",
+  "aboutSrc3": "<b>Public interviews and broadcasts</b>, with a direct link to the full broadcast so that the words can be heard where they were said.",
+  "aboutLeakLabel": "Nothing here was leaked",
+  "aboutLeak": "No document on this site was leaked and no document is classified. Every source here can be obtained independently — from the court file, from the parts of the document cleared for publication, or from the broadcast itself. Passages not cleared for publication are shown redacted, exactly as they are in the original; they have not been filled in or reconstructed.",
+  "aboutRuleLabel": "How this is done",
+  "aboutRule1": "<b>Every sentence is attributed to a speaker, a date and a place.</b> Material whose source cannot be pointed to is not published here, even when it is true and even when it is interesting.",
+  "aboutRule2": "<b>The site lays out; it does not argue.</b> It presents the documents and what was said in them, and builds no case from them. If something needs persuading, it does not belong here.",
+  "aboutRule3": "<b>A translation is not the source.</b> The site is published in seven languages; every translated quotation is marked as an unofficial translation and keeps its Hebrew original — hover over a quotation and you get the words that were actually said.",
+  "aboutNotLabel": "What this site is not",
+  "aboutNot": "This site is not a commission of inquiry, not a court and not an investigative body. What it carries are the claims and positions of the speakers, not findings of fact by anyone. Where one side denies what another said, both accounts are set out side by side.",
+  "aboutWhoLabel": "Who publishes this",
+  "aboutWho": "The october7.co editorial desk. The site is offered as a public service, with no advertising and no sponsored content.",
+  "aboutCorrLabel": "Corrections",
+  "aboutCorr": "Found a factual error, an inaccurate quotation or a wrong attribution? Write, naming the chapter and the sentence. A factual correction is made and marked on the site.",
+  "aboutContactLink": "To the contact page",
+  "aboutDates": "Published 8 September 2026 · Updated {d}",
+  "aboutBack": "Back to the front page",
+  "aboutFoot": "The material is taken from real protocols that have been revealed; others will follow. Offered as a public service.",
+  "landAbout": "About"
  },
  "fr": {
   "label": "Français",
@@ -1643,7 +1693,8 @@
   "landUaePull": "Des échanges de renseignement et un dialogue existent entre les deux pays ; durant cette période, aucune conversation de renseignement n'a eu lieu.",
   "landUaeQuote": "Les entités gouvernementales émiriennes et israéliennes entretiennent des canaux de communication ouverts et directs depuis le début de la relation, il y a plus de cinq ans. Lorsque cela est nécessaire, tous les renseignements pertinents ont été et continuent d'être transmis entre les entités concernées.",
   "landUaeAttr": "Ministère des Affaires étrangères des Émirats arabes unis, en réponse à la publication, 8 septembre 2026. Les Émirats n'ont ni confirmé ni démenti que la conversation ait eu lieu.",
-  "landContact": "Contact"
+  "landContact": "Contact",
+  "landAbout": "À propos"
  },
  "ar": {
   "label": "العربية",
@@ -2388,7 +2439,8 @@
   "landUaePull": "يجري بين الدولتين تبادل استخباراتي وحوار؛ وفي تلك الفترة لم تجرِ أي محادثة استخباراتية.",
   "landUaeQuote": "تحافظ الجهات الحكومية في دولة الإمارات وإسرائيل على قنوات اتصال مفتوحة ومباشرة منذ بداية العلاقة قبل أكثر من خمس سنوات. وعند الضرورة، جرى ولا يزال يجري تبادل كل المعلومات الاستخبارية ذات الصلة بين الجهات المعنية.",
   "landUaeAttr": "وزارة الخارجية في دولة الإمارات العربية المتحدة، ردًّا على التقرير، 8 أيلول/سبتمبر 2026. لم تؤكّد الإمارات ولم تنفِ أن المحادثة قد جرت.",
-  "landContact": "اتصال"
+  "landContact": "اتصال",
+  "landAbout": "عن الموقع"
  },
  "de": {
   "label": "Deutsch",
@@ -3132,7 +3184,8 @@
   "landUaePull": "Zwischen den beiden Staaten finden Geheimdienstaustausch und Dialog statt; in jenem Zeitraum fand kein geheimdienstliches Gespräch statt.",
   "landUaeQuote": "Regierungsstellen der Vereinigten Arabischen Emirate und Israels unterhalten seit Beginn der Beziehung vor mehr als fünf Jahren offene und direkte Kommunikationskanäle. Wenn nötig, wurden und werden alle relevanten nachrichtendienstlichen Informationen zwischen den zuständigen Stellen weitergegeben.",
   "landUaeAttr": "Außenministerium der Vereinigten Arabischen Emirate, als Reaktion auf die Veröffentlichung, 8. September 2026. Die Emirate haben weder bestätigt noch dementiert, dass das Gespräch stattgefunden hat.",
-  "landContact": "Kontakt"
+  "landContact": "Kontakt",
+  "landAbout": "Über"
  },
  "es": {
   "label": "Español",
@@ -3876,7 +3929,8 @@
   "landUaePull": "Entre los dos países hay intercambio de inteligencia y diálogo; en ese período no tuvo lugar ninguna conversación de inteligencia.",
   "landUaeQuote": "Las entidades gubernamentales de los Emiratos Árabes Unidos e Israel mantienen canales de comunicación abiertos y directos desde el inicio de la relación, hace más de cinco años. Cuando ha sido necesario, toda la información de inteligencia pertinente se ha transmitido y se sigue transmitiendo entre las entidades correspondientes.",
   "landUaeAttr": "Ministerio de Asuntos Exteriores de los Emiratos Árabes Unidos, en respuesta a la publicación, 8 de septiembre de 2026. Los Emiratos no confirmaron ni desmintieron que la conversación tuviera lugar.",
-  "landContact": "Contacto"
+  "landContact": "Contacto",
+  "landAbout": "Acerca de"
  },
  "ru": {
   "label": "Русский",
@@ -4621,6 +4675,7 @@
   "landUaePull": "Между двумя странами ведутся обмен разведданными и диалог; в тот период ни одного разговора по линии разведки не было.",
   "landUaeQuote": "Государственные структуры ОАЭ и Израиля поддерживают открытые и прямые каналы связи с самого начала отношений, более пяти лет. При необходимости вся значимая разведывательная информация передавалась и продолжает передаваться между соответствующими ведомствами.",
   "landUaeAttr": "Министерство иностранных дел Объединённых Арабских Эмиратов, в ответ на публикацию, 8 сентября 2026 года. ОАЭ не подтвердили и не опровергли, что разговор состоялся.",
-  "landContact": "Контакты"
+  "landContact": "Контакты",
+  "landAbout": "О проекте"
  }
 }

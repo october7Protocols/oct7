@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<!--
+  The about page. Rendered by build.py to dist/about/ and dist/en/about/.
+  Hebrew and English only, like the contact page.
+
+  It exists to answer the first question any reader — and any search engine
+  assessing the site — asks: who publishes this, and where did the documents
+  come from. Every claim on it has to stay true of what the site actually
+  does; it is the one page that is about the site rather than about the
+  documents.
+
+  The placeholders build.py fills in are named FONT CSS, STRINGS, LANGS,
+  LANG, TITLE, META and GTM BODY, each wrapped in double underscores. They
+  are spelled without the underscores here on purpose: this comment ships to
+  the reader, and a literal placeholder in it would be substituted along with
+  the real ones. Copy lives in src/i18n.json, not here.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+__META__
+<style>
+__FONT_CSS__
+
+* { box-sizing: border-box; }
+html { background: #04081a; }
+body {
+  margin: 0; min-height: 100svh; background: #04081a; color: #fff;
+  font-family: Heebo, system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column;
+}
+::selection { background: #c8102e; color: #fff; }
+
+.bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 85% at 82% 0%, oklch(0.26 0.07 268), transparent 66%),
+    radial-gradient(ellipse 120% 85% at 50% 50%, transparent 42%, rgba(0,0,0,0.62) 100%),
+    #04081a;
+}
+
+.lang {
+  position: fixed; z-index: 9; top: 14px; left: 10px;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(4,8,26,0.94); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5); padding: 3px;
+}
+.lang .globe { display: flex; align-items: center; padding: 0 5px 0 3px; color: #8b97c4; flex: none; }
+.lang a {
+  cursor: pointer; text-decoration: none; padding: 6px 10px; background: transparent; color: #c3cbe6;
+  font-family: Heebo, system-ui, sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: .03em; line-height: 1;
+  transition: background .2s ease, color .2s ease;
+}
+.lang a:hover, .lang a[aria-current="true"] { background: #c8102e; color: #fff; }
+.lang a:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+
+main {
+  position: relative; z-index: 1; flex: 1;
+  width: 100%; max-width: 760px; margin: 0 auto;
+  padding: clamp(64px, 12vh, 104px) clamp(20px, 6vw, 40px) 56px;
+}
+.kicker {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .22em;
+  color: #7a86b4; text-transform: uppercase;
+  padding-bottom: 14px; margin-bottom: clamp(20px, 4vh, 30px);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+h1 {
+  margin: 0 0 14px; font-weight: 800;
+  font-size: clamp(32px, 8vw, 54px); line-height: 1.06; letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.lead {
+  margin: 0; font-weight: 300; color: #c3cbe6;
+  font-size: clamp(15px, 3.9vw, 18px); line-height: 1.65; max-width: 54ch;
+}
+
+/* Each section is a labelled block. The label is the same small mono
+   caps-lock the rest of the site uses for anything that names a thing
+   rather than says it. */
+section { margin-top: clamp(30px, 5.5vh, 44px); }
+.slabel {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: .16em;
+  color: #7a86b4; text-transform: uppercase; margin-bottom: 13px;
+}
+section p, section li {
+  font-size: clamp(14px, 3.6vw, 16px); font-weight: 300; line-height: 1.68; color: #c3cbe6;
+}
+section p { margin: 0 0 12px; }
+section p:last-child { margin-bottom: 0; }
+section b { font-weight: 700; color: #fff; }
+ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 15px; }
+ul li { padding-inline-start: 14px; border-inline-start: 2px solid rgba(255,255,255,0.16); }
+
+/* The one claim on this page that a reader is most likely to want tested,
+   so it gets the weight the response blocks get on the entry page. */
+.flag {
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.03);
+  padding: clamp(18px, 4.4vw, 26px);
+}
+.flag .slabel { color: #ff5a6e; }
+
+.corr-link, .back {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: #7a86b4; text-decoration: none;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .04em;
+  border-bottom: 1px solid rgba(122,134,180,0.4); padding-bottom: 3px;
+  transition: color .18s ease, border-color .18s ease;
+}
+.corr-link { margin-top: 6px; }
+.back { margin-top: clamp(28px, 5vh, 38px); }
+.corr-link:hover, .back:hover { color: #fff; border-color: #fff; }
+.corr-link:focus-visible, .back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.back .arw { font-size: 1.05em; line-height: 1; }
+[dir="rtl"] .back .arw { transform: scaleX(-1); }
+
+.dates {
+  margin-top: clamp(28px, 5vh, 38px); padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11.5px; letter-spacing: .04em; color: #5d6890;
+}
+
+footer {
+  position: relative; z-index: 1;
+  max-width: 760px; margin: 0 auto; width: 100%;
+  padding: 22px clamp(20px, 6vw, 40px) 40px;
+  font-size: 12px; font-weight: 300; line-height: 1.6; color: #5d6890;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+__GTM_BODY__
+<div class="bg"></div>
+
+<nav class="lang" id="lang" aria-label="Language"></nav>
+
+<main>
+  <div class="kicker">october7.co</div>
+  <h1 id="k-atitle"></h1>
+  <p class="lead" id="k-alead"></p>
+
+  <section>
+    <span class="slabel" id="k-awhatlabel"></span>
+    <p id="k-awhat"></p>
+  </section>
+
+  <section>
+    <span class="slabel" id="k-asrclabel"></span>
+    <ul>
+      <li id="k-asrc1"></li>
+      <li id="k-asrc2"></li>
+      <li id="k-asrc3"></li>
+    </ul>
+  </section>
+
+  <section class="flag">
+    <span class="slabel" id="k-aleaklabel"></span>
+    <p id="k-aleak"></p>
+  </section>
+
+  <section>
+    <span class="slabel" id="k-arulelabel"></span>
+    <ul>
+      <li id="k-arule1"></li>
+      <li id="k-arule2"></li>
+      <li id="k-arule3"></li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="slabel" id="k-anotlabel"></span>
+    <p id="k-anot"></p>
+  </section>
+
+  <section>
+    <span class="slabel" id="k-awholabel"></span>
+    <p id="k-awho"></p>
+  </section>
+
+  <section>
+    <span class="slabel" id="k-acorrlabel"></span>
+    <p id="k-acorr"></p>
+    <a class="corr-link" id="k-acontact" data-contact href="../contact/"></a>
+  </section>
+
+  <div class="dates" id="k-adates"></div>
+
+  <a class="back" id="back" href="/"><span class="arw">&#8594;</span><span id="k-aback"></span></a>
+</main>
+
+<footer id="k-afoot"></footer>
+
+<script>
+var S = __STRINGS__;
+var KEYS = __LANGS__;
+var PAGE_LANG = "__LANG__";
+
+function hrefFor(k) { return k === 'he' ? '/about/' : '/' + k + '/about/'; }
+function homeFor(k) { return k === 'he' ? '/' : '/' + k + '/'; }
+function contactFor(k) { return k === 'he' ? '/contact/' : '/' + k + '/contact/'; }
+
+function initial() {
+  if (S[PAGE_LANG]) return PAGE_LANG;
+  try {
+    var saved = window.localStorage.getItem('oct7.lang');
+    if (saved && S[saved]) return saved;
+  } catch (e) { /* private mode */ }
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if ((tz === 'Asia/Jerusalem' || tz === 'Asia/Tel_Aviv') && S.he) return 'he';
+  } catch (e) { /* no Intl */ }
+  return S.en ? 'en' : 'he';
+}
+
+function set(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text || '';
+}
+
+/* Some of this copy opens on a bold lead-in. Everything is escaped and then
+   exactly two tags are let back through, so the copy can carry emphasis
+   without the strings file being able to carry markup. build.py does the
+   same on the server side. */
+function setRich(id, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = String(text || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/&lt;b&gt;/g, '<b>').replace(/&lt;\/b&gt;/g, '</b>');
+}
+
+function track(name, data) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  } catch (e) { /* never let measurement break the page */ }
+}
+
+function apply(k, remember) {
+  var t = S[k] || S.he;
+  document.documentElement.lang = k;
+  document.documentElement.dir = t.dir || 'rtl';
+  document.title = t.aboutTitle;
+  set('k-atitle', t.aboutTitle);
+  set('k-alead', t.aboutLead);
+  set('k-awhatlabel', t.aboutWhatLabel);
+  setRich('k-awhat', t.aboutWhat);
+  set('k-asrclabel', t.aboutSrcLabel);
+  setRich('k-asrc1', t.aboutSrc1);
+  setRich('k-asrc2', t.aboutSrc2);
+  setRich('k-asrc3', t.aboutSrc3);
+  set('k-aleaklabel', t.aboutLeakLabel);
+  setRich('k-aleak', t.aboutLeak);
+  set('k-arulelabel', t.aboutRuleLabel);
+  setRich('k-arule1', t.aboutRule1);
+  setRich('k-arule2', t.aboutRule2);
+  setRich('k-arule3', t.aboutRule3);
+  set('k-anotlabel', t.aboutNotLabel);
+  setRich('k-anot', t.aboutNot);
+  set('k-awholabel', t.aboutWhoLabel);
+  setRich('k-awho', t.aboutWho);
+  set('k-acorrlabel', t.aboutCorrLabel);
+  setRich('k-acorr', t.aboutCorr);
+  set('k-acontact', t.aboutContactLink);
+  set('k-adates', t.aboutDates);
+  set('k-aback', t.aboutBack);
+  set('k-afoot', t.aboutFoot);
+  document.getElementById('back').setAttribute('href', homeFor(k));
+  document.getElementById('k-acontact').setAttribute('href', contactFor(k));
+  if (remember) {
+    try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
+  }
+  var b = document.querySelectorAll('#lang a');
+  for (var i = 0; i < b.length; i++) {
+    b[i].setAttribute('aria-current', b[i].dataset.k === k ? 'true' : 'false');
+  }
+}
+
+(function () {
+  var nav = document.getElementById('lang');
+  nav.insertAdjacentHTML('afterbegin',
+    '<span class="globe"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" '
+    + 'stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.2"/>'
+    + '<ellipse cx="8" cy="8" rx="2.7" ry="6.2"/><path d="M2 6h12M2 10h12"/></svg></span>');
+  KEYS.forEach(function (k) {
+    var a = document.createElement('a');
+    a.href = hrefFor(k);
+    a.dataset.k = k;
+    a.lang = k;
+    a.title = (S[k] || {}).label || k;
+    a.setAttribute('aria-label', (S[k] || {}).label || k);
+    a.textContent = (S[k] || {}).code || k.toUpperCase();
+    a.onclick = function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      apply(k, true);
+      track('language_pick', { language: k });
+      try { history.replaceState(null, '', hrefFor(k)); } catch (err) { /* file:// */ }
+    };
+    nav.appendChild(a);
+  });
+  var first = initial();
+  apply(first);
+  track('about_view', { language: first });
+})();
+</script>
+
+</body>
+</html>
