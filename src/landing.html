@@ -134,6 +134,41 @@ h1 .hl { color: #ff5a6e; }
 /* The arrow points into the page, which is leftwards in Hebrew and Arabic. */
 [dir="rtl"] .enter .arw { transform: scaleX(-1); }
 
+/* The second publication. Same shape as the entry card, one step quieter:
+   the document is still the way in, and this is a door to one part of it. */
+.night {
+  margin-top: clamp(16px, 3vh, 22px);
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.03);
+  padding: clamp(18px, 4.4vw, 28px);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: clamp(16px, 4vw, 34px); flex-wrap: wrap;
+  color: inherit; text-decoration: none;
+  transition: border-color .25s ease, background .25s ease;
+}
+.night:hover { border-color: rgba(255,90,110,0.5); background: rgba(255,255,255,0.05); }
+.night-text { flex: 1 1 300px; min-width: 0; }
+.night-label, .night-title, .night-sub { display: block; }
+.night-label {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: .16em; color: #8b97c4; text-transform: uppercase;
+}
+[dir="rtl"] .night-label { letter-spacing: .04em; }
+:lang(ar) .night-label { letter-spacing: 0; }
+.night-title { margin-top: 9px; font-size: clamp(18px, 4.6vw, 25px); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; }
+.night-sub { margin-top: 7px; font-size: clamp(12.5px, 3.4vw, 14.5px); font-weight: 300; color: #8b97c4; line-height: 1.5; }
+.night-go {
+  flex: none; display: inline-flex; align-items: center; gap: 9px;
+  border: 1px solid rgba(255,255,255,0.28); color: #c3cbe6;
+  padding: 14px clamp(16px, 4.4vw, 24px);
+  font-size: clamp(13px, 3.6vw, 15px); font-weight: 700; line-height: 1;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.night:hover .night-go { background: #c8102e; border-color: #c8102e; color: #fff; }
+.night-go .arw { font-size: 1.15em; line-height: 1; }
+[dir="rtl"] .night-go .arw { transform: scaleX(-1); }
+@media (max-width: 560px) { .night-go { width: 100%; justify-content: center; } }
+
 /* ── The response block ───────────────────────────────────────────────────
    A quoted denial, given as a denial: the words, who said them, and what
    they were answering. The cut-out portraits are the same treatment the
@@ -264,6 +299,15 @@ __GTM_BODY__
     <span class="enter"><span id="k-enter"></span><span class="arw">&#8594;</span></span>
   </a>
 
+  <a class="night" id="night-card" data-night href="doc/#ch-affidavits">
+    <span class="night-text">
+      <span class="night-label" id="k-nightlabel"></span>
+      <span class="night-title" id="k-nighttitle"></span>
+      <span class="night-sub" id="k-nightsub"></span>
+    </span>
+    <span class="night-go"><span id="k-nightgo"></span><span class="arw">&#8594;</span></span>
+  </a>
+
   <section class="news">
     <figure class="news-art">
       <img src="assets/mbz-netanyahu.png" alt="" width="1200" height="864" decoding="async">
@@ -290,6 +334,18 @@ __GTM_BODY__
         <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6.2v3.6M6 3.6v8.8M9 5v6M12 7v2"/></svg>
         <span></span>
       </a>
+    </div>
+  </section>
+
+  <section class="news news-sm">
+    <figure class="news-art">
+      <img src="assets/mbz.png" alt="" width="463" height="640" decoding="async" loading="lazy">
+    </figure>
+    <div class="news-text">
+      <span class="news-label" id="k-uaelabel"></span>
+      <blockquote class="news-pull" id="k-uaepull"></blockquote>
+      <p class="news-quote" id="k-uaequote"></p>
+      <p class="news-attr" id="k-uaeattr"></p>
     </div>
   </section>
 
@@ -360,6 +416,10 @@ function apply(k, remember) {
   set('k-doctitle', (t.t1 + ' ' + t.t2).trim());
   set('k-docsub', t.subtitle + ' \u00b7 ' + t.issued);
   set('k-enter', t.landEnter);
+  set('k-nightlabel', t.landNightLabel);
+  set('k-nighttitle', t.landNightTitle);
+  set('k-nightsub', t.landNightSub);
+  set('k-nightgo', t.landNightGo);
   set('k-newslabel', t.landNewsLabel);
   set('k-newspull', t.landNewsPull);
   set('k-newsquote', t.landNewsQuote);
@@ -375,6 +435,15 @@ function apply(k, remember) {
   set('k-benattr', t.landBennettAttr);
   document.querySelector('#k-benlink span').textContent = t.landBennettLink;
   document.getElementById('k-benpull').title = k === 'he' ? '' : he.landBennettPull;
+  set('k-uaelabel', t.landUaeLabel);
+  set('k-uaepull', t.landUaePull);
+  set('k-uaequote', t.landUaeQuote);
+  set('k-uaeattr', t.landUaeAttr);
+  // This statement was issued in English, so English — not Hebrew — is the
+  // original a reader should be able to check the translation against.
+  var en = S.en || {};
+  document.getElementById('k-uaepull').title = k === 'en' ? '' : (en.landUaePull || '');
+  document.getElementById('k-uaequote').title = k === 'en' ? '' : (en.landUaeQuote || '');
   set('k-soonlabel', t.landSoonLabel);
   set('k-soon', t.landSoon);
   set('k-soonnote', t.landSoonNote);
@@ -390,6 +459,9 @@ function apply(k, remember) {
   for (var i = 0; i < b.length; i++) b[i].setAttribute('aria-current', b[i].dataset.k === k ? 'true' : 'false');
   document.querySelectorAll('a[data-doc]').forEach(function (a) {
     a.setAttribute('href', hrefFor(k) + 'doc/');
+  });
+  document.querySelectorAll('a[data-night]').forEach(function (a) {
+    a.setAttribute('href', hrefFor(k) + 'doc/#ch-affidavits');
   });
 }
 
@@ -423,6 +495,9 @@ function apply(k, remember) {
 
   document.getElementById('enter-card').addEventListener('click', function () {
     track('enter_document', { language: document.documentElement.lang });
+  });
+  document.getElementById('night-card').addEventListener('click', function () {
+    track('enter_night', { language: document.documentElement.lang });
   });
   var listen = document.getElementById('k-benlink');
   if (listen) listen.addEventListener('click', function () {

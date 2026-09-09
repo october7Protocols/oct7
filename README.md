@@ -1,7 +1,7 @@
 # תיק 7 באוקטובר
 
 מענה ראש הממשלה לשאלות מבקר המדינה — scroll-driven presentation, Hebrew RTL.
-11 chapters, 325 items, 22 speakers.
+12 chapters, 345 items, 23 speakers.
 
 ```
 src/מענה ראש הממשלה v2.dc.html   the design — edit this
@@ -9,7 +9,7 @@ src/transcript.json               the document data — see SCHEMA.md
 src/assets/portraits/<key>.png    one per speaker key
 src/.image-slots.state.json       (optional) the editor's portrait file
 src/landing.html                  the entry page — edit this too
-src/i18n.json                     every string, in six languages
+src/i18n.json                     every string, in seven languages
 build.py                          → dist/
 vendor/export-shell.html          runtime + fonts, not edited by hand
 ```
@@ -21,7 +21,7 @@ on a live URL:
 
 | fetched at runtime | contains |
 |---|---|
-| `./transcript.json` | **all 11 chapters and every quote** |
+| `./transcript.json` | **all 12 chapters and every quote** |
 | `./.image-slots.state.json` | the portrait sidecar |
 | `./halevi-aman.png` | the AMAN-era portrait |
 | unpkg.com | React + ReactDOM |
@@ -93,7 +93,7 @@ Any static host works just as well: `dist/` is the whole site.
 
 ## State
 
-Everything renders: all 11 chapters, 325 items, 116 quote screens with all
+Everything renders: all 12 chapters, 345 items, 116 quote screens with all
 116 portraits loading, the 22-person cast strip, 54 document cards, 17
 comptroller questions, the timeline rail with 40 stops and 147 dated marks,
 chapter tints, the countdown chip, and the rail and cast jump targets. Built
@@ -117,12 +117,13 @@ so it shows only the years and months that speaker spoke in.
 ## Languages
 
 `src/i18n.json` holds the interface copy for Hebrew, English, French, Arabic,
-German and Spanish, plus translated speaker names, posts and chapter titles.
+German, Spanish and Russian, plus translated speaker names, posts and chapter
+titles.
 The picker sits top-left; the choice is remembered per reader. Hebrew and
 Arabic render RTL, the rest LTR — `dir` follows the language, and the
 timeline gutter stays on the right in every language.
 
-Everything is translated, the quotations included: 411 document strings per
+Everything is translated, the quotations included: 520 document strings per
 language on top of the interface copy. Because a translated quotation is no
 longer the quotation, every translated language carries a `srcNote` marking
 the quotations as an unofficial translation, and each quoted element keeps its

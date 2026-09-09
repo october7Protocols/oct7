@@ -420,6 +420,10 @@ PRERENDER = {
     "k-doctitle":   lambda t: (t["t1"] + " " + t["t2"]).strip(),
     "k-docsub":     lambda t: t["subtitle"] + " \u00b7 " + t["issued"],
     "k-enter":      lambda t: t["landEnter"],
+    "k-nightlabel": lambda t: t["landNightLabel"],
+    "k-nighttitle": lambda t: t["landNightTitle"],
+    "k-nightsub":   lambda t: t["landNightSub"],
+    "k-nightgo":    lambda t: t["landNightGo"],
     "k-newslabel":  lambda t: t["landNewsLabel"],
     "k-newspull":   lambda t: t["landNewsPull"],
     "k-newsquote":  lambda t: t["landNewsQuote"],
@@ -428,6 +432,10 @@ PRERENDER = {
     "k-benlabel":   lambda t: t["landBennettLabel"],
     "k-benpull":    lambda t: t["landBennettPull"],
     "k-benattr":    lambda t: t["landBennettAttr"],
+    "k-uaelabel":   lambda t: t["landUaeLabel"],
+    "k-uaepull":    lambda t: t["landUaePull"],
+    "k-uaequote":   lambda t: t["landUaeQuote"],
+    "k-uaeattr":    lambda t: t["landUaeAttr"],
     "k-soonlabel":  lambda t: t["landSoonLabel"],
     "k-soon":       lambda t: t["landSoon"],
     "k-soonnote":   lambda t: t["landSoonNote"],
@@ -691,9 +699,11 @@ def build_landing(shell_text, manifest, lang, langs):
     KEEP = ("label", "code", "dir", "issued", "t1", "t2", "subtitle",
             "landTitle", "landLead", "landNowLabel", "landEnter",
             "landSoonLabel", "landSoon", "landSoonNote", "landFoot",
+            "landNightLabel", "landNightTitle", "landNightSub", "landNightGo",
             "landNewsLabel", "landNewsPull", "landNewsQuote", "landNewsAttr",
             "landNewsNote", "landBennettLabel", "landBennettPull",
-            "landBennettAttr", "landBennettLink")
+            "landBennettAttr", "landBennettLink",
+            "landUaeLabel", "landUaePull", "landUaeQuote", "landUaeAttr")
     # `code` is the picker's own label for a language. Falling it back to
     # Hebrew would put עב on all six buttons, so it is the one key a
     # language may leave unset — the picker then uses the key in capitals.

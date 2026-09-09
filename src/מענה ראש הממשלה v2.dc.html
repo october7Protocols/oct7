@@ -1185,9 +1185,15 @@ class Component extends DCLogic {
         let ctxIso = '';
         const anchor = 'ch-' + ch.id;
         const num = String(ch.n).padStart(2, '0');
-        if (ch.n > 0) {
+        // A chapter that is not part of the document being answered has no
+        // number in it. Rather than renumber the real ones — their numbers
+        // are the source document's — such a chapter carries a badge, and
+        // that is what the navigation shows.
+        const badge = ch.badge ? t.tr(ch.badge) : '';
+        if (ch.n > 0 || badge) {
           const tt = (t.chapters || {})[ch.id] || ch.title;
-          toc.push({ anchor, num, title: tt.length > 44 ? tt.slice(0, 42) + '…' : tt });
+          toc.push({ anchor, num: badge || num,
+                     title: tt.length > 44 ? tt.slice(0, 42) + '…' : tt });
         }
         chapters.push({
           idx, anchor, num, label: num, numbered: ch.n > 0,
