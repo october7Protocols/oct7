@@ -42,7 +42,9 @@ import mimetypes
 import os
 import re
 import shutil
+import struct
 import sys
+import zlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
@@ -70,6 +72,12 @@ CONTACT_LANGS = ("he", "en")
 CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "contact@october7.co")
 # The about page. Same two languages, same reason.
 ABOUT = os.path.join(SRC, "about.html")
+
+# IndexNow. Bing, Yandex, Seznam and Naver take a push instead of waiting to
+# crawl; the protocol's only requirement is that this key is also readable at
+# https://october7.co/<key>.txt, which the build writes. Google does not
+# participate — its side is Search Console, which needs an account.
+INDEXNOW_KEY = "e2279691b68b63fd8e8e9f2c4b8e9d14"
 # The share image the meta tags point at. Every link shared to WhatsApp,
 # Telegram, Facebook or X shows this or shows nothing.
 OG_IMAGE = os.path.join(SRC, "assets", "og.png")
@@ -276,6 +284,12 @@ def template_line(html):
 def write_text(path, body):
     with open(path, "w", encoding="utf-8") as f:
         f.write(body)
+
+
+def write_bytes(path, blob):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "wb") as f:
+        f.write(blob)
 
 
 def json_for_script(obj):
@@ -613,10 +627,16 @@ def head_meta(title, description, path="/", lang="he", langs=("he",), gtm=True):
         '<meta name="twitter:title" content="%s">' % esc(title),
         '<meta name="twitter:description" content="%s">' % esc(description),
         '<meta name="theme-color" content="#04081a">',
-        '<link rel="icon" href="data:image/svg+xml,'
+        # The SVG stays first for a browser that prefers it; the files
+        # behind it are what iOS, Android, Windows and a bookmark bar ask
+        # for, and /favicon.ico is requested by name whatever this says.
+        '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,'
         "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
         "%3Crect width='32' height='32' fill='%2304081a'/%3E"
         "%3Crect x='6' y='14' width='20' height='4' fill='%23c8102e'/%3E%3C/svg%3E\">",
+        '<link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">',
+        '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
+        '<link rel="manifest" href="/site.webmanifest">',
     ]
     if SITE_URL:
         here = esc(SITE_URL + path)
@@ -859,6 +879,83 @@ def prerender_side(page, t, table, label):
     if page.count("<b>") != page.count("</b>"):
         die("prerender left an unbalanced <b> in %s" % label)
     return page
+
+
+# ── the icons ──────────────────────────────────────────────────────────────
+# The mark is the one the pages already carry as an inline SVG: the site's
+# ground with the red rule across it. Written here as real files because a
+# data: URI favicon is not what a browser looks for when it wants a tab icon,
+# and is not what iOS, Android or a bookmark bar ask for at all.
+ICON_BG = (0x04, 0x08, 0x1a)
+ICON_FG = (0xc8, 0x10, 0x2e)
+
+
+def png_bytes(size, bg, fg, bar=(0.1875, 0.4375, 0.625, 0.125)):
+    """A flat two-colour PNG, written without an imaging library.
+
+    `bar` is (x, y, w, h) as fractions of the side, so the mark keeps its
+    proportions at every size. Rows are filter-type 0 (none) — the image is
+    small and flat enough that the compressor does the work.
+    """
+    x0 = int(round(bar[0] * size))
+    y0 = int(round(bar[1] * size))
+    x1 = x0 + max(1, int(round(bar[2] * size)))
+    y1 = y0 + max(1, int(round(bar[3] * size)))
+    row_bg = bytes(bg) * size
+    row_fg = (bytes(bg) * x0) + (bytes(fg) * (x1 - x0)) + (bytes(bg) * (size - x1))
+    raw = b"".join(b"\x00" + (row_fg if y0 <= y < y1 else row_bg)
+                   for y in range(size))
+
+    def chunk(tag, data):
+        return (struct.pack(">I", len(data)) + tag + data
+                + struct.pack(">I", zlib.crc32(tag + data) & 0xffffffff))
+
+    return (b"\x89PNG\r\n\x1a\n"
+            + chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(raw, 9))
+            + chunk(b"IEND", b""))
+
+
+def ico_bytes(pngs):
+    """An .ico container holding PNG images — every browser since IE11.
+
+    Windows and the bookmark bar still ask for /favicon.ico by name, whatever
+    <link rel="icon"> says.
+    """
+    n = len(pngs)
+    header = struct.pack("<HHH", 0, 1, n)
+    offset = 6 + 16 * n
+    entries, blobs = b"", b""
+    for size, data in pngs:
+        entries += struct.pack("<BBBBHHII", size % 256, size % 256, 0, 0,
+                               1, 32, len(data), offset)
+        blobs += data
+        offset += len(data)
+    return header + entries + blobs
+
+
+def write_icons():
+    """favicon.ico, the touch icon, the maskable icon and the manifest."""
+    sizes = {n: png_bytes(n, ICON_BG, ICON_FG) for n in (16, 32, 48, 180, 512)}
+    write_bytes(os.path.join(DIST, "favicon.ico"),
+                ico_bytes([(n, sizes[n]) for n in (16, 32, 48)]))
+    write_bytes(os.path.join(DIST, "apple-touch-icon.png"), sizes[180])
+    write_bytes(os.path.join(DIST, "icon-512.png"), sizes[512])
+    write_bytes(os.path.join(DIST, "icon-32.png"), sizes[32])
+    write_text(os.path.join(DIST, "site.webmanifest"), json.dumps({
+        "name": SITE_NAME,
+        "short_name": "october7",
+        "start_url": "/",
+        "display": "standalone",
+        "background_color": "#04081a",
+        "theme_color": "#04081a",
+        "icons": [
+            {"src": "/icon-32.png", "sizes": "32x32", "type": "image/png"},
+            {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"},
+        ],
+    }, ensure_ascii=False, indent=1))
+    return ["favicon.ico", "apple-touch-icon.png", "icon-512.png",
+            "icon-32.png", "site.webmanifest"]
 
 
 def build_404(css):
@@ -1276,6 +1373,9 @@ def main():
         with open(dest, "wb") as f:
             f.write(blob)
 
+    icons = write_icons()
+    print("  icons      : %s" % ", ".join(icons))
+
     write_text(os.path.join(DIST, "404.html"), build_404(landing_fonts(
         shell_text, manifest)[0]))
 
@@ -1300,12 +1400,14 @@ def main():
                             "<changefreq>%s</changefreq><priority>%s</priority>%s"
                             "</url>\n"
                             % (SITE_URL, lang_path(lang, doc, sub), today, freq, pri, alts))
+        write_text(os.path.join(DIST, "%s.txt" % INDEXNOW_KEY), INDEXNOW_KEY + "\n")
         write_text(os.path.join(DIST, "sitemap.xml"),
                    '<?xml version="1.0" encoding="UTF-8"?>\n'
                    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
                    '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
                    + "".join(rows) + "</urlset>\n")
-        print("  crawling   : robots.txt + sitemap.xml (%d urls)" % len(rows))
+        print("  crawling   : robots.txt + sitemap.xml (%d urls) + IndexNow key"
+              % len(rows))
 
     # GitHub Pages reads the custom domain from a CNAME file at the root of
     # the published artifact. Without it in dist/, every deploy drops the
