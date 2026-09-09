@@ -609,6 +609,44 @@ class Component extends DCLogic {
     requestAnimationFrame(() => this.applyLang(this.state.lang));
     this.hookSidecarWrites();
     this.loadPortraits();
+    // A #hash in the address bar is resolved by the browser long before the
+    // chapter it names exists: the document renders from data that has only
+    // just been parsed. So the entry page's link into #ch-affidavits landed
+    // the reader at the top of the document instead.
+    //
+    // Landing on it once is not enough either. The stages carry
+    // content-visibility, so every screen that renders above the target
+    // pushes it further down, and the first scroll clamps against a document
+    // that is still short. So: hunt for the element, then keep re-centring
+    // on it while the layout above it settles. The pass gives up the moment
+    // the reader scrolls somewhere themselves — being dragged back is worse
+    // than a missed anchor.
+    this._openHash = () => {
+      let id = '';
+      try { id = decodeURIComponent((location.hash || '').slice(1)); } catch (e) { return; }
+      if (!id) return;
+      clearTimeout(this._hashTimer);
+      const giveUp = Date.now() + 20000;   // waiting for the chapter to exist
+      let settleUntil = 0;                 // set once it does
+      let observed = null;
+      const step = () => {
+        if (observed !== null && Math.abs(window.scrollY - observed) > 60) return;
+        const el = document.getElementById(id);
+        if (el) {
+          if (!settleUntil) settleUntil = Date.now() + 6000;
+          const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - 8);
+          if (Math.abs(y - window.scrollY) > 2) window.scrollTo(0, y);
+          observed = window.scrollY;
+        }
+        const done = settleUntil ? Date.now() > settleUntil : Date.now() > giveUp;
+        if (!done) this._hashTimer = setTimeout(step, 200);
+      };
+      step();
+    };
+    this._onHashChange = () => this._openHash();
+    window.addEventListener('hashchange', this._onHashChange);
+    this._openHash();
+
     try {
       const res = await fetch('./transcript.json');
       this.setState({ data: await res.json() });
@@ -680,6 +718,8 @@ class Component extends DCLogic {
 
   componentWillUnmount() {
     clearTimeout(this._settleTimer);
+    clearTimeout(this._hashTimer);
+    window.removeEventListener('hashchange', this._onHashChange);
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('focus', this._onWake);

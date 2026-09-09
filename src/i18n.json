@@ -222,7 +222,8 @@
    "oct7": "7 October 2023",
    "money": "The question of allowing funds into the Gaza Strip",
    "intel-access": "Status of intelligence access in the Gaza Strip",
-   "conclusion": "Conclusion"
+   "conclusion": "Conclusion",
+   "affidavits": "The night of 7 October: seven and a half hours until the Prime Minister was told"
   },
   "speakers": {
    "netanyahu": {
@@ -979,7 +980,8 @@
    "oct7": "7 octobre 2023",
    "money": "La question de l'entrée de fonds dans la bande de Gaza",
    "intel-access": "État de l'accès du renseignement dans la bande de Gaza",
-   "conclusion": "Conclusion"
+   "conclusion": "Conclusion",
+   "affidavits": "La nuit du 7 octobre : sept heures et demie avant que le Premier ministre soit informé"
   },
   "speakers": {
    "netanyahu": {
@@ -1722,7 +1724,8 @@
    "oct7": "7 أكتوبر 2023",
    "money": "مسألة إدخال الأموال إلى قطاع غزة",
    "intel-access": "حالة الوصول الاستخباري في قطاع غزة",
-   "conclusion": "الخلاصة"
+   "conclusion": "الخلاصة",
+   "affidavits": "ليلة السابع من أكتوبر: سبع ساعات ونصف حتى أُبلغ رئيس الوزراء"
   },
   "speakers": {
    "netanyahu": {
@@ -2466,7 +2469,8 @@
    "oct7": "7. Oktober 2023",
    "money": "Die Frage der Einbringung von Geldern in den Gazastreifen",
    "intel-access": "Stand des nachrichtendienstlichen Zugangs im Gazastreifen",
-   "conclusion": "Zusammenfassung"
+   "conclusion": "Zusammenfassung",
+   "affidavits": "Die Nacht des 7. Oktober: siebeneinhalb Stunden, bis der Ministerpräsident unterrichtet wurde"
   },
   "speakers": {
    "netanyahu": {
@@ -3209,7 +3213,8 @@
    "oct7": "7 de octubre de 2023",
    "money": "La cuestión de la entrada de fondos en la Franja de Gaza",
    "intel-access": "Situación del acceso de inteligencia en la Franja de Gaza",
-   "conclusion": "Conclusión"
+   "conclusion": "Conclusión",
+   "affidavits": "La noche del 7 de octubre: siete horas y media hasta que se informó al primer ministro"
   },
   "speakers": {
    "netanyahu": {
@@ -4070,7 +4075,8 @@
    "oct7": "7 октября 2023 года",
    "money": "Вопрос о допуске средств в сектор Газа",
    "intel-access": "Состояние разведывательного доступа в секторе Газа",
-   "conclusion": "Заключение"
+   "conclusion": "Заключение",
+   "affidavits": "Ночь 7 октября: семь с половиной часов до того, как известили премьер-министра"
   },
   "doc": {
    "ראש השב״כ, רונן בר": "Глава ШАБАКа Ронен Бар",
