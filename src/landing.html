@@ -267,6 +267,16 @@ footer {
   max-width: 860px; margin: 0 auto; width: 100%;
   font-size: clamp(11px, 3vw, 12.5px); font-weight: 300; line-height: 1.65; color: #56618f;
 }
+.foot-link {
+  display: inline-block; margin-top: 10px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: clamp(10.5px, 2.9vw, 12px); letter-spacing: .04em;
+  color: #7a86b4; text-decoration: none;
+  border-bottom: 1px solid rgba(122,134,180,0.4); padding-bottom: 2px;
+  transition: color .18s ease, border-color .18s ease;
+}
+.foot-link:hover { color: #fff; border-color: #fff; }
+.foot-link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
 @media (max-width: 560px) {
   .lang { top: 8px; left: 6px; }
@@ -356,7 +366,10 @@ __GTM_BODY__
   </div>
 </main>
 
-<footer id="k-foot"></footer>
+<footer>
+  <span id="k-foot"></span>
+  <br><a class="foot-link" id="k-landcontact" data-contact href="contact/"></a>
+</footer>
 
 <script>
 var S = __STRINGS__;
@@ -448,6 +461,7 @@ function apply(k, remember) {
   set('k-soon', t.landSoon);
   set('k-soonnote', t.landSoonNote);
   set('k-foot', t.landFoot);
+  set('k-landcontact', t.landContact);
   // Only a click is remembered. The document detects the same way this page
   // does, so storing a guess would freeze it — and a reader who travels
   // would keep the language of wherever they first opened the site.
@@ -462,6 +476,11 @@ function apply(k, remember) {
   });
   document.querySelectorAll('a[data-night]').forEach(function (a) {
     a.setAttribute('href', hrefFor(k) + 'doc/#ch-affidavits');
+  });
+  // The contact page is Hebrew and English only; every other language goes
+  // to the English one rather than to a URL that is not there.
+  document.querySelectorAll('a[data-contact]').forEach(function (a) {
+    a.setAttribute('href', k === 'he' ? '/contact/' : '/en/contact/');
   });
 }
 

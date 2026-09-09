@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<!--
+  The contact page. Rendered by build.py to dist/contact/ and dist/en/contact/.
+  Hebrew and English only — the document is published in seven languages, but
+  the person reading the mail is not.
+
+  There is no form on this page, and that is the whole anti-spam design: a
+  bot cannot submit what does not exist. The address is not in the HTML
+  either — it is assembled in script only when a reader asks for it, so a
+  harvester that does not run JavaScript leaves with nothing.
+
+  The placeholders build.py fills in are named FONT CSS, STRINGS, LANGS,
+  LANG, TITLE, META, GTM BODY and MAIL, each wrapped in double underscores.
+  They are spelled without the underscores here on purpose: this comment
+  ships to the reader, and a literal placeholder in it would be substituted
+  along with the real ones. Copy lives in src/i18n.json, not here.
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+__META__
+<style>
+__FONT_CSS__
+
+* { box-sizing: border-box; }
+html { background: #04081a; }
+body {
+  margin: 0; min-height: 100svh; background: #04081a; color: #fff;
+  font-family: Heebo, system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column;
+}
+::selection { background: #c8102e; color: #fff; }
+
+.bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 85% at 82% 0%, oklch(0.26 0.07 268), transparent 66%),
+    radial-gradient(ellipse 120% 85% at 50% 50%, transparent 42%, rgba(0,0,0,0.62) 100%),
+    #04081a;
+}
+
+/* The same corner, the same chrome as the picker on the other two pages —
+   with two entries instead of seven, because this page has two. */
+.lang {
+  position: fixed; z-index: 9; top: 14px; left: 10px;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(4,8,26,0.94); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5); padding: 3px;
+}
+.lang .globe { display: flex; padding: 0 5px; color: rgba(255,255,255,0.55); }
+.lang a {
+  font-family: Heebo, system-ui, sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: .02em;
+  color: rgba(255,255,255,0.72); text-decoration: none;
+  padding: 6px 11px; line-height: 1; border: 0; background: none;
+  transition: background .15s ease, color .15s ease;
+}
+.lang a:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.lang a[aria-current="true"] { background: #c8102e; color: #fff; }
+.lang a:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+
+main {
+  position: relative; z-index: 1; flex: 1;
+  width: 100%; max-width: 720px; margin: 0 auto;
+  padding: clamp(64px, 12vh, 104px) clamp(20px, 6vw, 40px) 56px;
+}
+.kicker {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px; font-weight: 500; letter-spacing: .22em;
+  color: #7a86b4; text-transform: uppercase;
+  padding-bottom: 14px; margin-bottom: clamp(20px, 4vh, 30px);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+h1 {
+  margin: 0 0 14px; font-weight: 800;
+  font-size: clamp(32px, 8vw, 54px); line-height: 1.06; letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.lead {
+  margin: 0; font-weight: 300; color: #c3cbe6;
+  font-size: clamp(15px, 3.9vw, 18px); line-height: 1.65; max-width: 54ch;
+}
+
+/* ── The address ──────────────────────────────────────────────────────────
+   Never in the markup. The button builds it, and only then does a mailto:
+   exist on the page at all. */
+.mail {
+  margin-top: clamp(24px, 4.5vh, 34px);
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.03);
+  padding: clamp(18px, 4.4vw, 28px);
+}
+.mail-label {
+  display: block;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: .16em;
+  color: #ff5a6e; text-transform: uppercase;
+}
+.mail-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }
+button.show, .copy {
+  font-family: Heebo, system-ui, sans-serif;
+  font-size: clamp(14px, 3.6vw, 16px); font-weight: 700; line-height: 1;
+  padding: 13px 20px; cursor: pointer;
+  border: 1px solid #c8102e; background: #c8102e; color: #fff;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+button.show:hover { background: #e01536; border-color: #e01536; }
+.copy { background: none; color: #fff; border-color: rgba(255,255,255,0.34); font-weight: 500; }
+.copy:hover { border-color: #fff; }
+button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.addr {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: clamp(14px, 3.8vw, 18px); font-weight: 500;
+  color: #fff; text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 3px;
+  direction: ltr; unicode-bidi: isolate;
+}
+.addr:hover { border-color: #fff; }
+.mail-noscript {
+  margin: 14px 0 0; font-size: 14px; color: #c3cbe6; line-height: 1.6;
+}
+.mail-noscript code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  direction: ltr; unicode-bidi: isolate; color: #fff;
+}
+
+/* ── Before you write ─────────────────────────────────────────────────── */
+.before { margin-top: clamp(26px, 5vh, 38px); }
+.before-label {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px; font-weight: 500; letter-spacing: .16em;
+  color: #7a86b4; text-transform: uppercase;
+  display: block; margin-bottom: 14px;
+}
+.before ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.before li {
+  padding-inline-start: 14px; border-inline-start: 2px solid rgba(255,255,255,0.16);
+  font-size: clamp(14px, 3.6vw, 16px); font-weight: 300; line-height: 1.6; color: #c3cbe6;
+}
+.before li.warn { border-inline-start-color: #c8102e; }
+.before b { font-weight: 700; color: #fff; }
+
+.corr {
+  margin-top: clamp(26px, 5vh, 38px);
+  padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.14);
+  font-size: clamp(14px, 3.6vw, 16px); font-weight: 300; line-height: 1.6; color: #c3cbe6;
+}
+.corr b { font-weight: 700; color: #fff; }
+
+.back {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: clamp(26px, 5vh, 36px);
+  color: #7a86b4; text-decoration: none;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .04em;
+  border-bottom: 1px solid rgba(122,134,180,0.4); padding-bottom: 3px;
+  transition: color .18s ease, border-color .18s ease;
+}
+.back:hover { color: #fff; border-color: #fff; }
+.back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.back .arw { font-size: 1.05em; line-height: 1; }
+[dir="rtl"] .back .arw { transform: scaleX(-1); }
+
+footer {
+  position: relative; z-index: 1;
+  max-width: 720px; margin: 0 auto; width: 100%;
+  padding: 22px clamp(20px, 6vw, 40px) 40px;
+  font-size: 12px; font-weight: 300; line-height: 1.6; color: #5d6890;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+__GTM_BODY__
+<div class="bg"></div>
+
+<nav class="lang" id="lang" aria-label="Language"></nav>
+
+<main>
+  <div class="kicker">october7.co</div>
+  <h1 id="k-ctitle"></h1>
+  <p class="lead" id="k-clead"></p>
+
+  <section class="mail">
+    <span class="mail-label" id="k-cmaillabel"></span>
+    <div class="mail-row" id="mail-row">
+      <button class="show" id="k-cshow" type="button"></button>
+    </div>
+    <noscript>
+      <p class="mail-noscript" id="k-cnojs"></p>
+    </noscript>
+  </section>
+
+  <section class="before">
+    <span class="before-label" id="k-cbeforelabel"></span>
+    <ol>
+      <li id="k-cb1"></li>
+      <li id="k-cb2"></li>
+      <li class="warn" id="k-cb3"></li>
+    </ol>
+  </section>
+
+  <p class="corr" id="k-ccorr"></p>
+
+  <a class="back" id="back" href="/"><span class="arw">&#8594;</span><span id="k-cback"></span></a>
+</main>
+
+<footer id="k-cfoot"></footer>
+
+<script>
+var S = __STRINGS__;
+var KEYS = __LANGS__;
+var PAGE_LANG = "__LANG__";
+/* The address arrives split and base64'd, and is joined only inside the
+   click handler. Nothing in the served HTML matches an address pattern, so
+   a harvester that reads source or runs a regex over the page finds no
+   address to add to a list. */
+var M = __MAIL__;
+
+function hrefFor(k) { return k === 'he' ? '/contact/' : '/' + k + '/contact/'; }
+function homeFor(k) { return k === 'he' ? '/' : '/' + k + '/'; }
+
+function initial() {
+  if (S[PAGE_LANG]) return PAGE_LANG;
+  try {
+    var saved = window.localStorage.getItem('oct7.lang');
+    if (saved && S[saved]) return saved;
+  } catch (e) { /* private mode */ }
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if ((tz === 'Asia/Jerusalem' || tz === 'Asia/Tel_Aviv') && S.he) return 'he';
+  } catch (e) { /* no Intl */ }
+  return S.en ? 'en' : 'he';
+}
+
+function set(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text || '';
+}
+
+/* Four of these strings open on a bold lead-in. Everything is escaped and
+   then exactly two tags are let back through, so the copy can carry emphasis
+   without the file being able to carry markup. build.py does the same on the
+   server side. */
+function setRich(id, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = String(text || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/&lt;b&gt;/g, '<b>').replace(/&lt;\/b&gt;/g, '</b>');
+}
+
+function track(name, data) {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: name }, data || {}));
+  } catch (e) { /* never let measurement break the page */ }
+}
+
+function address() {
+  try { return atob(M[0]) + '@' + atob(M[1]); } catch (e) { return ''; }
+}
+
+function apply(k, remember) {
+  var t = S[k] || S.he;
+  document.documentElement.lang = k;
+  document.documentElement.dir = t.dir || 'rtl';
+  document.title = t.contactTitle;
+  set('k-ctitle', t.contactTitle);
+  set('k-clead', t.contactLead);
+  set('k-cmaillabel', t.contactMailLabel);
+  set('k-cshow', t.contactShow);
+  set('k-cnojs', t.contactNoJs);
+  set('k-cbeforelabel', t.contactBeforeLabel);
+  setRich('k-cb1', t.contactB1);
+  setRich('k-cb2', t.contactB2);
+  setRich('k-cb3', t.contactB3);
+  setRich('k-ccorr', t.contactCorr);
+  set('k-cback', t.contactBack);
+  set('k-cfoot', t.contactFoot);
+  document.getElementById('back').setAttribute('href', homeFor(k));
+  if (remember) {
+    try { window.localStorage.setItem('oct7.lang', k); } catch (e) { /* private mode */ }
+  }
+  var b = document.querySelectorAll('#lang a');
+  for (var i = 0; i < b.length; i++) {
+    b[i].setAttribute('aria-current', b[i].dataset.k === k ? 'true' : 'false');
+  }
+  // The address may already be on screen when the language changes; its
+  // copy button carries a label and has to change with everything else.
+  var copy = document.getElementById('copy');
+  if (copy && !copy.dataset.done) copy.textContent = t.contactCopy;
+}
+
+(function () {
+  var nav = document.getElementById('lang');
+  nav.insertAdjacentHTML('afterbegin',
+    '<span class="globe"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" '
+    + 'stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.2"/>'
+    + '<ellipse cx="8" cy="8" rx="2.7" ry="6.2"/><path d="M2 6h12M2 10h12"/></svg></span>');
+  KEYS.forEach(function (k) {
+    var a = document.createElement('a');
+    a.href = hrefFor(k);
+    a.dataset.k = k;
+    a.lang = k;
+    a.title = (S[k] || {}).label || k;
+    a.setAttribute('aria-label', (S[k] || {}).label || k);
+    a.textContent = (S[k] || {}).code || k.toUpperCase();
+    a.onclick = function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      apply(k, true);
+      track('language_pick', { language: k });
+      try { history.replaceState(null, '', hrefFor(k)); } catch (err) { /* file:// */ }
+    };
+    nav.appendChild(a);
+  });
+
+  var first = initial();
+  apply(first);
+  track('contact_view', { language: first });
+
+  document.getElementById('k-cshow').addEventListener('click', function () {
+    var k = document.documentElement.lang;
+    var t = S[k] || S.he;
+    var addr = address();
+    if (!addr) return;
+    var row = document.getElementById('mail-row');
+    row.innerHTML = '';
+
+    var a = document.createElement('a');
+    a.className = 'addr';
+    a.href = 'mailto:' + addr;
+    a.textContent = addr;
+    row.appendChild(a);
+
+    var copy = document.createElement('button');
+    copy.className = 'copy';
+    copy.id = 'copy';
+    copy.type = 'button';
+    copy.textContent = t.contactCopy;
+    copy.addEventListener('click', function () {
+      var done = function () {
+        copy.textContent = (S[document.documentElement.lang] || S.he).contactCopied;
+        copy.dataset.done = '1';
+        setTimeout(function () {
+          delete copy.dataset.done;
+          copy.textContent = (S[document.documentElement.lang] || S.he).contactCopy;
+        }, 2000);
+      };
+      try {
+        navigator.clipboard.writeText(addr).then(done, function () { /* denied */ });
+      } catch (e) { /* no clipboard API */ }
+    });
+    row.appendChild(copy);
+
+    track('reveal_address', { language: k });
+  });
+})();
+</script>
+
+</body>
+</html>
